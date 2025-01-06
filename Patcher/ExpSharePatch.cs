@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace ExpShare;
 
-public class Patcher {
+public class ExpSharePatch {
     [HarmonyPostfix, HarmonyPatch(typeof(Player), "Start")]
     private static void PlayerStartPatch(Player __instance) {
         __instance.playerUnit.gameObject.AddComponent<InfoPrinter>();

@@ -20,7 +20,9 @@ public class Plugin : BaseUnityPlugin
         Logger.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} is loading!");
 
         // Harmony patching
-        Harmony.CreateAndPatchAll(typeof(Patcher));
+        Harmony.CreateAndPatchAll(typeof(ExpSharePatch));
+        Harmony.CreateAndPatchAll(typeof(HPBarPatch));
+        // Harmony.CreateAndPatchAll(typeof(DeadUnitCollisionPatch));
         
         // Config
         Proportion = this.Config.Bind("General", "Proportion", 0.1f, "The proportion of the exp that another weapon will received");
