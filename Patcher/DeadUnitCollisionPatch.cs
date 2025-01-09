@@ -10,6 +10,6 @@ namespace ExpShare;
 public class DeadUnitCollisionPatch {
     [HarmonyPrefix, HarmonyPatch(typeof(Projectile), "ReportBounceOnHitbox")]
     private static bool CheckPass(Projectile __instance, Hitbox hitbox) {
-        return hitbox.GetOwner().IsAlive;
+        return hitbox.GetOwner().UnitState != UnitState.Dead;
     }
 }

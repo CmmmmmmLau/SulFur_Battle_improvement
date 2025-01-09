@@ -29,6 +29,7 @@ public class Plugin : BaseUnityPlugin {
         Harmony.CreateAndPatchAll(typeof(ExpSharePatch));
         Harmony.CreateAndPatchAll(typeof(HPBarPatch));
         Harmony.CreateAndPatchAll(typeof(HitSoundPatch));
+        Harmony.CreateAndPatchAll(typeof(xCrossHairPatch));
 
         // Config
         Proportion = Config.Bind("General", "Proportion", 0.1f,
@@ -49,16 +50,18 @@ public class Plugin : BaseUnityPlugin {
     public class StaticInstance {
         internal static GameObject PluginInstance;
         internal static Npc[] Enemies;
+        internal static Unit[] DiedEnemies;
         internal static HitSoundEffect HitSoundClips;
-        internal static FeedCrossHair CrossHair;
+        internal static xCrossHair CrossHair;
+        internal static KillMessage KillMessage;
         
         
         [HarmonyPostfix, HarmonyPriority(Priority.First), HarmonyPatch(typeof(GameManager), "Start")]
-        private static void AddBattleImprove() {
-            PluginInstance = Plugin.AssetBundle.LoadAsset<GameObject>("BattleImprove");
-            Object.Instantiate(PluginInstance);
+        private static void AddBattleImprove() { ;
+            PluginInstance = Object.Instantiate(Plugin.AssetBundle.LoadAsset<GameObject>("BattleImprove"));
             HitSoundClips = PluginInstance.GetComponentInChildren<HitSoundEffect>();
-            CrossHair = PluginInstance.GetComponentInChildren<FeedCrossHair>();
+            CrossHair = PluginInstance.GetComponentInChildren<xCrossHair>();
+            KillMessage = PluginInstance.GetComponentInChildren<KillMessage>();
         }
         
         [HarmonyPrefix, HarmonyPriority(Priority.First), HarmonyPatch(typeof(InputReader), "LoadingContinue")]

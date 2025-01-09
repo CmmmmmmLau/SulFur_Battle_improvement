@@ -11,23 +11,27 @@ namespace ExpShare;
 public class HitSoundPatch {
     [HarmonyPostfix, HarmonyPatch(typeof(Hitbox), "TakeHit")]
     private static void PlayHitSound(Hitbox __instance, DamageType damageType, Vector3 collisionPoint) {
+        if (__instance.Owner is Breakable || __instance.Owner.isPlayer) return;
+        
         Npc target = __instance.GetOwner().gameObject.GetComponent<Npc>();
-        if (Plugin.StaticInstance.Enemies.Contains(target)) {
-            float distance = Vector3.Distance(StaticInstance<GameManager>.Instance.GetPlayerUnit().transform.position
-                , target.transform.position);
-            if (damageType.id == DamageTypes.Critical || __instance.bodyPart.label == "Head") {
-                Plugin.StaticInstance.HitSoundClips.PlayHitSound(collisionPoint, true);
-            } else {
-                GameObject player = StaticInstance<GameManager>.Instance.GetPlayer();
-                Vector3 soundPosition = Vector3.Normalize(collisionPoint - player.transform.position);
+        
+        if (target.UnitState == UnitState.Dead) return;
+        if (!Plugin.StaticInstance.Enemies.Contains(target)) return;
+        
+        float distance = Vector3.Distance(StaticInstance<GameManager>.Instance.GetPlayerUnit().transform.position
+            , target.transform.position);
+        if (damageType.id == DamageTypes.Critical || __instance.bodyPart.label == "Head") {
+            Plugin.StaticInstance.HitSoundClips.PlayHitSound(collisionPoint, true);
+        } else {
+            GameObject player = StaticInstance<GameManager>.Instance.GetPlayer();
+            Vector3 soundPosition = Vector3.Normalize(collisionPoint - player.transform.position);
                     
-                soundPosition = player.transform.position + soundPosition * 3;
-                if (distance < 20) {
-                    Plugin.StaticInstance.HitSoundClips.PlayHitSound(soundPosition, false);
-                } else {
-                    Plugin.StaticInstance.HitSoundClips.PlayHitSound(soundPosition, false, true);
-                }
-            } 
+            soundPosition = player.transform.position + soundPosition * 3;
+            if (distance < 20) {
+                Plugin.StaticInstance.HitSoundClips.PlayHitSound(soundPosition, false);
+            } else {
+                Plugin.StaticInstance.HitSoundClips.PlayHitSound(soundPosition, false, true);
+            }
         }
     }
 }
