@@ -1,8 +1,11 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
 using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.Logging;
+using ExpShare.Patcher;
+using ExpShare.Patcher.BattleFeedback;
 using HarmonyLib;
 using PerfectRandom.Sulfur.Core;
 using PerfectRandom.Sulfur.Core.Input;
@@ -28,8 +31,9 @@ public class Plugin : BaseUnityPlugin {
         Harmony.CreateAndPatchAll(typeof(StaticInstance));
         Harmony.CreateAndPatchAll(typeof(ExpSharePatch));
         Harmony.CreateAndPatchAll(typeof(HPBarPatch));
-        Harmony.CreateAndPatchAll(typeof(HitSoundPatch));
-        Harmony.CreateAndPatchAll(typeof(xCrossHairPatch));
+        Harmony.CreateAndPatchAll(typeof(DeadUnitCollisionPatch));
+        Harmony.CreateAndPatchAll(typeof(AttackFeedbackPatch));
+        Harmony.CreateAndPatchAll(typeof(SoundPatch));
 
         // Config
         Proportion = Config.Bind("General", "Proportion", 0.1f,
@@ -50,7 +54,7 @@ public class Plugin : BaseUnityPlugin {
     public class StaticInstance {
         internal static GameObject PluginInstance;
         internal static Npc[] Enemies;
-        internal static Unit[] DiedEnemies;
+        internal static List<Unit> KilledEnemies;
         internal static HitSoundEffect HitSoundClips;
         internal static xCrossHair CrossHair;
         internal static KillMessage KillMessage;
@@ -67,6 +71,7 @@ public class Plugin : BaseUnityPlugin {
         [HarmonyPrefix, HarmonyPriority(Priority.First), HarmonyPatch(typeof(InputReader), "LoadingContinue")]
         private static void AddFrame() {
             Enemies = StaticInstance<UnitManager>.Instance.GetAllEnemies();
+            KilledEnemies = new List<Unit>();
         }
     }
 }

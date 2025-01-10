@@ -1,16 +1,15 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using HarmonyLib;
 using PerfectRandom.Sulfur.Core;
 using PerfectRandom.Sulfur.Core.Stats;
 using PerfectRandom.Sulfur.Core.Units;
 using UnityEngine;
 
-namespace ExpShare;
+namespace ExpShare.Patcher.BattleFeedback;
 
-public class HitSoundPatch {
+public class SoundPatch {
     [HarmonyPostfix, HarmonyPatch(typeof(Hitbox), "TakeHit")]
-    private static void PlayHitSound(Hitbox __instance, DamageType damageType, Vector3 collisionPoint) {
+    private static void PlayHitSound(Hitbox __instance, DamageType damageType, IDamager source, Vector3 collisionPoint) {
         if (__instance.Owner is Breakable || __instance.Owner.isPlayer) return;
         
         Npc target = __instance.GetOwner().gameObject.GetComponent<Npc>();
@@ -18,7 +17,7 @@ public class HitSoundPatch {
         if (target.UnitState == UnitState.Dead) return;
         if (!Plugin.StaticInstance.Enemies.Contains(target)) return;
         
-        float distance = Vector3.Distance(StaticInstance<GameManager>.Instance.GetPlayerUnit().transform.position
+        float distance = Vector3.Distance(StaticInstance<GameManager>.Instance.GetPlayerUnit().EyesPosition
             , target.transform.position);
         if (damageType.id == DamageTypes.Critical || __instance.bodyPart.label == "Head") {
             Plugin.StaticInstance.HitSoundClips.PlayHitSound(collisionPoint, true);

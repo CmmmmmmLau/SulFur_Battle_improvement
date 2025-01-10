@@ -5,7 +5,7 @@ using PerfectRandom.Sulfur.Core.Input;
 using PerfectRandom.Sulfur.Core.Units;
 using UnityEngine;
 
-namespace ExpShare;
+namespace ExpShare.Patcher;
 
 public class HPBarPatch {
     [HarmonyPostfix, HarmonyPatch(typeof(InputReader), "LoadingContinue")]
@@ -17,6 +17,13 @@ public class HPBarPatch {
             enemy.debugFrame.gameObject.SetActive(false);
         }
     }
+    
+    // [HarmonyPostfix, HarmonyPatch(typeof(UnitManager), "AddUnit")]
+    // private static void AddDebugFrame(Unit unit) {
+    //     StaticInstance<DevToolsManager>.Instance.AddDebugFrameToUnit(unit);
+    //     unit.gameObject.AddComponent<VisibleChecker>();
+    //     unit.debugFrame.gameObject.SetActive(false);
+    // }
     
     [HarmonyPrefix, HarmonyPatch(typeof(UnitDebugFrame), "Update")]
     private static bool UpdateHPBar(UnitDebugFrame __instance) {
