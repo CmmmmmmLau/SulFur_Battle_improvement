@@ -1,1 +1,14 @@
-E:/Project/unity/sul_2d/Assets/Scripts/xCrossHair.cs
+using UnityEngine;
+
+public class xCrossHair : MonoBehaviour
+{
+    public Animator crossHairAnim;
+
+    public void HitTrigger() {
+        crossHairAnim.SetTrigger("Hit");
+    }
+    
+    public void KillTrigger() {
+        crossHairAnim.SetTrigger("Kill");
+    }
+}
