@@ -30,7 +30,7 @@ public class Plugin : BaseUnityPlugin {
         // Harmony patching
         Harmony.CreateAndPatchAll(typeof(StaticInstance));
         Harmony.CreateAndPatchAll(typeof(ExpSharePatch));
-        Harmony.CreateAndPatchAll(typeof(HPBarPatch));
+        Harmony.CreateAndPatchAll(typeof(HealthBarPatch));
         Harmony.CreateAndPatchAll(typeof(DeadUnitCollisionPatch));
         Harmony.CreateAndPatchAll(typeof(AttackFeedbackPatch));
         Harmony.CreateAndPatchAll(typeof(SoundPatch));
