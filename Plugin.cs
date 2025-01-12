@@ -4,6 +4,7 @@ using System.Reflection;
 using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.Logging;
+using ExpShare.Components;
 using ExpShare.Patcher;
 using ExpShare.Patcher.BattleFeedback;
 using HarmonyLib;
@@ -29,8 +30,10 @@ public class Plugin : BaseUnityPlugin {
 
         // Harmony patching
         Harmony.CreateAndPatchAll(typeof(StaticInstance));
+        // QOL
         Harmony.CreateAndPatchAll(typeof(ExpSharePatch));
         Harmony.CreateAndPatchAll(typeof(HealthBarPatch));
+        // BF
         Harmony.CreateAndPatchAll(typeof(DeadUnitCollisionPatch));
         Harmony.CreateAndPatchAll(typeof(AttackFeedbackPatch));
         Harmony.CreateAndPatchAll(typeof(SoundPatch));
@@ -58,6 +61,7 @@ public class Plugin : BaseUnityPlugin {
         internal static HitSoundEffect HitSoundClips;
         internal static xCrossHair CrossHair;
         internal static KillMessage KillMessage;
+        internal static DamageInfo DamageInfo;
         
         
         [HarmonyPostfix, HarmonyPriority(Priority.First), HarmonyPatch(typeof(GameManager), "Start")]
@@ -66,6 +70,7 @@ public class Plugin : BaseUnityPlugin {
             HitSoundClips = PluginInstance.GetComponentInChildren<HitSoundEffect>();
             CrossHair = PluginInstance.GetComponentInChildren<xCrossHair>();
             KillMessage = PluginInstance.GetComponentInChildren<KillMessage>();
+            DamageInfo = PluginInstance.GetComponentInChildren<DamageInfo>();
         }
         
         [HarmonyPrefix, HarmonyPriority(Priority.First), HarmonyPatch(typeof(InputReader), "LoadingContinue")]

@@ -2,6 +2,7 @@
 using System.Linq;
 using HarmonyLib;
 using PerfectRandom.Sulfur.Core;
+using PerfectRandom.Sulfur.Core.Stats;
 using PerfectRandom.Sulfur.Core.Units;
 using PerfectRandom.Sulfur.Core.Weapons;
 using UnityEngine;
@@ -9,6 +10,12 @@ using UnityEngine;
 namespace ExpShare.Patcher.BattleFeedback;
 
 public class AttackFeedbackPatch {
+    [HarmonyPrefix, HarmonyPatch(typeof(Hitbox), "TakeHit")]
+    private static void AddDamageMessage(Hitbox __instance, out float __state) {
+        __state = __instance.Owner.GetCurrentHealth();
+    }
+    
+    
     [HarmonyPostfix, HarmonyPatch(typeof(Hitbox), "TakeHit")]
     // private static void tempname(Hitbox __instance, float damage, IDamager source, Vector3 collisionPoint) {
     //     if (!source.SourceUnit.isPlayer) return;
@@ -26,11 +33,24 @@ public class AttackFeedbackPatch {
     //     }
     // }
     //
-    private static void AttackFeedback(Hitbox __instance, float damage, IDamager source, Vector3 collisionPoint) {
+    private static void AttackFeedback(Hitbox __instance, DamageType damageType, IDamager source, Vector3 collisionPoint, float __state) {
         // Ignore if the damage source is not the player
         if (!source.SourceUnit.isPlayer) return;
         // Ignore if the hitbox owner is a breakable, player
         if (__instance.Owner is Breakable || __instance.Owner.isPlayer) return;
+        
+        var damage = __state - __instance.Owner.GetCurrentHealth();
+        // Show damage info
+        if (damage > 0) {
+            string type = "";
+            if (source.SourceWeapon.IsMelee) {
+                type += source.SourceWeapon.weaponDefinition.displayName;
+            } else {
+                type += damageType.shortLabel + " " + source.SourceProjectile.CurrentCaliber.label + " " + source.SourceProjectile.projectileType.ToString();
+            }
+            
+            Plugin.StaticInstance.DamageInfo.ShowDamageInfo(type, Convert.ToInt32(damage));
+        }
 
         // Check if the hitbox owner is alive, is so, play hit animation and skip the rest
         if (ShouldPlayHitAnimation(__instance.Owner.UnitState))  return;

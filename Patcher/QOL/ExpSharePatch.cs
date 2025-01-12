@@ -21,4 +21,5 @@ public class ExpSharePatch {
         if (!equippedWeapon.ContainsKey(secondWeapon)) return;
         equippedWeapon[secondWeapon].AddExperience(exp * proportion);
     }
+    
 }
