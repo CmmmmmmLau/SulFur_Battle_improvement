@@ -4,25 +4,25 @@ using PerfectRandom.Sulfur.Core.DevTools;
 using PerfectRandom.Sulfur.Core.Units;
 using UnityEngine;
 
-namespace ExpShare.Components;
+namespace BattleImprove.Components;
 
 public class HealthBar : MonoBehaviour {
     private Camera camera;
+    private bool isInitialized;
     private Npc npc;
     private float timer;
-    private bool isInitialized;
-    
+
     private void Start() {
         npc = gameObject.GetComponent<Npc>();
         if (npc.IsProtectedNpc) {
             Destroy(this);
             return;
         }
-        
+
         isInitialized = false;
         StartCoroutine(Initialize());
     }
-    
+
     private void Update() {
         if (!isInitialized || !npc.IsAlive) return;
         var position = npc.EyesPosition;
@@ -30,10 +30,10 @@ public class HealthBar : MonoBehaviour {
 
         npc.debugFrame.gameObject.SetActive(CheckVisible(position));
     }
-    
+
     private IEnumerator Initialize() {
         yield return new WaitForSeconds(3);
-        StaticInstance<DevToolsManager>.Instance.AddDebugFrameToUnit(this.npc);
+        StaticInstance<DevToolsManager>.Instance.AddDebugFrameToUnit(npc);
         camera = StaticInstance<GameManager>.Instance.currentCamera;
         isInitialized = true;
     }
@@ -52,7 +52,7 @@ public class HealthBar : MonoBehaviour {
 
         return false;
     }
-    
+
     public bool UpdateValue() {
         if (!(timer > 0.25f)) return false;
         timer = 0;
