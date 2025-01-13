@@ -17,3 +17,6 @@ Add some feature to improve the sulfur's battle experience
 
 # Know Issue
 Currently only able to record player's bullet damage. Other type of damage date not include the damage source, therefore it will take more work to try to record it.
+
+# Credit
+Audio/Texture: Electronic Arts, DICE
