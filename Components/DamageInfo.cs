@@ -44,12 +44,14 @@ public class DamageInfo : MonoBehaviour {
     }
 
     private void AddDamageSource(string type, int damage) {
-        if (firstMessage != null) {
-            var component = firstMessage.GetComponent<DamageSource>();
-            if (component.damageType == type) {
-                component.damage += damage;
-                component.Reset();
-                return;
+        if (firstMessage != null && messageContainer != null) {
+            var components = messageContainer.GetComponentsInChildren<DamageSource>();
+            foreach (var damageSource in components) {
+                if (damageSource.damageType == type) {
+                    damageSource.damage += damage;
+                    damageSource.Reset();
+                    return;
+                }
             }
         }
 
