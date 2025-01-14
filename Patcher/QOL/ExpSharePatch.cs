@@ -17,7 +17,7 @@ public class ExpSharePatch {
             .EquippedHoldables;
 
         float exp = __instance.ExperienceOnKill;
-        var proportion = Plugin.Proportion.Value;
+        var proportion = Config.Proportion.Value;
 
         if (!equippedWeapon.ContainsKey(secondWeapon)) return;
         equippedWeapon[secondWeapon].AddExperience(exp * proportion);

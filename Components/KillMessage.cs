@@ -45,7 +45,7 @@ public class KillMessage : MonoBehaviour {
         killMessageAnim.SetTrigger("Pop");
         yield return new WaitForEndOfFrame();
         LayoutRebuilder.ForceRebuildLayoutImmediate(transform as RectTransform);
-        yield return messageQueue.Count > 1 ? new WaitForSeconds(1.25f) : new WaitForSeconds(2);
+        yield return messageQueue.Count > 1 ? new WaitForSeconds(0.8f) : new WaitForSeconds(1.5f);
         killMessageAnim.SetTrigger("Fade");
         yield return new WaitForSeconds(0.3f);
         isShowing = false;

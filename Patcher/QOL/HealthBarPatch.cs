@@ -6,6 +6,7 @@ using PerfectRandom.Sulfur.Core.Units;
 
 namespace BattleImprove.Patcher.QOL;
 
+[HarmonyPatch]
 public class HealthBarPatch {
     [HarmonyPrefix]
     [HarmonyPatch(typeof(UnitDebugFrame), "Update")]

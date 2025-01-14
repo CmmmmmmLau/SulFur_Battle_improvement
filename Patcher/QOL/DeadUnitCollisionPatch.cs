@@ -4,6 +4,7 @@ using PerfectRandom.Sulfur.Core.Weapons;
 
 namespace BattleImprove.Patcher.QOL;
 
+[HarmonyPatch]
 public class DeadUnitCollisionPatch {
     [HarmonyPrefix]
     [HarmonyPatch(typeof(Projectile), "ReportBounceOnHitbox")]

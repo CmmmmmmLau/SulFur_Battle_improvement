@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using BattleImprove.Patcher.BattleFeedback;
 using BattleImprove.Patcher.QOL;
 using BepInEx;
-using BepInEx.Configuration;
 using BepInEx.Logging;
 using HarmonyLib;
 using PerfectRandom.Sulfur.Core;
@@ -19,29 +19,17 @@ public class Plugin : BaseUnityPlugin {
     internal new static ManualLogSource Logger;
     internal static AssetBundle AssetBundle;
 
-    internal static ConfigEntry<float> Proportion;
-    internal static ConfigEntry<bool> ShowInfo;
-
     private void Awake() {
         // Plugin startup logic
         Logger = base.Logger;
         Logger.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} is loading!");
+        
+        // Config
+        BattleImprove.Config.InitConifg(this.Config);
 
         // Harmony patching
-        Harmony.CreateAndPatchAll(typeof(StaticInstance));
-        // QOL
-        Harmony.CreateAndPatchAll(typeof(ExpSharePatch));
-        Harmony.CreateAndPatchAll(typeof(HealthBarPatch));
-        // BF
-        Harmony.CreateAndPatchAll(typeof(DeadUnitCollisionPatch));
-        Harmony.CreateAndPatchAll(typeof(AttackFeedbackPatch));
-        Harmony.CreateAndPatchAll(typeof(SoundPatch));
-
-        // Config
-        Proportion = Config.Bind("General", "Proportion", 0.1f,
-            "The proportion of the exp that another weapon will received");
-        ShowInfo = Config.Bind("General", "ShowInfo", true, "Print the experience share info");
-
+        Patching();
+        
         // Load asset bundle
         var sAssemblyLocation = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         AssetBundle = AssetBundle.LoadFromFile(Path.Combine(sAssemblyLocation, "battle_improve"));
@@ -51,6 +39,17 @@ public class Plugin : BaseUnityPlugin {
         }
 
         Logger.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} is loaded!");
+    }
+
+    private void Patching() {
+        Harmony.CreateAndPatchAll(typeof(StaticInstance));
+        // QOL
+        if (BattleImprove.Config.EnableExpShare.Value) Harmony.CreateAndPatchAll(typeof(ExpSharePatch));
+        if (BattleImprove.Config.EnableHealthBar.Value) Harmony.CreateAndPatchAll(typeof(HealthBarPatch));
+        // BF
+        if (BattleImprove.Config.EnableSoundFeedback.Value) Harmony.CreateAndPatchAll(typeof(SoundPatch));
+        if (BattleImprove.Config.EnableDeadUnitCollision.Value) Harmony.CreateAndPatchAll(typeof(DeadUnitCollisionPatch));
+        Harmony.CreateAndPatchAll(typeof(AttackFeedbackPatch));
     }
 
     public class StaticInstance {

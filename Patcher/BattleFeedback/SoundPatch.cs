@@ -7,6 +7,7 @@ using UnityEngine;
 
 namespace BattleImprove.Patcher.BattleFeedback;
 
+[HarmonyPatch]
 public class SoundPatch {
     [HarmonyPostfix]
     [HarmonyPatch(typeof(Hitbox), "TakeHit")]

@@ -8,6 +8,7 @@ using UnityEngine;
 
 namespace BattleImprove.Patcher.BattleFeedback;
 
+[HarmonyPatch]
 public class AttackFeedbackPatch {
     [HarmonyPrefix]
     [HarmonyPatch(typeof(Hitbox), "TakeHit")]
@@ -41,8 +42,12 @@ public class AttackFeedbackPatch {
         // Ignore if the hitbox owner is a breakable, player
         if (__instance.Owner is Breakable || __instance.Owner.isPlayer) return;
 
-        var damage = __state - __instance.Owner.GetCurrentHealth();
+        // Check if the hitbox owner is alive, if so, play hit animation and skip the rest
+        if (PlayHitAnimation(__instance.Owner)) return;
+        
+        if (!Config.EnableDamageMessage.Value) return;
         // Show damage info
+        var damage = __state - __instance.Owner.GetCurrentHealth();
         if (damage > 0) {
             var type = "";
             if (source.SourceWeapon.IsMelee)
@@ -53,28 +58,21 @@ public class AttackFeedbackPatch {
 
             Plugin.StaticInstance.DamageInfo.ShowDamageInfo(type, Convert.ToInt32(damage));
         }
-
-        // Check if the hitbox owner is alive, is so, play hit animation and skip the rest
-        if (ShouldPlayHitAnimation(__instance.Owner.UnitState)) return;
-
-        // Check if the hitbox owner is dead, if so, play kill animation, audio and show kill message
+        // Check if the hitbox owner is dead on current shoot, if so, play kill audio and show kill message
         if (IsDead(__instance.Owner)) return;
-        PlayKillAnimation();
         PlayKillAudio(__instance, source.SourceWeapon, collisionPoint);
         ShowKillMessage(__instance.Owner, source.SourceWeapon);
     }
+    
+    private static bool PlayHitAnimation(Unit unit) {
+        bool isAliveOrIncapacitated = unit.UnitState is UnitState.Alive or UnitState.Incapacitated;
+        bool isXCrossHairEnabled = Config.EnableXCrossHair.Value;
 
-    private static bool ShouldPlayHitAnimation(UnitState unitState) {
-        if (unitState is UnitState.Alive or UnitState.Incapacitated) {
-            Plugin.StaticInstance.CrossHair.HitTrigger();
-            return true;
+        if (isXCrossHairEnabled && isAliveOrIncapacitated) {
+            Plugin.StaticInstance.CrossHair.StartTrigger("Hit");
         }
 
-        return false;
-    }
-
-    private static void PlayKillAnimation() {
-        Plugin.StaticInstance.CrossHair.KillTrigger();
+        return isAliveOrIncapacitated;
     }
 
     private static void PlayKillAudio(Hitbox hitbox, Weapon weapon, Vector3 collisionPoint) {
@@ -100,6 +98,9 @@ public class AttackFeedbackPatch {
         // If the unit is already killed, return true. used to make sure the kill feedback is only shown once
         if (Plugin.StaticInstance.KilledEnemies.Contains(unit)) return true;
         Plugin.StaticInstance.KilledEnemies.Add(unit);
+        if (Config.EnableXCrossHair.Value) {
+            Plugin.StaticInstance.CrossHair.StartTrigger("Kill");
+        }
         return false;
     }
 }
