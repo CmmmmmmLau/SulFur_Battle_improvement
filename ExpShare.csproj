@@ -49,4 +49,9 @@
           <HintPath>..\..\..\SteamLibrary\steamapps\common\SULFUR\Sulfur_Data\Managed\UnityEngine.UI.dll</HintPath>
         </Reference>
     </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Assets\battle_improve" />
+      <EmbeddedResource Include="Assets\battle_improve" />
+    </ItemGroup>
 </Project>

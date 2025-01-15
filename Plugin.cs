@@ -31,12 +31,15 @@ public class Plugin : BaseUnityPlugin {
         Patching();
         
         // Load asset bundle
-        var sAssemblyLocation = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-        AssetBundle = AssetBundle.LoadFromFile(Path.Combine(sAssemblyLocation, "battle_improve"));
-        if (AssetBundle == null) {
-            Logger.LogError("Failed to load custom assets.");
-            return;
-        }
+        // var sAssemblyLocation = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+        // AssetBundle = AssetBundle.LoadFromFile(Path.Combine(sAssemblyLocation, "battle_improve"));
+        // if (AssetBundle == null) {
+        //     Logger.LogError("Failed to load custom assets.");
+        //     return;
+        // }
+        AssetBundle = AssetBundle.LoadFromStream(Assembly.GetExecutingAssembly()
+            .GetManifestResourceStream("BattleImprove.Assets.battle_improve"));
+
 
         Logger.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} is loaded!");
     }
