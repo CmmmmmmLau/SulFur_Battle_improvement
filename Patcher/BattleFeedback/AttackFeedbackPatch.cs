@@ -42,22 +42,25 @@ public class AttackFeedbackPatch {
         // Ignore if the hitbox owner is a breakable, player
         if (__instance.Owner is Breakable || __instance.Owner.isPlayer) return;
 
+        if (Config.EnableDamageMessage.Value) {
+            var damage = __state - __instance.Owner.GetCurrentHealth();
+            if (damage > 0) {
+                var type = "";
+                if (source.SourceWeapon.IsMelee)
+                    type += source.SourceWeapon.weaponDefinition.displayName;
+                else
+                    type += damageType.shortLabel + " " + source.SourceProjectile.CurrentCaliber.label + " " +
+                            source.SourceProjectile.projectileType;
+
+                Plugin.StaticInstance.DamageInfo.ShowDamageInfo(type, Convert.ToInt32(damage));
+            }
+        }
+        
         // Check if the hitbox owner is alive, if so, play hit animation and skip the rest
         if (PlayHitAnimation(__instance.Owner)) return;
         
         if (!Config.EnableDamageMessage.Value) return;
         // Show damage info
-        var damage = __state - __instance.Owner.GetCurrentHealth();
-        if (damage > 0) {
-            var type = "";
-            if (source.SourceWeapon.IsMelee)
-                type += source.SourceWeapon.weaponDefinition.displayName;
-            else
-                type += damageType.shortLabel + " " + source.SourceProjectile.CurrentCaliber.label + " " +
-                        source.SourceProjectile.projectileType;
-
-            Plugin.StaticInstance.DamageInfo.ShowDamageInfo(type, Convert.ToInt32(damage));
-        }
         // Check if the hitbox owner is dead on current shoot, if so, play kill audio and show kill message
         if (IsDead(__instance.Owner)) return;
         PlayKillAudio(__instance, source.SourceWeapon, collisionPoint);
