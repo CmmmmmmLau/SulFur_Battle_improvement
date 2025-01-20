@@ -10,15 +10,12 @@ namespace BattleImprove.Patcher.BattleFeedback;
 
 [HarmonyPatch]
 public class AttackFeedbackPatch {
-    [HarmonyPrefix]
-    [HarmonyPatch(typeof(Hitbox), "TakeHit")]
+    [HarmonyPrefix, HarmonyPatch(typeof(Hitbox), "TakeHit")]
     private static void AddDamageMessage(Hitbox __instance, out float __state) {
         __state = __instance.Owner.GetCurrentHealth();
     }
-
-
-    [HarmonyPostfix]
-    [HarmonyPatch(typeof(Hitbox), "TakeHit")]
+    
+    [HarmonyPostfix, HarmonyPatch(typeof(Hitbox), "TakeHit")]
     // private static void tempname(Hitbox __instance, float damage, IDamager source, Vector3 collisionPoint) {
     //     if (!source.SourceUnit.isPlayer) return;
     //     if (__instance.Owner is Breakable || __instance.Owner.isPlayer  ||__instance.Owner.UnitState == UnitState.Alive) return;

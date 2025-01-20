@@ -64,7 +64,7 @@ public class DamageInfo : MonoBehaviour {
         if (currentDamage >= totalDamage) return;
         timer = 0;
 
-        var step = Mathf.Max(1, (totalDamage - currentDamage) / 10);
+        var step = Mathf.Max(1, (totalDamage - currentDamage) / 100);
         currentDamage += step;
         
         tmpTotalDamage.text = currentDamage.ToString();

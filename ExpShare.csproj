@@ -18,6 +18,7 @@
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
       <Optimize>true</Optimize>
       <DebugSymbols>false</DebugSymbols>
+      <OutputPath>bin\Debug\</OutputPath>
     </PropertyGroup>
 
     <ItemGroup>
