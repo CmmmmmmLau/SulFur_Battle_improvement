@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using BattleImprove.Patcher.BattleFeedback;
 using BattleImprove.Patcher.QOL;
+using BattleImprove.UI;
 using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
@@ -11,6 +13,7 @@ using PerfectRandom.Sulfur.Core;
 using PerfectRandom.Sulfur.Core.Input;
 using PerfectRandom.Sulfur.Core.Units;
 using UnityEngine;
+using Environment = System.Environment;
 
 namespace BattleImprove;
 
@@ -18,6 +21,10 @@ namespace BattleImprove;
 public class Plugin : BaseUnityPlugin {
     internal new static ManualLogSource Logger;
     internal static AssetBundle AssetBundle;
+    
+    public GameObject Instance;
+    private bool isInitialized = false;
+    private bool debugMode = false;
 
     private void Awake() {
         // Plugin startup logic
@@ -39,11 +46,16 @@ public class Plugin : BaseUnityPlugin {
         // }
         AssetBundle = AssetBundle.LoadFromStream(Assembly.GetExecutingAssembly()
             .GetManifestResourceStream("BattleImprove.Assets.battle_improve"));
-
-
+        
         Logger.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} is loaded!");
+        
+#if DEBUG
+        debugMode = true;
+        Logger.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} debug mode is enable!");
+#endif
+        StartCoroutine(WaitForInitialize());
     }
-
+    
     private void Patching() {
         Harmony.CreateAndPatchAll(typeof(StaticInstance));
         // QOL
@@ -53,6 +65,28 @@ public class Plugin : BaseUnityPlugin {
         if (BattleImprove.Config.EnableSoundFeedback.Value) Harmony.CreateAndPatchAll(typeof(SoundPatch));
         if (BattleImprove.Config.EnableDeadUnitCollision.Value) Harmony.CreateAndPatchAll(typeof(DeadUnitCollisionPatch));
         Harmony.CreateAndPatchAll(typeof(AttackFeedbackPatch));
+    }
+
+    public void Print(string info, bool needDebug = false) {
+        switch (needDebug) {
+            case true when debugMode:
+                Logger.LogInfo("Debug info: " + info);
+                break;
+            case false:
+                Logger.LogInfo(info);
+                break;
+        }
+    }
+
+    private IEnumerator WaitForInitialize() {
+        this.Print("Wait for initialize", true);
+        while (!this.isInitialized) {
+            yield return new WaitForSeconds(3);
+            if (GameObject.Find("GameManager").Equals(null)) continue;
+            this.Print("GameManager is found! Start init.", true);
+            this.Instance = new GameObject("BattleImproveTest");
+            this.isInitialized = true;
+        }
     }
 
     public class StaticInstance {
