@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Reflection;
 using BattleImprove.Patcher.BattleFeedback;
 using BattleImprove.Patcher.QOL;
-using BattleImprove.UI;
 using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
@@ -13,7 +11,6 @@ using PerfectRandom.Sulfur.Core;
 using PerfectRandom.Sulfur.Core.Input;
 using PerfectRandom.Sulfur.Core.Units;
 using UnityEngine;
-using Environment = System.Environment;
 
 namespace BattleImprove;
 
@@ -22,12 +19,11 @@ public class Plugin : BaseUnityPlugin {
     internal new static ManualLogSource Logger;
     internal static AssetBundle AssetBundle;
     
-    public GameObject Instance;
     private bool isInitialized = false;
     private bool debugMode = false;
 
-    private void Awake() {
-        // Plugin startup logic
+    public void Awake() {
+        this.gameObject.hideFlags = HideFlags.HideAndDontSave;
         Logger = base.Logger;
         Logger.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} is loading!");
         
@@ -53,9 +49,25 @@ public class Plugin : BaseUnityPlugin {
         debugMode = true;
         Logger.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} debug mode is enable!");
 #endif
-        StartCoroutine(WaitForInitialize());
     }
-    
+
+    private void Start() {
+        this.Print("Plugin is starting...");
+        StartCoroutine(Init());
+    }
+
+    private IEnumerator Init() {
+        while (!isInitialized) {
+            this.Print("GameManager not found! Wait for 10 seconds...", true);
+            yield return new WaitForSeconds(10);
+            if (StaticInstance<GameManager>.Instance != null) {
+                isInitialized = true;
+                StaticInstance.AddBattleImprove();
+                this.Print("GameManager found! Start Init!", true);
+            }
+        }
+    }
+
     private void Patching() {
         Harmony.CreateAndPatchAll(typeof(StaticInstance));
         // QOL
@@ -66,7 +78,7 @@ public class Plugin : BaseUnityPlugin {
         if (BattleImprove.Config.EnableDeadUnitCollision.Value) Harmony.CreateAndPatchAll(typeof(DeadUnitCollisionPatch));
         Harmony.CreateAndPatchAll(typeof(AttackFeedbackPatch));
     }
-
+    
     public void Print(string info, bool needDebug = false) {
         switch (needDebug) {
             case true when debugMode:
@@ -78,17 +90,6 @@ public class Plugin : BaseUnityPlugin {
         }
     }
 
-    private IEnumerator WaitForInitialize() {
-        this.Print("Wait for initialize", true);
-        while (!this.isInitialized) {
-            yield return new WaitForSeconds(3);
-            if (GameObject.Find("GameManager").Equals(null)) continue;
-            this.Print("GameManager is found! Start init.", true);
-            this.Instance = new GameObject("BattleImproveTest");
-            this.isInitialized = true;
-        }
-    }
-
     public class StaticInstance {
         internal static GameObject PluginInstance;
         internal static Npc[] Enemies;
@@ -97,12 +98,8 @@ public class Plugin : BaseUnityPlugin {
         internal static xCrossHair CrossHair;
         internal static KillMessage KillMessage;
         internal static DamageInfo DamageInfo;
-
-
-        [HarmonyPostfix]
-        [HarmonyPriority(Priority.First)]
-        [HarmonyPatch(typeof(GameManager), "Start")]
-        private static void AddBattleImprove() {
+        
+        public static void AddBattleImprove() {
             PluginInstance = Instantiate(AssetBundle.LoadAsset<GameObject>("BattleImprove"));
             HitSoundClips = PluginInstance.GetComponentInChildren<HitSoundEffect>();
             CrossHair = PluginInstance.GetComponentInChildren<xCrossHair>();

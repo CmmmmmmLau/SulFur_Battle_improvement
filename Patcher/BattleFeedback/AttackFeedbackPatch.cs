@@ -13,6 +13,7 @@ public class AttackFeedbackPatch {
     [HarmonyPrefix, HarmonyPatch(typeof(Hitbox), "TakeHit")]
     private static void AddDamageMessage(Hitbox __instance, out float __state) {
         __state = __instance.Owner.GetCurrentHealth();
+        
     }
     
     [HarmonyPostfix, HarmonyPatch(typeof(Hitbox), "TakeHit")]
@@ -96,7 +97,7 @@ public class AttackFeedbackPatch {
 
     private static bool IsDead(Unit unit) {
         // If the unit is already killed, return true. used to make sure the kill feedback is only shown once
-        if (Plugin.StaticInstance.KilledEnemies.Contains(unit)) return true;
+        if (Plugin.StaticInstance.KilledEnemies.Contains(unit) || !unit.LastDamagedBy.sourceUnit.isPlayer) return true;
         Plugin.StaticInstance.KilledEnemies.Add(unit);
         if (Config.EnableXCrossHair.Value) {
             Plugin.StaticInstance.CrossHair.StartTrigger("Kill");
