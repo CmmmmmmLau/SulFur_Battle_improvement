@@ -58,8 +58,8 @@ public class Plugin : BaseUnityPlugin {
 
     private IEnumerator Init() {
         while (!isInitialized) {
-            this.Print("GameManager not found! Wait for 10 seconds...", true);
-            yield return new WaitForSeconds(10);
+            this.Print("GameManager not found! Wait for 3 seconds...", true);
+            yield return new WaitForSeconds(3);
             if (StaticInstance<GameManager>.Instance != null) {
                 isInitialized = true;
                 StaticInstance.AddBattleImprove();
