@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using BattleImprove.Components;
 using BattleImprove.Patcher.BattleFeedback;
 using BattleImprove.Patcher.QOL;
 using BepInEx;
@@ -18,20 +19,31 @@ namespace BattleImprove;
 public class Plugin : BaseUnityPlugin {
     internal new static ManualLogSource Logger;
     internal static AssetBundle AssetBundle;
+    internal static Plugin instance;
     
     private bool isInitialized = false;
     private bool debugMode = false;
 
     public void Awake() {
+        instance = this;
         this.gameObject.hideFlags = HideFlags.HideAndDontSave;
         Logger = base.Logger;
         Logger.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} is loading!");
         
+#if DEBUG
+        debugMode = true;
+        Logger.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} debug mode is enable!");
+#endif
+        
         // Config
+        this.Print("Loading config...", true);
         BattleImprove.Config.InitConifg(this.Config);
+        this.Print("Config is loaded!", true);
 
         // Harmony patching
+        this.Print("Start patching...", true);
         Patching();
+        this.Print("Patching is done!", true);
         
         // Load asset bundle
         // var sAssemblyLocation = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
@@ -44,16 +56,15 @@ public class Plugin : BaseUnityPlugin {
             .GetManifestResourceStream("BattleImprove.Assets.battle_improve"));
         
         Logger.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} is loaded!");
-        
-#if DEBUG
-        debugMode = true;
-        Logger.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} debug mode is enable!");
-#endif
     }
 
     private void Start() {
         this.Print("Plugin is starting...");
         StartCoroutine(Init());
+    }
+
+    private void OnDestroy() {
+        Harmony.UnpatchAll();
     }
 
     private IEnumerator Init() {
@@ -70,12 +81,21 @@ public class Plugin : BaseUnityPlugin {
 
     private void Patching() {
         Harmony.CreateAndPatchAll(typeof(StaticInstance));
+        this.Print("StaticInstance is loaded!", true);
         // QOL
         if (BattleImprove.Config.EnableExpShare.Value) Harmony.CreateAndPatchAll(typeof(ExpSharePatch));
+        this.Print("ExpSharePatch is loaded!", true);
+        
         if (BattleImprove.Config.EnableHealthBar.Value) Harmony.CreateAndPatchAll(typeof(HealthBarPatch));
+        this.Print("HealthBarPatch is loaded!", true);
+        
         // BF
         if (BattleImprove.Config.EnableSoundFeedback.Value) Harmony.CreateAndPatchAll(typeof(SoundPatch));
+        this.Print("SoundPatch is loaded!", true);
+        
         if (BattleImprove.Config.EnableDeadUnitCollision.Value) Harmony.CreateAndPatchAll(typeof(DeadUnitCollisionPatch));
+        this.Print("DeadUnitCollisionPatch is loaded!", true);
+        
         Harmony.CreateAndPatchAll(typeof(AttackFeedbackPatch));
     }
     
@@ -91,7 +111,7 @@ public class Plugin : BaseUnityPlugin {
     }
 
     public class StaticInstance {
-        internal static GameObject PluginInstance;
+        internal static GameObject PluginGameObject;
         internal static Npc[] Enemies;
         internal static List<Unit> KilledEnemies;
         internal static HitSoundEffect HitSoundClips;
@@ -100,11 +120,15 @@ public class Plugin : BaseUnityPlugin {
         internal static DamageInfo DamageInfo;
         
         public static void AddBattleImprove() {
-            PluginInstance = Instantiate(AssetBundle.LoadAsset<GameObject>("BattleImprove"));
-            HitSoundClips = PluginInstance.GetComponentInChildren<HitSoundEffect>();
-            CrossHair = PluginInstance.GetComponentInChildren<xCrossHair>();
-            KillMessage = PluginInstance.GetComponentInChildren<KillMessage>();
-            DamageInfo = PluginInstance.GetComponentInChildren<DamageInfo>();
+            PluginGameObject = Instantiate(AssetBundle.LoadAsset<GameObject>("BattleImprove"));
+            HitSoundClips = PluginGameObject.GetComponentInChildren<HitSoundEffect>();
+            CrossHair = PluginGameObject.GetComponentInChildren<xCrossHair>();
+            KillMessage = PluginGameObject.GetComponentInChildren<KillMessage>();
+            DamageInfo = PluginGameObject.GetComponentInChildren<DamageInfo>();
+            
+            // GameObject manager = new GameObject("PluginManager");
+            // manager.gameObject.transform.parent = PluginGameObject.transform;
+            // manager.AddComponent<PluginManager>();
         }
 
         [HarmonyPrefix]

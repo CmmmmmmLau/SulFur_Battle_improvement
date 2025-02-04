@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using HarmonyLib;
 using PerfectRandom.Sulfur.Core;
 using PerfectRandom.Sulfur.Core.Stats;
@@ -10,9 +11,8 @@ namespace BattleImprove.Patcher.BattleFeedback;
 [HarmonyPatch]
 public class SoundPatch {
     [HarmonyPostfix]
-    [HarmonyPatch(typeof(Hitbox), "TakeHit")]
-    private static void PlayHitSound(Hitbox __instance, DamageType damageType, IDamager source,
-        Vector3 collisionPoint) {
+    [HarmonyPatch(typeof(Hitbox), "TakeHit", new Type[] {typeof(float), typeof(DamageType), typeof(DamageSourceData), typeof(Vector3)})]
+    private static void PlayHitSound(Hitbox __instance, DamageType damageType, Vector3 collisionPoint) {
         if (__instance.Owner is Breakable || __instance.Owner.isPlayer) return;
 
         var target = __instance.GetOwner().gameObject.GetComponent<Npc>();

@@ -10,13 +10,13 @@ namespace BattleImprove.Patcher.BattleFeedback;
 
 [HarmonyPatch]
 public class AttackFeedbackPatch {
-    [HarmonyPrefix, HarmonyPatch(typeof(Hitbox), "TakeHit")]
+    [HarmonyPrefix, HarmonyPatch(typeof(Hitbox), "TakeHit", new Type[] {typeof(float), typeof(DamageType), typeof(DamageSourceData), typeof(Vector3)})]
     private static void AddDamageMessage(Hitbox __instance, out float __state) {
         __state = __instance.Owner.GetCurrentHealth();
         
     }
     
-    [HarmonyPostfix, HarmonyPatch(typeof(Hitbox), "TakeHit")]
+    [HarmonyPostfix, HarmonyPatch(typeof(Hitbox), "TakeHit", new Type[] {typeof(float), typeof(DamageType), typeof(DamageSourceData), typeof(Vector3)})]
     // private static void tempname(Hitbox __instance, float damage, IDamager source, Vector3 collisionPoint) {
     //     if (!source.SourceUnit.isPlayer) return;
     //     if (__instance.Owner is Breakable || __instance.Owner.isPlayer  ||__instance.Owner.UnitState == UnitState.Alive) return;
@@ -33,10 +33,10 @@ public class AttackFeedbackPatch {
     //     }
     // }
     //
-    private static void AttackFeedback(Hitbox __instance, DamageType damageType, IDamager source,
+    private static void AttackFeedback(Hitbox __instance, DamageType damageType, ref DamageSourceData source,
         Vector3 collisionPoint, float __state) {
         // Ignore if the damage source is not the player
-        if (!source.SourceUnit.isPlayer) return;
+        if (!source.sourceUnit.isPlayer) return;
         // Ignore if the hitbox owner is a breakable, player
         if (__instance.Owner is Breakable || __instance.Owner.isPlayer) return;
 
@@ -44,11 +44,11 @@ public class AttackFeedbackPatch {
             var damage = __state - __instance.Owner.GetCurrentHealth();
             if (damage > 0) {
                 var type = "";
-                if (source.SourceWeapon.IsMelee)
-                    type += source.SourceWeapon.weaponDefinition.displayName;
+                if (source.sourceWeapon.IsMelee)
+                    type += source.sourceWeapon.weaponDefinition.displayName;
                 else
-                    type += damageType.shortLabel + " " + source.SourceProjectile.CurrentCaliber.label + " " +
-                            source.SourceProjectile.projectileType;
+                    type += damageType.shortLabel + " " + source.sourceProjectile.CurrentCaliber.label + " " +
+                            source.sourceProjectile.projectileType;
 
                 Plugin.StaticInstance.DamageInfo.ShowDamageInfo(type, Convert.ToInt32(damage));
             }
@@ -61,8 +61,8 @@ public class AttackFeedbackPatch {
         // Show damage info
         // Check if the hitbox owner is dead on current shoot, if so, play kill audio and show kill message
         if (IsDead(__instance.Owner)) return;
-        PlayKillAudio(__instance, source.SourceWeapon, collisionPoint);
-        ShowKillMessage(__instance.Owner, source.SourceWeapon);
+        PlayKillAudio(__instance, source.sourceWeapon, collisionPoint);
+        ShowKillMessage(__instance.Owner, source.sourceWeapon);
     }
     
     private static bool PlayHitAnimation(Unit unit) {
