@@ -5,6 +5,7 @@ using System.Reflection;
 using BattleImprove.Components;
 using BattleImprove.Patcher.BattleFeedback;
 using BattleImprove.Patcher.QOL;
+using BattleImprove.UI.InGame;
 using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
@@ -21,7 +22,6 @@ public class Plugin : BaseUnityPlugin {
     internal static AssetBundle AssetBundle;
     internal static Plugin instance;
     
-    private bool isInitialized = false;
     private bool debugMode = false;
 
     public void Awake() {
@@ -68,15 +68,10 @@ public class Plugin : BaseUnityPlugin {
     }
 
     private IEnumerator Init() {
-        while (!isInitialized) {
-            this.Print("GameManager not found! Wait for 3 seconds...", true);
-            yield return new WaitForSeconds(3);
-            if (StaticInstance<GameManager>.Instance != null) {
-                isInitialized = true;
-                StaticInstance.AddBattleImprove();
-                this.Print("GameManager found! Start Init!", true);
-            }
-        }
+        this.Print("Waiting for game boost...", true);
+        yield return new WaitForSeconds(20);
+        StaticInstance.InitGameObject();
+        this.Print("Start Init!", true);
     }
 
     private void Patching() {
@@ -112,6 +107,7 @@ public class Plugin : BaseUnityPlugin {
 
     public class StaticInstance {
         internal static GameObject PluginGameObject;
+        internal static GameObject IndicatorGameObject;
         internal static Npc[] Enemies;
         internal static List<Unit> KilledEnemies;
         internal static HitSoundEffect HitSoundClips;
@@ -119,16 +115,28 @@ public class Plugin : BaseUnityPlugin {
         internal static KillMessage KillMessage;
         internal static DamageInfo DamageInfo;
         
-        public static void AddBattleImprove() {
-            PluginGameObject = Instantiate(AssetBundle.LoadAsset<GameObject>("BattleImprove"));
+        public static void InitGameObject() {
+            var plugin = GameObject.Find("CmPlugin");
+            if (plugin == null) {
+                PluginGameObject = new GameObject("CmPlugin");
+                DontDestroyOnLoad(PluginGameObject);
+            } else {
+                PluginGameObject = plugin;
+            }
+
+            LoadPrefab();
+            
+            var menu = new GameObject("Menu");
+            menu.transform.parent = PluginGameObject.transform;
+            menu.AddComponent<MenuController>();
+        }
+
+        internal static void LoadPrefab() {
+            IndicatorGameObject = Instantiate(AssetBundle.LoadAsset<GameObject>("BattleImprove"), PluginGameObject.transform, true);
             HitSoundClips = PluginGameObject.GetComponentInChildren<HitSoundEffect>();
             CrossHair = PluginGameObject.GetComponentInChildren<xCrossHair>();
             KillMessage = PluginGameObject.GetComponentInChildren<KillMessage>();
             DamageInfo = PluginGameObject.GetComponentInChildren<DamageInfo>();
-            
-            // GameObject manager = new GameObject("PluginManager");
-            // manager.gameObject.transform.parent = PluginGameObject.transform;
-            // manager.AddComponent<PluginManager>();
         }
 
         [HarmonyPrefix]
