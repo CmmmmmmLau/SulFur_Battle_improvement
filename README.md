@@ -1,7 +1,7 @@
 # Battle Improvements
 Add some feature to improve the sulfur's battle experience
 
-![demo](https://raw.githubusercontent.com/CmmmmmmLau/SulFur_Battle_improvement/refs/heads/master/preview.png)
+![demo](https://raw.githubusercontent.com/CmmmmmmLau/SulFur_Battle_improvement/refs/heads/master/doc/preview.png)
 ## Features
 - Added bf1 type hitmarker/hitindicator, attack impact sound and kill message.
 - Bullet will Bounce off on critical hits and dead bodies.
@@ -18,5 +18,5 @@ Add some feature to improve the sulfur's battle experience
 # Know Issue
 Currently only able to record player's bullet damage. Other type of damage date not include the damage source, therefore it will take more work to try to record it.
 
-# Credit
+# CopyRight
 Audio/Texture: Electronic Arts, DICE
