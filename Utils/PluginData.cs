@@ -10,14 +10,16 @@ public class PluginData {
     [NonSerialized]
     internal static Dictionary<string, PluginData> DataDict;
     
-    public static void SetupData() {
+    public static bool SetupData() {
         if (SulfurSave.KeyExists("CmPlugin")) {
             DataDict = SulfurSave.Load("CmPlugin", new Dictionary<string, PluginData>());
+            return false;
         } else {
             Plugin.instance.Print("Save data not found, creating new one...", true);
             LoadDefaults();
             Plugin.instance.Print("Save data created!", true);
         }
+        return false;
     }
     
     private static void LoadDefaults() {

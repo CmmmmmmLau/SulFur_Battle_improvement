@@ -5,6 +5,7 @@ using System.Reflection;
 using BattleImprove.Components;
 using BattleImprove.Patcher.BattleFeedback;
 using BattleImprove.Patcher.QOL;
+using BattleImprove.Utils;
 using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
@@ -20,7 +21,10 @@ public class Plugin : BaseUnityPlugin {
     internal new static ManualLogSource Logger;
     internal static AssetBundle AssetBundle;
     internal static Plugin instance;
-    
+    internal static LocalizationManager i18n;
+    internal static bool needUpdate => UpdateChecker.CheckForUpdate();
+    internal static bool firstLaunch;
+
     private bool debugMode = false;
 
     public void Awake() {
@@ -122,9 +126,11 @@ public class Plugin : BaseUnityPlugin {
             } else {
                 PluginGameObject = plugin;
             }
-            
+
+            i18n = new LocalizationManager();
+            i18n.LoadLocaliztion(Application.systemLanguage);
             LoadPrefab();
-            PluginData.SetupData();
+            firstLaunch = PluginData.SetupData();
             
             var menu = new GameObject("Menu");
             menu.transform.parent = PluginGameObject.transform;

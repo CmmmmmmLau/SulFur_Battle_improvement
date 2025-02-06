@@ -1,0 +1,18 @@
+﻿# AttackFeedback
+AttackFeedback = 攻击反馈
+AttackFeedback.resource = 资源包检测
+AttackFeedback.resource.loaded = 已加载
+AttackFeedback.resource.missed = 未加载
+AttackFeedback.volume = 音量
+
+AttackFeedback.indicator = 击中反馈:音效
+AttackFeedback.distance = 近处反馈音效距离
+AttackFeedback.distance.far = 远处反馈音效距离
+AttackFeedback.distance.headshot = 头部反馈音效距离
+
+AttackFeedback.cross = 击中反馈:准心
+AttackFeedback.hitcolor = 击中准心颜色
+AttackFeedback.killcolor = 击杀准心颜色
+
+AttackFeedback.message = 击杀信息
+AttackFeedback.style = 样式

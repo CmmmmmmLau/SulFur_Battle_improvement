@@ -1,0 +1,18 @@
+﻿# AttackFeedback
+AttackFeedback = Attack Feedback
+AttackFeedback.resource = Resource Pack Detection
+AttackFeedback.resource.loaded = Loaded
+AttackFeedback.resource.missed = Missed
+AttackFeedback.volume = Volume
+
+AttackFeedback.indicator = Hit Feedback: Sound Effect
+AttackFeedback.distance = Close Range Feedback Sound Distance
+AttackFeedback.distance.far = Far Range Feedback Sound Distance
+AttackFeedback.distance.headshot = Headshot Feedback Sound Distance
+
+AttackFeedback.cross = Hit Feedback: Crosshair
+AttackFeedback.hitcolor = Hit Crosshair Color
+AttackFeedback.killcolor = Kill Crosshair Color
+
+AttackFeedback.message = Kill Message
+AttackFeedback.style = Style

@@ -11,7 +11,7 @@ public class WindowMenu : WindowBase {
         window = UWindow.Begin("Cm Plugin Menu");
         StartPosition(100, 100);
         
-        window.Button("Attack Feedback", () => OpenSubMenu("AttackFeedback"));
+        window.Button(Plugin.i18n.GetText("AttackFeedback"), () => OpenSubMenu("AttackFeedback"));
         base.Init();
     }
 
