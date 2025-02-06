@@ -1,5 +1,5 @@
 ﻿namespace BattleImprove;
 
-public class SaveHelper {
+public class JSONParser {
     
 }

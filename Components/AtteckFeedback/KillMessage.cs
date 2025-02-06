@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using BattleImprove;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,6 +18,7 @@ public class KillMessage : MonoBehaviour {
 
     private readonly Queue<KillMessageStruct> messageQueue = new();
     private bool isShowing;
+    private PluginData.AttackFeedbackData data;
 
     private void Start() {
         isShowing = false;
@@ -52,7 +54,10 @@ public class KillMessage : MonoBehaviour {
     }
 
     public void OnEnemyKill(bool isHeadShot) {
-        audioSource.PlayOneShot(isHeadShot ? headShotKillSound : killSound, 0.5f);
+        if (this.data == null) {
+            this.data = PluginData.DataDict["AttackFeedback"] as PluginData.AttackFeedbackData;
+        }
+        audioSource.PlayOneShot(isHeadShot ? headShotKillSound : killSound, data.messageVolume);
     }
 
     private struct KillMessageStruct {

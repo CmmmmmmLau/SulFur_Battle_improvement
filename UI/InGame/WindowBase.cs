@@ -30,8 +30,11 @@ public class WindowBase : MonoBehaviour {
 
     protected virtual void Init() {
         window.Space();
-        window.Button("Close", (() => window.IsDrawing = false));
+        window.Button("Close", Close);
         window.IsDrawing = false;
-        
+    }
+
+    protected virtual void Close() {
+        window.IsDrawing = false;
     }
 }

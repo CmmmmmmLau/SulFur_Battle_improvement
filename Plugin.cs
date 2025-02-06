@@ -5,7 +5,6 @@ using System.Reflection;
 using BattleImprove.Components;
 using BattleImprove.Patcher.BattleFeedback;
 using BattleImprove.Patcher.QOL;
-using BattleImprove.UI.InGame;
 using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
@@ -88,8 +87,8 @@ public class Plugin : BaseUnityPlugin {
         if (BattleImprove.Config.EnableSoundFeedback.Value) Harmony.CreateAndPatchAll(typeof(SoundPatch));
         this.Print("SoundPatch is loaded!", true);
         
-        if (BattleImprove.Config.EnableDeadUnitCollision.Value) Harmony.CreateAndPatchAll(typeof(DeadUnitCollisionPatch));
-        this.Print("DeadUnitCollisionPatch is loaded!", true);
+        // if (BattleImprove.Config.EnableDeadUnitCollision.Value) Harmony.CreateAndPatchAll(typeof(DeadUnitCollisionPatch));
+        // this.Print("DeadUnitCollisionPatch is loaded!", true);
         
         Harmony.CreateAndPatchAll(typeof(AttackFeedbackPatch));
     }
@@ -123,8 +122,9 @@ public class Plugin : BaseUnityPlugin {
             } else {
                 PluginGameObject = plugin;
             }
-
+            
             LoadPrefab();
+            PluginData.SetupData();
             
             var menu = new GameObject("Menu");
             menu.transform.parent = PluginGameObject.transform;
@@ -132,6 +132,7 @@ public class Plugin : BaseUnityPlugin {
         }
 
         internal static void LoadPrefab() {
+            Plugin.instance.Print("Loading prefab...", true);
             IndicatorGameObject = Instantiate(AssetBundle.LoadAsset<GameObject>("BattleImprove"), PluginGameObject.transform, true);
             HitSoundClips = PluginGameObject.GetComponentInChildren<HitSoundEffect>();
             CrossHair = PluginGameObject.GetComponentInChildren<xCrossHair>();

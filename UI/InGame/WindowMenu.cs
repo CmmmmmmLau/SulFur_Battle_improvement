@@ -1,15 +1,11 @@
 ﻿using System;
+using BattleImprove.Components;
 using UnityEngine;
 using UrGUI.UWindow;
 
 namespace BattleImprove.UI.InGame;
 
 public class WindowMenu : WindowBase {
-    public void Update() {
-        if(Input.GetKeyDown(KeyCode.F1)) {
-            window.IsDrawing = !window.IsDrawing;
-        }
-    }
 
     protected override void Init() {
         window = UWindow.Begin("Cm Plugin Menu");
@@ -18,8 +14,13 @@ public class WindowMenu : WindowBase {
         window.Button("Attack Feedback", () => OpenSubMenu("AttackFeedback"));
         base.Init();
     }
-    
+
+    protected override void Close() {
+        base.Close();
+        this.controller.CloseSubWindow();
+    }
+
     private void OpenSubMenu(string name) {
-        controller.OpenWindow(name);
+        controller.OpenSubWindow(name);
     }
 }
