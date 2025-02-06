@@ -12,6 +12,8 @@ public class MenuController : MonoBehaviour{
     protected WindowBase menu;
     
     private void Start() {
+        this.gameObject.AddComponent<WindowUpdateCheck>();
+        
         menu = this.gameObject.AddComponent<WindowMenu>().SetController(this);
         windos.Add("Menu", menu);
         

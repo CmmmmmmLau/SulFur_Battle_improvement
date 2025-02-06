@@ -10,7 +10,7 @@ public class WindowBase : MonoBehaviour {
     public UWindow window;
     internal MenuController controller;
     
-    public void Start() {
+    protected virtual void Start() {
         this.Init();
     }
     

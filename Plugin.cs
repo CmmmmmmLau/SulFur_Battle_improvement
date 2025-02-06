@@ -73,8 +73,8 @@ public class Plugin : BaseUnityPlugin {
     private IEnumerator Init() {
         this.Print("Waiting for game boost...", true);
         yield return new WaitForSeconds(20);
-        StaticInstance.InitGameObject();
         this.Print("Start Init!", true);
+        StaticInstance.InitGameObject();
     }
 
     private void Patching() {

@@ -16,3 +16,8 @@ AttackFeedback.killcolor = 击杀准心颜色
 
 AttackFeedback.message = 击杀信息
 AttackFeedback.style = 样式
+
+#Settings
+NeedUpdate = 新版本已发布!
+NeedUpdate.Current = 当前版本:
+NeedUpdate.Text = 请更新版本.

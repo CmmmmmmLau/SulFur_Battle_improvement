@@ -16,3 +16,8 @@ AttackFeedback.killcolor = Kill Crosshair Color
 
 AttackFeedback.message = Kill Message
 AttackFeedback.style = Style
+
+#Settings
+NeedUpdate = New version is available!
+NeedUpdate.Current = Current Version:
+NeedUpdate.Text = Please update to the latest version!
