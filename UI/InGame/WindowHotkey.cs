@@ -40,7 +40,7 @@ public class WindowHotkey : WindowBase {
 
     protected override void Close() {
         var data = PluginData.DataDict["BattleImprove"] as PluginData.Version;
-        data.menuKey = key;
+        data.menuKey = key == KeyCode.None ? KeyCode.F1 : key;
         PluginData.SaveData();
         base.Close();
     }
