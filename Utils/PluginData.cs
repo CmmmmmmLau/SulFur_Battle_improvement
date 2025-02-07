@@ -17,6 +17,7 @@ public class PluginData {
         try {
             if (SulfurSave.KeyExists("CmPlugin")) {
                 DataDict = SulfurSave.Load("CmPlugin", new Dictionary<string, PluginData>());
+                VerifyData();
                 return false;
             } else {
                 Plugin.instance.Print("Save data not found, creating new one...", true);
@@ -30,7 +31,7 @@ public class PluginData {
             LoadDefaults();
             throw;
         }
-        return false;
+        return true;
     }
     
     private static void LoadDefaults() {
