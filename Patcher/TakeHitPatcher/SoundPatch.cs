@@ -13,6 +13,7 @@ public class SoundPatch {
     private static PluginData.AttackFeedback data;
     
     private static void Postfix(Hitbox __instance, DamageType damageType, Vector3 collisionPoint) {
+        if (Plugin.StaticInstance.HitSoundClips == null) return;
         data ??= PluginData.DataDict["AttackFeedback"] as PluginData.AttackFeedback;
         
         if (__instance.Owner is Breakable || __instance.Owner.isPlayer) return;

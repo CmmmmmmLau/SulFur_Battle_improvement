@@ -13,6 +13,7 @@ namespace BattleImprove.Patcher.TakeHitPatcher;
 public class KillMessagePatch : AttackFeedbackPatch{
     private static void Postfix(Hitbox __instance, ref DamageSourceData source, Vector3 collisionPoint) {
         if(!TargetCheck(source, __instance)) return;
+        if (Plugin.StaticInstance.KillMessage == null) return;
 
 
         if (IsAlive(__instance.Owner)) return;
@@ -24,7 +25,7 @@ public class KillMessagePatch : AttackFeedbackPatch{
         var distance = Vector3.Distance(StaticInstance<GameManager>.Instance.GetPlayerUnit().EyesPosition,
             collisionPoint);
         var isFarRangeWeapon = weapon.holdableWeightClass is HoldableWeightClass.Rifle or HoldableWeightClass.Sniper;
-
+        
         if (distance > 20 && isFarRangeWeapon)
             Plugin.StaticInstance.KillMessage.OnEnemyKill(hitbox.bodyPart.label == "Head");
         else
