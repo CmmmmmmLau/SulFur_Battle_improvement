@@ -20,3 +20,5 @@ Currently only able to record player's bullet damage. Other type of damage date 
 
 # Copyright
 Audio/Texture: Electronic Arts, DICE
+UI library: Hirashi3630/UrGUI
+
