@@ -22,6 +22,7 @@ All features can be turned off by cfg in BepInEx/Config folder
 4. Enjoy
 
 ## What's Next?
+- Death Protection
 - battlefield 5 style
 - Loot light beam
 - Remove Friendly Fire
