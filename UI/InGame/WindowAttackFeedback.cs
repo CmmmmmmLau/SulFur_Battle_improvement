@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Reflection;
 using BattleImprove.Utils;
 using UnityEngine;
 using UrGUI.UWindow;
@@ -6,21 +7,21 @@ using UrGUI.UWindow;
 namespace BattleImprove.UI.InGame;
 
 public class WindowAttackFeedback : WindowBase{
-    PluginData.AttackFeedbackData data;
-    private LocalizationManager i18n = Plugin.i18n;
+    PluginData.AttackFeedback data;
+    private UWindowControls.WLabel label;
     
     private string resourcePack =>
         Plugin.StaticInstance.IndicatorGameObject == null 
             ? i18n.GetText("AttackFeedback.resource.missed") : i18n.GetText("AttackFeedback.resource.loaded");
 
     protected override void Init() {
-        data = PluginData.DataDict["AttackFeedback"] as PluginData.AttackFeedbackData;
+        data = PluginData.DataDict["AttackFeedback"] as PluginData.AttackFeedback;
         
         window = UWindow.Begin("Attack Feedback");
         window.Width += 50;
         StartPosition(310, 100);
 
-        window.Label(i18n.GetText("AttackFeedback.resource") + ":" + resourcePack);
+        label = window.Label(i18n.GetText("AttackFeedback.resource") + ":" + resourcePack);
         window.Button("Reload", (ReloadPrefab));
         window.Space();
         
@@ -38,17 +39,24 @@ public class WindowAttackFeedback : WindowBase{
         
         window.Label(i18n.GetText("AttackFeedback.message"));
         window.DropDown(i18n.GetText("AttackFeedback.style"), (SetKillMessageStyle), data.messageStyle, new Dictionary<int, string>() {
-            {0, "Battlefield 1"},
-            {1, "Battlefield 5"}
+            {0, "Battlefield 1"}
         });
         window.Slider(i18n.GetText("AttackFeedback.volume"), (SetKillMessageVolume), data.messageVolume, 0, 1, true);
+        window.Button(i18n.GetText("AttackFeedback.test"), (TestKillMessage));
         window.Space();
         
         base.Init();
     }
     
     private void ReloadPrefab() {
-        Plugin.StaticInstance.LoadPrefab();
+        if (Plugin.StaticInstance.IndicatorGameObject == null) {
+            Plugin.StaticInstance.LoadPrefab();
+        }
+        
+        var info = typeof(UWindowControls.WLabel).GetField("DisplayedString", BindingFlags.NonPublic | BindingFlags.Instance);
+        if (info != null) {
+            info.SetValue(label, i18n.GetText("AttackFeedback.resource") + ":" + resourcePack);
+        }
     }
 
     private void SetIndicatorVolume(float value) {
@@ -81,5 +89,10 @@ public class WindowAttackFeedback : WindowBase{
     
     private void SetKillMessageVolume(float value) {
         data.messageVolume = value;
+    }
+
+    private void TestKillMessage() {
+        Plugin.StaticInstance.KillMessage.OnEnemyKill(false);
+        Plugin.StaticInstance.KillMessage.AddKillMessage("Enemy Name", "Weapon Name", "0");
     }
 }

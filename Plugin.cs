@@ -5,6 +5,7 @@ using System.Reflection;
 using BattleImprove.Components;
 using BattleImprove.Patcher.BattleFeedback;
 using BattleImprove.Patcher.QOL;
+using BattleImprove.Patcher.TakeHitPatcher;
 using BattleImprove.Utils;
 using BepInEx;
 using BepInEx.Logging;
@@ -72,7 +73,7 @@ public class Plugin : BaseUnityPlugin {
 
     private IEnumerator Init() {
         this.Print("Waiting for game boost...", true);
-        yield return new WaitForSeconds(20);
+        yield return new WaitForSeconds(10);
         this.Print("Start Init!", true);
         StaticInstance.InitGameObject();
     }
@@ -93,8 +94,19 @@ public class Plugin : BaseUnityPlugin {
         
         // if (BattleImprove.Config.EnableDeadUnitCollision.Value) Harmony.CreateAndPatchAll(typeof(DeadUnitCollisionPatch));
         // this.Print("DeadUnitCollisionPatch is loaded!", true);
+
+        if (BattleImprove.Config.EnableDamageMessage.Value) {
+            Harmony.CreateAndPatchAll(typeof(DamageInfoPatch));
+            this.Print("DamageInfoPatch is loaded!", true);
         
-        Harmony.CreateAndPatchAll(typeof(AttackFeedbackPatch));
+            Harmony.CreateAndPatchAll(typeof(KillMessagePatch));
+            this.Print("KillMessagePatch is loaded!", true);
+        }
+
+        if (BattleImprove.Config.EnableXCrossHair.Value) {
+            Harmony.CreateAndPatchAll(typeof(CrossHairPatch));
+            this.Print("CrossHairPatch is loaded!", true);
+        }
     }
     
     public void Print(string info, bool needDebug = false) {
@@ -128,7 +140,7 @@ public class Plugin : BaseUnityPlugin {
             }
 
             i18n = new LocalizationManager();
-            i18n.LoadLocaliztion(Application.systemLanguage);
+            i18n.LoadLocalization(Application.systemLanguage);
             LoadPrefab();
             firstLaunch = PluginData.SetupData();
             

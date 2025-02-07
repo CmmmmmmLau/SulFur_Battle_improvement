@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using BattleImprove.Components;
+using BattleImprove.Utils;
 using UnityEngine;
 using UrGUI.UWindow;
 
@@ -9,12 +10,17 @@ namespace BattleImprove.UI.InGame;
 public class WindowBase : MonoBehaviour {
     public UWindow window;
     internal MenuController controller;
+    protected LocalizationManager i18n = Plugin.i18n;
     
     protected virtual void Start() {
         this.Init();
     }
+
+    public void Destroy() {
+        Destroy(this);
+    }
     
-    public void Toggle() {
+    public virtual void Toggle() {
         window.IsDrawing = !window.IsDrawing;
     }
     

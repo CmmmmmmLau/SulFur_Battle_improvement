@@ -8,7 +8,7 @@ AttackFeedback.volume = 音量
 AttackFeedback.indicator = 击中反馈:音效
 AttackFeedback.distance = 近处反馈音效距离
 AttackFeedback.distance.far = 远处反馈音效距离
-AttackFeedback.distance.headshot = 头部反馈音效距离
+AttackFeedback.distance.headshot = 暴击反馈音效距离
 
 AttackFeedback.cross = 击中反馈:准心
 AttackFeedback.hitcolor = 击中准心颜色
@@ -16,8 +16,17 @@ AttackFeedback.killcolor = 击杀准心颜色
 
 AttackFeedback.message = 击杀信息
 AttackFeedback.style = 样式
+AttackFeedback.test = 测试
 
 #Settings
+Settings = 设置
+Reset = 重置
+Close = 关闭
+Hotkey = 菜单快捷键
+Hotkey.title = 请按下按键
+Hotkey.current = 当前快捷键
+
+#Misc
 NeedUpdate = 新版本已发布!
 NeedUpdate.Current = 当前版本:
 NeedUpdate.Text = 请更新版本.

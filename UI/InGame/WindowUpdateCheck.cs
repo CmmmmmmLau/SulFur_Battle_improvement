@@ -30,6 +30,6 @@ public class WindowUpdateCheck : WindowBase{
     private IEnumerator AutoClose() {
         yield return new WaitForSeconds(5);
         Close();
-        Destroy(this);
+        Destroy();
     }
 }

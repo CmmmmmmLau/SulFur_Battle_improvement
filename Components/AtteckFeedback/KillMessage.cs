@@ -18,7 +18,7 @@ public class KillMessage : MonoBehaviour {
 
     private readonly Queue<KillMessageStruct> messageQueue = new();
     private bool isShowing;
-    private PluginData.AttackFeedbackData data;
+    private PluginData.AttackFeedback data;
 
     private void Start() {
         isShowing = false;
@@ -55,7 +55,7 @@ public class KillMessage : MonoBehaviour {
 
     public void OnEnemyKill(bool isHeadShot) {
         if (this.data == null) {
-            this.data = PluginData.DataDict["AttackFeedback"] as PluginData.AttackFeedbackData;
+            this.data = PluginData.DataDict["AttackFeedback"] as PluginData.AttackFeedback;
         }
         audioSource.PlayOneShot(isHeadShot ? headShotKillSound : killSound, data.messageVolume);
     }

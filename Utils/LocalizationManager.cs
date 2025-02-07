@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using UnityEngine;
 
@@ -10,13 +11,13 @@ public class LocalizationManager {
     private static Dictionary<string, string> localizationText = new();
     private static SystemLanguage currentLanguage;
     
-    private enum SupportedLanguages {
-        English = SystemLanguage.English,
-        ChineseSimplified = SystemLanguage.ChineseSimplified
+    public enum SupportedLanguages {
+        English,
+        ChineseSimplified
     }
 
-    public void LoadLocaliztion(SystemLanguage language) {
-        if (Enum.IsDefined(typeof(SupportedLanguages), (int)language)) {
+    public void LoadLocalization(SystemLanguage language) {
+        if (Enum.GetNames(typeof(SupportedLanguages)).Contains(language.ToString())) {
             currentLanguage = language;
         } else {
             currentLanguage = SystemLanguage.English;
@@ -48,5 +49,11 @@ public class LocalizationManager {
     
     public string GetText(string key) {
         return localizationText.ContainsKey(key) ? localizationText[key] : key;
+    }
+    
+    public interface II18N {
+        protected string GetText(string key) {
+            return Plugin.i18n.GetText(key);
+        }
     }
 }

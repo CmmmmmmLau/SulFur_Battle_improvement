@@ -8,14 +8,12 @@ using UnityEngine;
 
 namespace BattleImprove.Patcher.BattleFeedback;
 
-[HarmonyPatch]
+[HarmonyPatch(typeof(Hitbox), "TakeHit", new Type[] {typeof(float), typeof(DamageType), typeof(DamageSourceData), typeof(Vector3)})]
 public class SoundPatch {
-    private static PluginData.AttackFeedbackData data;
+    private static PluginData.AttackFeedback data;
     
-    [HarmonyPostfix]
-    [HarmonyPatch(typeof(Hitbox), "TakeHit", new Type[] {typeof(float), typeof(DamageType), typeof(DamageSourceData), typeof(Vector3)})]
-    private static void PlayHitSound(Hitbox __instance, DamageType damageType, Vector3 collisionPoint) {
-        data ??= PluginData.DataDict["AttackFeedback"] as PluginData.AttackFeedbackData;
+    private static void Postfix(Hitbox __instance, DamageType damageType, Vector3 collisionPoint) {
+        data ??= PluginData.DataDict["AttackFeedback"] as PluginData.AttackFeedback;
         
         if (__instance.Owner is Breakable || __instance.Owner.isPlayer) return;
 

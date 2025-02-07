@@ -5,12 +5,12 @@ using UnityEngine.UI;
 public class xCrossHair : MonoBehaviour {
     public Animator crossHairAnim;
 
-    private PluginData.AttackFeedbackData data;
+    private PluginData.AttackFeedback data;
     private Image[] images;
 
     private void Start() {
         if (data == null) {
-            data = PluginData.DataDict["AttackFeedback"] as PluginData.AttackFeedbackData;
+            data = PluginData.DataDict["AttackFeedback"] as PluginData.AttackFeedback;
         }
         
         images = GetComponentsInChildren<Image>();

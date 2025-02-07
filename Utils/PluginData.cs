@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using BattleImprove.Utils;
 using PerfectRandom.Sulfur.Core;
 using UnityEngine;
+using Application = UnityEngine.Device.Application;
 
 namespace BattleImprove;
 
@@ -11,31 +14,39 @@ public class PluginData {
     internal static Dictionary<string, PluginData> DataDict;
     
     public static bool SetupData() {
-        if (SulfurSave.KeyExists("CmPlugin")) {
-            DataDict = SulfurSave.Load("CmPlugin", new Dictionary<string, PluginData>());
-            return false;
-        } else {
-            Plugin.instance.Print("Save data not found, creating new one...", true);
+        try {
+            if (SulfurSave.KeyExists("CmPlugin")) {
+                DataDict = SulfurSave.Load("CmPlugin", new Dictionary<string, PluginData>());
+                return false;
+            } else {
+                Plugin.instance.Print("Save data not found, creating new one...", true);
+                LoadDefaults();
+                Plugin.instance.Print("Save data created!", true);
+            }
+        }
+        catch (Exception e) {
+            Console.WriteLine(e);
+            Plugin.instance.Print("Failed to load save data, creating new one...", true);
             LoadDefaults();
-            Plugin.instance.Print("Save data created!", true);
+            throw;
         }
         return false;
     }
     
     private static void LoadDefaults() {
         DataDict = new Dictionary<string, PluginData> {
-            {"BattleImprove", new VersionData()},
-            {"AttackFeedback", new AttackFeedbackData()}
+            {"BattleImprove", new Version()},
+            {"AttackFeedback", new AttackFeedback()}
         };
         SaveData();
     }
     
     private static void VerifyData() {
         if (!DataDict.ContainsKey("BattleImprove")) {
-            DataDict.Add("BattleImprove", new VersionData());
+            DataDict.Add("BattleImprove", new Version());
         }
         if (!DataDict.ContainsKey("AttackFeedback")) {
-            DataDict.Add("AttackFeedback", new AttackFeedbackData());
+            DataDict.Add("AttackFeedback", new AttackFeedback());
         }
     }
     
@@ -43,15 +54,12 @@ public class PluginData {
         SulfurSave.Save("CmPlugin", DataDict);
     }
     
-    public class VersionData : PluginData{
-        public string version;
-        
-        public VersionData() {
-            this.version = MyPluginInfo.PLUGIN_VERSION;
-        }
+    public class Version : PluginData{
+        public string version => MyPluginInfo.PLUGIN_VERSION;
+        public KeyCode menuKey = KeyCode.F1;
     }
     
-    public class AttackFeedbackData : PluginData {
+    public class AttackFeedback : PluginData {
         public float indicatorVolume = 0.5f;
         public float indicatorDistance = 0.5f;
         public float indicatorDistanceFar = 0.5f;

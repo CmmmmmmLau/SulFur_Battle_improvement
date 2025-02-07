@@ -6,9 +6,9 @@ AttackFeedback.resource.missed = Missed
 AttackFeedback.volume = Volume
 
 AttackFeedback.indicator = Hit Feedback: Sound Effect
-AttackFeedback.distance = Close Range Feedback Sound Distance
-AttackFeedback.distance.far = Far Range Feedback Sound Distance
-AttackFeedback.distance.headshot = Headshot Feedback Sound Distance
+AttackFeedback.distance = Impact-Close
+AttackFeedback.distance.far = Impact-Far  
+AttackFeedback.distance.headshot = Impact-Crit 
 
 AttackFeedback.cross = Hit Feedback: Crosshair
 AttackFeedback.hitcolor = Hit Crosshair Color
@@ -16,8 +16,17 @@ AttackFeedback.killcolor = Kill Crosshair Color
 
 AttackFeedback.message = Kill Message
 AttackFeedback.style = Style
+AttackFeedback.test = Test
 
 #Settings
+Settings = Settings
+Reset = Reset
+Close = Close
+Hotkey = Menu Hotkey
+Hotkey.title = Press a key
+Hotkey.current = Current Hotkey
+
+#Misc
 NeedUpdate = New version is available!
 NeedUpdate.Current = Current Version:
 NeedUpdate.Text = Please update to the latest version!
