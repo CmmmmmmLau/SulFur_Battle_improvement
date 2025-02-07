@@ -69,7 +69,7 @@ public class MenuController : MonoBehaviour{
         }
     }
 
-    private void Pause(bool state) {
+    public void Pause(bool state) {
         var manager = StaticInstance<GameManager>.Instance;
         if (manager == null) return;
         manager.ModifyCursorState(GameManager.ControllerLockState.Paused, state);

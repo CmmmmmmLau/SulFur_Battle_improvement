@@ -19,6 +19,7 @@ public class WindowMenu : WindowBase {
     protected override void Close() {
         base.Close();
         this.controller.CloseSubWindow();
+        this.controller.Pause(false);
     }
 
     private void OpenSubMenu(string name) {
