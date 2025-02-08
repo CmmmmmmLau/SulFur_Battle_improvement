@@ -11,7 +11,7 @@ public class WindowAttackFeedback : WindowBase{
     private UWindowControls.WLabel label;
     
     private string resourcePack =>
-        Plugin.StaticInstance.IndicatorGameObject == null 
+        StaticInstance.IndicatorGameObject == null 
             ? i18n.GetText("AttackFeedback.resource.missed") : i18n.GetText("AttackFeedback.resource.loaded");
 
     protected override void Init() {
@@ -49,8 +49,8 @@ public class WindowAttackFeedback : WindowBase{
     }
     
     private void ReloadPrefab() {
-        if (Plugin.StaticInstance.IndicatorGameObject == null) {
-            Plugin.StaticInstance.LoadPrefab();
+        if (StaticInstance.IndicatorGameObject == null) {
+            StaticInstance.LoadPrefab();
         }
         
         var info = typeof(UWindowControls.WLabel).GetField("DisplayedString", BindingFlags.NonPublic | BindingFlags.Instance);
@@ -92,7 +92,7 @@ public class WindowAttackFeedback : WindowBase{
     }
 
     private void TestKillMessage() {
-        Plugin.StaticInstance.KillMessage.OnEnemyKill(false);
-        Plugin.StaticInstance.KillMessage.AddKillMessage("Enemy Name", "Weapon Name", "0");
+        StaticInstance.KillMessage.OnEnemyKill(false);
+        StaticInstance.KillMessage.AddKillMessage("Enemy Name", "Weapon Name", "0");
     }
 }

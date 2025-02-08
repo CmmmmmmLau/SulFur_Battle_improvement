@@ -14,7 +14,7 @@ public class DamageInfoPatch : AttackFeedbackPatch {
     }
 
     private static void Postfix(Hitbox __instance, DamageType damageType, ref DamageSourceData source, Vector3 collisionPoint, float __state) {
-        if ( Plugin.StaticInstance.DamageInfo == null) return;
+        if ( StaticInstance.DamageInfo == null) return;
         if(!TargetCheck(source, __instance)) return;
         
         if (Config.EnableDamageMessage.Value) {
@@ -27,7 +27,7 @@ public class DamageInfoPatch : AttackFeedbackPatch {
                     type += damageType.shortLabel + " " + source.sourceProjectile.CurrentCaliber.label + " " +
                             source.sourceProjectile.projectileType;
                 
-                Plugin.StaticInstance.DamageInfo.ShowDamageInfo(type, Convert.ToInt32(damage));
+                StaticInstance.DamageInfo.ShowDamageInfo(type, Convert.ToInt32(damage));
             }
         }
     }

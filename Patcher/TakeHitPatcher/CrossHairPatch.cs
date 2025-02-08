@@ -14,7 +14,7 @@ public class CrossHairPatch : AttackFeedbackPatch{
     }
     
     private static void Postfix(Hitbox __instance, ref DamageSourceData source, bool __state) {
-        if (Plugin.StaticInstance.CrossHair == null) return;
+        if (StaticInstance.CrossHair == null) return;
         if(!TargetCheck(source, __instance)) return;
         if (!__state) return;
         
@@ -26,9 +26,9 @@ public class CrossHairPatch : AttackFeedbackPatch{
         bool isXCrossHairEnabled = Config.EnableXCrossHair.Value;
         
         if (isXCrossHairEnabled && isAliveOrIncapacitated) {
-            Plugin.StaticInstance.CrossHair.StartTrigger("Hit");
+            StaticInstance.CrossHair.StartTrigger("Hit");
         } else {
-            Plugin.StaticInstance.CrossHair.StartTrigger("Kill");
+            StaticInstance.CrossHair.StartTrigger("Kill");
         }
 
         return isAliveOrIncapacitated;

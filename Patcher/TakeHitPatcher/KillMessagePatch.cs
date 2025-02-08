@@ -13,7 +13,7 @@ namespace BattleImprove.Patcher.TakeHitPatcher;
 public class KillMessagePatch : AttackFeedbackPatch{
     private static void Postfix(Hitbox __instance, ref DamageSourceData source, Vector3 collisionPoint) {
         if(!TargetCheck(source, __instance)) return;
-        if (Plugin.StaticInstance.KillMessage == null) return;
+        if (StaticInstance.KillMessage == null) return;
 
 
         if (IsAlive(__instance.Owner)) return;
@@ -27,9 +27,9 @@ public class KillMessagePatch : AttackFeedbackPatch{
         var isFarRangeWeapon = weapon.holdableWeightClass is HoldableWeightClass.Rifle or HoldableWeightClass.Sniper;
         
         if (distance > 20 && isFarRangeWeapon)
-            Plugin.StaticInstance.KillMessage.OnEnemyKill(hitbox.bodyPart.label == "Head");
+            StaticInstance.KillMessage.OnEnemyKill(hitbox.bodyPart.label == "Head");
         else
-            Plugin.StaticInstance.KillMessage.OnEnemyKill(false);
+            StaticInstance.KillMessage.OnEnemyKill(false);
     }
 
     private static void ShowKillMessage(Unit enemy, Weapon weapon) {
@@ -37,7 +37,7 @@ public class KillMessagePatch : AttackFeedbackPatch{
         var weaponName = weapon.weaponDefinition.displayName;
         var exp = Convert.ToString(enemy.ExperienceOnKill);
 
-        Plugin.StaticInstance.KillMessage.AddKillMessage(enemyName, weaponName, exp);
+        StaticInstance.KillMessage.AddKillMessage(enemyName, weaponName, exp);
     }
 
     private static bool IsAlive(Unit unit) {
@@ -47,8 +47,8 @@ public class KillMessagePatch : AttackFeedbackPatch{
         }
         
         // If the unit is already killed, return true. used to make sure the kill feedback is only shown once
-        if (Plugin.StaticInstance.KilledEnemies.Contains(unit) || !unit.LastDamagedBy.sourceUnit.isPlayer) return true;
-        Plugin.StaticInstance.KilledEnemies.Add(unit);
+        if (StaticInstance.KilledEnemies.Contains(unit) || !unit.LastDamagedBy.sourceUnit.isPlayer) return true;
+        StaticInstance.KilledEnemies.Add(unit);
         return false;
     }
 }
