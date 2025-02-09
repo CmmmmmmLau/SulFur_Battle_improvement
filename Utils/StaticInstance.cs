@@ -39,8 +39,7 @@ public class StaticInstance {
     }
 
     internal static void LoadPrefab() {
-        Plugin.instance.Info("Loading prefab...", true);
-        IndicatorGameObject = Object.Instantiate(Plugin.AssetBundle.LoadAsset<GameObject>("BattleImprove"), PluginGameObject.transform, true);
+        IndicatorGameObject = Prefab.LoadAttackFeedbackPrefab(PluginGameObject);
         HitSoundClips = PluginGameObject.GetComponentInChildren<HitSoundEffect>();
         CrossHair = PluginGameObject.GetComponentInChildren<xCrossHair>();
         KillMessage = PluginGameObject.GetComponentInChildren<KillMessage>();

@@ -20,14 +20,14 @@ public class PluginData {
                 VerifyData();
                 return false;
             } else {
-                Plugin.instance.Info("Save data not found, creating new one...", true);
+                Plugin.instance.LoggingInfo("Save data not found, creating new one...", true);
                 LoadDefaults();
-                Plugin.instance.Info("Save data created!", true);
+                Plugin.instance.LoggingInfo("Save data created!", true);
             }
         }
         catch (Exception e) {
             Console.WriteLine(e);
-            Plugin.instance.Info("Failed to load save data, creating new one...", true);
+            Plugin.instance.LoggingInfo("Failed to load save data, creating new one...", true);
             LoadDefaults();
             throw;
         }
