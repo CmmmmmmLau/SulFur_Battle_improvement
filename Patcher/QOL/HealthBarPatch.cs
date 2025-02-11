@@ -6,10 +6,8 @@ using PerfectRandom.Sulfur.Core.Units;
 
 namespace BattleImprove.Patcher.QOL;
 
-[HarmonyPatch]
 public class HealthBarPatch {
-    [HarmonyPrefix]
-    [HarmonyPatch(typeof(UnitDebugFrame), "Update")]
+    [HarmonyPrefix, HarmonyPatch(typeof(UnitDebugFrame), "Update")]
     private static bool UpdateHPBar(UnitDebugFrame __instance) {
         if (StaticInstance<DevToolsManager>.Instance.shouldShow) return true;
 
@@ -25,8 +23,7 @@ public class HealthBarPatch {
         return false;
     }
 
-    [HarmonyPostfix]
-    [HarmonyPatch(typeof(Npc), "Start")]
+    [HarmonyPostfix, HarmonyPatch(typeof(Npc), "Start")]
     private static void AddDebugFrame(Player __instance) {
         __instance.gameObject.AddComponent<HealthBar>();
     }
