@@ -48,7 +48,7 @@ public class Plugin : BaseUnityPlugin {
         LoggingInfo("Patching is done!", true);
         
         // AssetBundle
-        Prefab.LoadAssetBundle();
+        StartCoroutine(Prefab.LoadAssetBundle());
         
         Logger.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} is loaded!");
     }
