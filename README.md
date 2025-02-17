@@ -4,10 +4,18 @@ Add some feature to improve the sulfur's battle experience
 ![demo](https://raw.githubusercontent.com/CmmmmmmLau/SulFur_Battle_improvement/refs/heads/master/doc/preview.png)
 ## Features
 All features can be turned off by cfg in BepInEx/Config folder
-- Added bf1 type hitmarker/hitindicator, attack impact sound and kill message.
-- ~~Bullet will Bounce off on critical hits and dead bodies.~~
-- Enables the health bar in the dev tools.
-- Every time you gain some experience on current weapon, your second weapon will also gain some experience.
+
+Battlefield 1 hitmarker, impact sound and kill message
+![hit](https://github.com/CmmmmmmLau/SulFur_Battle_improvement/blob/master/doc/killmessage.gif?raw=true)
+
+Loot drop effect, never miss your loot again.
+![lootvfx](https://github.com/CmmmmmmLau/SulFur_Battle_improvement/blob/master/doc/lootdrop_vfx.gif?raw=true)
+
+Enables the health bar in the dev tools.
+
+Every time you gain some experience on current weapon, your second weapon will also gain some experience.
+
+~~Bullet will Bounce off on critical hits and dead bodies.~~
 
 ## Configurable
 - In Game config menu, default open key is F1
@@ -24,7 +32,7 @@ All features can be turned off by cfg in BepInEx/Config folder
 ## What's Next?
 - Death Protection
 - battlefield 5 style
-- Loot light beam
+- ~~Loot light beam~~ Done
 - Remove Friendly Fire
 
 # Know Issue
