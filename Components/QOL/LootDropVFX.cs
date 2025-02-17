@@ -10,7 +10,7 @@ public class LootDropVFX : MonoBehaviour{
     private GameObject parentObject;
     private bool isScaling;
     private void Start() {
-        this.transform.localPosition = new Vector3(0, 0.01f, 0);
+        this.transform.localPosition = new Vector3(0, 0.1f, 0);
         this.isScaling = true;
         StartCoroutine(StopScale());
     }

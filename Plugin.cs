@@ -24,7 +24,7 @@ public class Plugin : BaseUnityPlugin {
     internal static bool firstLaunch;
     internal static Harmony harmony;
 
-    private bool debugMode;
+    private bool debugMode = false;
 
     public void Awake() {
         instance = this;
