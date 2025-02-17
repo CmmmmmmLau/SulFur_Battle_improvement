@@ -25,6 +25,10 @@ Every time you gain some experience on current weapon, your second weapon will a
 - Color of the hitmarker.
 - Volume of the kill message.
 
+## Game Compatibility
+Only Latest version of Sulfur is supported.
+For older version, please try the older released mod.
+
 ## Manual Installation
 1. Download ant install the bepinex 5 from [github](https://github.com/BepInEx/BepInEx/releases/tag/v5.4.23.2)
 2. Download this mod from github [release page](https://github.com/CmmmmmmLau/SulFur_Battle_improvement/releases)
