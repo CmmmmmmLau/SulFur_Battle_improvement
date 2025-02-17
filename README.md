@@ -6,9 +6,11 @@ Add some feature to improve the sulfur's battle experience
 All features can be turned off by cfg in BepInEx/Config folder
 
 Battlefield 1 hitmarker, impact sound and kill message
+
 ![hit](https://github.com/CmmmmmmLau/SulFur_Battle_improvement/blob/master/doc/killmessage.gif?raw=true)
 
 Loot drop effect, never miss your loot again.
+
 ![lootvfx](https://github.com/CmmmmmmLau/SulFur_Battle_improvement/blob/master/doc/lootdrop_vfx.gif?raw=true)
 
 Enables the health bar in the dev tools.
