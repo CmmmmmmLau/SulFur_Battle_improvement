@@ -30,11 +30,12 @@ public class Prefab {
             var request = AssetBundle.LoadAssetAsync<GameObject>("AttackFeedback");
             yield return request;
             Prefabs.Add("AttackFeedback", request.asset as GameObject);
-            
-            request = AssetBundle.LoadAssetAsync<GameObject>("LoopDropTier1");
-            yield return request;
-            Prefabs.Add("LoopDropTier1", request.asset as GameObject);
-            
+
+            for (var i = 1; i <= 5; i++) {
+                request = AssetBundle.LoadAssetAsync<GameObject>("LoopDropTier" + i);
+                yield return request;
+                Prefabs.Add("LoopDropTier" + i, request.asset as GameObject);
+            }
         }
     }
     

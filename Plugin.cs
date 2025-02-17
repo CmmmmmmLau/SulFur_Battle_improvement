@@ -71,35 +71,20 @@ public class Plugin : BaseUnityPlugin {
 
     private void Patching() {
         harmony = Harmony.CreateAndPatchAll(typeof(StaticInstance));
-        LoggingInfo("StaticInstance is loaded!", true);
+        
         // QOL
         if (BattleImprove.Config.EnableExpShare.Value) harmony.PatchAll(typeof(ExpSharePatch));
-        LoggingInfo("ExpSharePatch is loaded!", true);
-        
         if (BattleImprove.Config.EnableHealthBar.Value) harmony.PatchAll(typeof(HealthBarPatch));
-        LoggingInfo("HealthBarPatch is loaded!", true);
+        if (BattleImprove.Config.EnableLoopDropVFX.Value) harmony.PatchAll(typeof(LootDropPatch));
+        // if (BattleImprove.Config.EnableDeadUnitCollision.Value) harmony.PatchAll(typeof(DeadUnitCollisionPatch));
         
         // BF
         if (BattleImprove.Config.EnableSoundFeedback.Value) harmony.PatchAll(typeof(SoundPatch));
-        LoggingInfo("SoundPatch is loaded!", true);
-        
-        // if (BattleImprove.Config.EnableDeadUnitCollision.Value) Harmony.CreateAndPatchAll(typeof(DeadUnitCollisionPatch));
-        // this.Print("DeadUnitCollisionPatch is loaded!", true);
-
         if (BattleImprove.Config.EnableDamageMessage.Value) {
             harmony.PatchAll(typeof(DamageInfoPatch));
-            LoggingInfo("DamageInfoPatch is loaded!", true);
-        
             harmony.PatchAll(typeof(KillMessagePatch));
-            LoggingInfo("KillMessagePatch is loaded!", true);
         }
-
-        if (BattleImprove.Config.EnableXCrossHair.Value) {
-            harmony.PatchAll(typeof(CrossHairPatch));
-            LoggingInfo("CrossHairPatch is loaded!", true);
-        }
-        
-        harmony.PatchAll(typeof(LootParticlePatch));
+        if (BattleImprove.Config.EnableXCrossHair.Value) harmony.PatchAll(typeof(CrossHairPatch));
     }
     
     public void LoggingInfo(string info, bool needDebug = false) {
