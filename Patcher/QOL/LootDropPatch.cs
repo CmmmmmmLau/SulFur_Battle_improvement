@@ -15,7 +15,7 @@ public class LootDropPatch {
         Object.Destroy(shadow.GetComponent<DecalProjector>());
         var item = Traverse.Create(__instance).Field("item").GetValue<ItemDefinition>();
         var quality = item.itemQuality;
-        GameObject lootDropVFX = quality switch {
+        var lootDropVFX = quality switch {
             ItemQuality.Common => Prefab.LoadPrefab("LoopDropTier1", __instance.gameObject),
             ItemQuality.Uncommon => Prefab.LoadPrefab("LoopDropTier2", __instance.gameObject),
             ItemQuality.Rare => Prefab.LoadPrefab("LoopDropTier3", __instance.gameObject),

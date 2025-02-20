@@ -5,6 +5,7 @@ using BattleImprove.Patcher;
 using BattleImprove.Patcher.BattleFeedback;
 using BattleImprove.Patcher.QOL;
 using BattleImprove.Patcher.TakeHitPatcher;
+using BattleImprove.Transpiler;
 using BattleImprove.Utils;
 using BepInEx;
 using BepInEx.Logging;
@@ -76,7 +77,7 @@ public class Plugin : BaseUnityPlugin {
         if (BattleImprove.Config.EnableExpShare.Value) harmony.PatchAll(typeof(ExpSharePatch));
         if (BattleImprove.Config.EnableHealthBar.Value) harmony.PatchAll(typeof(HealthBarPatch));
         if (BattleImprove.Config.EnableLoopDropVFX.Value) harmony.PatchAll(typeof(LootDropPatch));
-        // if (BattleImprove.Config.EnableDeadUnitCollision.Value) harmony.PatchAll(typeof(DeadUnitCollisionPatch));
+        if (BattleImprove.Config.EnableDeadUnitCollision.Value) harmony.PatchAll(typeof(RemoveDeadBodyCollisionTranspiler));
         
         // BF
         if (BattleImprove.Config.EnableSoundFeedback.Value) harmony.PatchAll(typeof(SoundPatch));
@@ -85,6 +86,7 @@ public class Plugin : BaseUnityPlugin {
             harmony.PatchAll(typeof(KillMessagePatch));
         }
         if (BattleImprove.Config.EnableXCrossHair.Value) harmony.PatchAll(typeof(CrossHairPatch));
+        
     }
     
     public void LoggingInfo(string info, bool needDebug = false) {
