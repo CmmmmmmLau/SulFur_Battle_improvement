@@ -78,6 +78,7 @@ public class Plugin : BaseUnityPlugin {
         if (BattleImprove.Config.EnableHealthBar.Value) harmony.PatchAll(typeof(HealthBarPatch));
         if (BattleImprove.Config.EnableLoopDropVFX.Value) harmony.PatchAll(typeof(LootDropPatch));
         if (BattleImprove.Config.EnableDeadUnitCollision.Value) harmony.PatchAll(typeof(RemoveDeadBodyCollisionTranspiler));
+        harmony.PatchAll(typeof(DeadProtection));
         
         // BF
         if (BattleImprove.Config.EnableSoundFeedback.Value) harmony.PatchAll(typeof(SoundPatch));

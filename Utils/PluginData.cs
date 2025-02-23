@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using BattleImprove.Utils;
 using PerfectRandom.Sulfur.Core;
+using PerfectRandom.Sulfur.Core.Items;
 using UnityEngine;
 using Application = UnityEngine.Device.Application;
 
@@ -37,7 +38,8 @@ public class PluginData {
     private static void LoadDefaults() {
         DataDict = new Dictionary<string, PluginData> {
             {"BattleImprove", new Version()},
-            {"AttackFeedback", new AttackFeedback()}
+            {"AttackFeedback", new AttackFeedback()},
+            {"DeadProtection", new DeadProtection()}
         };
         SaveData();
     }
@@ -49,6 +51,14 @@ public class PluginData {
         if (!DataDict.ContainsKey("AttackFeedback")) {
             DataDict.Add("AttackFeedback", new AttackFeedback());
         }
+        if (!DataDict.ContainsKey("DeadProtection")) {
+            DataDict.Add("DeadProtection", new DeadProtection());
+        }
+    }
+    
+    private static void RemoveData() {
+        DataDict = new Dictionary<string, PluginData>();
+        SaveData();
     }
     
     public static void SaveData() {
@@ -69,5 +79,10 @@ public class PluginData {
         public Color killColor = Color.red;
         public int messageStyle = 0;
         public float messageVolume = 0.5f;
+    }
+    
+    public class DeadProtection : PluginData {
+        public List<InventoryData> weapons = new ();
+        public List<string> weaponModify = new ();
     }
 }
