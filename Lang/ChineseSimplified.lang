@@ -18,6 +18,12 @@ AttackFeedback.message = 击杀信息
 AttackFeedback.style = 样式
 AttackFeedback.test = 测试
 
+# DeadProtect
+DeadProtection = 死亡保护
+DeadProtection.durability = 武器耐久度损失(百分比)
+DeadProtection.attachment = 配件丢失概率(百分比)
+DeadProtection.enchantment = 附魔丢失概率(百分比)
+
 #Settings
 Settings = 设置
 Reset = 重置

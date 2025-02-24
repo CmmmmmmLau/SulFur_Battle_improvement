@@ -17,6 +17,7 @@ public class PluginData {
     public static bool SetupData() {
         try {
             if (SulfurSave.KeyExists("CmPlugin")) {
+                Plugin.instance.LoggingInfo("Save data found, loading...", true);
                 DataDict = SulfurSave.Load("CmPlugin", new Dictionary<string, PluginData>());
                 VerifyData();
                 return false;
@@ -46,12 +47,15 @@ public class PluginData {
     
     private static void VerifyData() {
         if (!DataDict.ContainsKey("BattleImprove")) {
+            Plugin.instance.LoggingInfo("Save data missing BattleImprove, adding...", true);
             DataDict.Add("BattleImprove", new Version());
         }
         if (!DataDict.ContainsKey("AttackFeedback")) {
+            Plugin.instance.LoggingInfo("Save data missing AttackFeedback, adding...", true);
             DataDict.Add("AttackFeedback", new AttackFeedback());
         }
         if (!DataDict.ContainsKey("DeadProtection")) {
+            Plugin.instance.LoggingInfo("Save data missing DeadProtection, adding...", true);
             DataDict.Add("DeadProtection", new DeadProtection());
         }
     }
@@ -83,6 +87,8 @@ public class PluginData {
     
     public class DeadProtection : PluginData {
         public List<InventoryData> weapons = new ();
-        public List<string> weaponModify = new ();
+        public float weaponDurability = 0.3f;
+        public float attachmentChance = 0.3f;
+        public float enchantmentChance = 0.3f;
     }
 }

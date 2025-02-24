@@ -18,6 +18,12 @@ AttackFeedback.message = Kill Message
 AttackFeedback.style = Style
 AttackFeedback.test = Test
 
+# DeadProtect
+DeadProtection = Death Protection
+DeadProtection.durability = Weapon Durability Loss (%)
+DeadProtection.attachment = Attachment Loss Probability (%)
+DeadProtection.enchantment = Enchantment Loss Probability (%)
+
 #Settings
 Settings = Settings
 Reset = Reset

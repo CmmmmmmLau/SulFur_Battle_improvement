@@ -44,6 +44,9 @@ public class MenuController : MonoBehaviour{
         var attackFeedback = this.gameObject.AddComponent<WindowAttackFeedback>().SetController(this);
         windos.Add("AttackFeedback", attackFeedback);
         
+        var deadProtection = this.gameObject.AddComponent<WindowDeadProtection>().SetController(this);
+        windos.Add("DeadProtection", deadProtection);
+        
         var setting = this.gameObject.AddComponent<WindowSetting>().SetController(this);
         windos.Add("Setting", setting);
         
@@ -65,8 +68,12 @@ public class MenuController : MonoBehaviour{
         } else {
             CloseSubWindow();
             Pause(false);
-            PluginData.SaveData();
         }
+        this.SaveData();
+    }
+    
+    public void SaveData() {
+        PluginData.SaveData();
     }
 
     public void Pause(bool state) {

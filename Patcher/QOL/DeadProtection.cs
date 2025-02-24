@@ -9,6 +9,7 @@ using PerfectRandom.Sulfur.Core.Stats;
 using PerfectRandom.Sulfur.Core.World;
 using PerfectRandom.Sulfur.Gameplay;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace BattleImprove.Patcher.QOL;
 
@@ -20,18 +21,22 @@ public class DeadProtection {
         var itemData = PluginData.DataDict["DeadProtection"] as PluginData.DeadProtection;
         var weapons = itemData.weapons;
         weapons.Clear();
-        var modfiles = itemData.weaponModify;
-        modfiles.Clear();
+        
         var equipment = StaticInstance<GameManager>.Instance.GetPlayerUnit().GetComponent<EquipmentManager>().EquippedHoldables;
         foreach (var inventoryItem in equipment.Select(item => item.Value)) {
             var itemdef = inventoryItem.itemDefinition as WeaponSO;
             Plugin.instance.LoggingInfo("Saved item: " + itemdef.LocalizedDisplayName);
-            var InventoryData = new InventoryData(itemdef.identifier, inventoryItem.gridPosition.x, inventoryItem.gridPosition.y, inventoryItem.quantity
-                , itemdef.iAmmoMax, itemdef.caliber.identifier, inventoryItem.stats.SerializedAttributeData(), Array.Empty<string>(), Array.Empty<string>(), inventoryItem.InventorySize.x, inventoryItem.InventorySize.y,
-                false, false);
+            
+            Plugin.instance.LoggingInfo("Durability Current: " + inventoryItem.DurabilityCurrent);
+            inventoryItem.ModifyDurability(-inventoryItem.DurabilityCurrent * (1 - itemData.weaponDurability));
+            Plugin.instance.LoggingInfo("Durability Modified: " + inventoryItem.DurabilityCurrent);
+            
+            var InventoryData = new InventoryData(itemdef.identifier, inventoryItem.gridPosition.x, inventoryItem.gridPosition.y, inventoryItem.quantity, 
+                inventoryItem.currentAmmo, itemdef.caliber.identifier, inventoryItem.stats.SerializedAttributeData(), 
+                inventoryItem.GetSerializedAttachments(), inventoryItem.GetSerializedEnchantments(), 
+                inventoryItem.InventorySize.x, inventoryItem.InventorySize.y, false, false);
+            
             weapons.Add(InventoryData);
-            modfiles.AddRange(inventoryItem.GetSerializedAttachments());
-            modfiles.AddRange(inventoryItem.GetSerializedEnchantments());
         }
         PluginData.SaveData();
     }
@@ -45,7 +50,6 @@ public class DeadProtection {
         }
         
         var ItemData = PluginData.DataDict["DeadProtection"] as PluginData.DeadProtection;
-    
         StaticInstance.LootSpawnHelper.SpawnItems(ItemData, transform);
     }
 }

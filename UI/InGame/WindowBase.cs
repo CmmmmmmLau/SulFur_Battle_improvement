@@ -42,6 +42,7 @@ public class WindowBase : MonoBehaviour {
     }
 
     protected virtual void Close() {
+        controller.SaveData();
         window.IsDrawing = false;
     }
 }
