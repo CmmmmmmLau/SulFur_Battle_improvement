@@ -13,20 +13,31 @@ Loot drop effect, never miss your loot again.
 
 ![lootvfx](https://github.com/CmmmmmmLau/SulFur_Battle_improvement/blob/master/doc/lootdrop_vfx.gif?raw=true)
 
+You can get your weapons back from the donation box.
+
+Of course... you have to lose something...
+
+![deadprotection](https://raw.githubusercontent.com/CmmmmmmLau/SulFur_Battle_improvement/refs/heads/master/doc/deadprotection.gif)
+
+Bullet behavior reworked. Now your bullets won't be blocked by dead body, and neither will theirs.
+
+![deadbody](https://github.com/CmmmmmmLau/SulFur_Battle_improvement/blob/master/doc/deadbodycollision.gif?raw=true)
+
 Enables the health bar in the dev tools.
 
 Every time you gain some experience on current weapon, your second weapon will also gain some experience.
 
-~~Bullet will Bounce off on critical hits and dead bodies.~~
 
 ## Configurable
 - In Game config menu, default open key is F1
 - Volume and distance of the hit sound.
 - Color of the hitmarker.
 - Volume of the kill message.
+- How many weapon durability you will lose when you get your weapon back.
+- The chance of the attachment and enhancement will be lost when you get your weapon back.
 
 ## Game Compatibility
-Only Latest version of Sulfur is supported.
+**Only Latest version of Sulfur is supported.**
 For older version, please try the older released mod.
 
 ## Manual Installation
@@ -36,7 +47,7 @@ For older version, please try the older released mod.
 4. Enjoy
 
 ## What's Next?
-- Death Protection
+- ~~Death Protection~~ Done
 - battlefield 5 style
 - ~~Loot light beam~~ Done
 - Remove Friendly Fire
