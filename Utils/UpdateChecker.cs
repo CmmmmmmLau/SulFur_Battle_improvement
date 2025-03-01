@@ -24,9 +24,8 @@ public class UpdateChecker {
             }
         } catch (WebException e) {
             Plugin.Logger.LogError($"Failed to check for update: {e.Message}");
+            return false;
         }
-
-        return true;
     }
     
     private static bool CheckUpdate(string current, string latest)
