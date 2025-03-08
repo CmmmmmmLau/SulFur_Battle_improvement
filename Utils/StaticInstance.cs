@@ -16,8 +16,7 @@ public class StaticInstance {
     internal static List<Unit> KilledEnemies;
     internal static HitSoundEffect HitSoundClips;
     internal static xCrossHair CrossHair;
-    internal static KillMessage KillMessage;
-    internal static DamageInfo DamageInfo;
+    internal static MessageController KillMessage;
     internal static LootSpawnHelper LootSpawnHelper;
         
     public static void InitGameObject() {
@@ -45,8 +44,16 @@ public class StaticInstance {
         IndicatorGameObject = Prefab.LoadPrefab("AttackFeedback", PluginGameObject);
         HitSoundClips = PluginGameObject.GetComponentInChildren<HitSoundEffect>();
         CrossHair = PluginGameObject.GetComponentInChildren<xCrossHair>();
-        KillMessage = PluginGameObject.GetComponentInChildren<KillMessage>();
-        DamageInfo = PluginGameObject.GetComponentInChildren<DamageInfo>();
+        
+        LoadKillMessageStyle();
+    }
+    
+    internal static void LoadKillMessageStyle(string style = "Battlefield 1") {
+        if (KillMessage != null) {
+            Object.Destroy(KillMessage.gameObject);
+        }
+        Prefab.LoadPrefab(style, IndicatorGameObject);
+        KillMessage = IndicatorGameObject.GetComponentInChildren<MessageController>();
     }
 
     [HarmonyPrefix]

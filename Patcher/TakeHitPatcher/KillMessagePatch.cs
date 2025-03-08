@@ -12,33 +12,29 @@ namespace BattleImprove.Patcher.TakeHitPatcher;
 
 [HarmonyPatch(typeof(Hitbox), "TakeHit", new Type[] {typeof(float), typeof(DamageType), typeof(DamageSourceData), typeof(Vector3)})]
 public class KillMessagePatch : AttackFeedbackPatch{
+    private static void Prefix(Hitbox __instance, out float __state) {
+        __state = __instance.Owner.GetCurrentHealth();
+    }
+    
     private static void Postfix(Hitbox __instance, ref DamageSourceData source, Vector3 collisionPoint) {
-        if(!TargetCheck(source, __instance)) return;
         if (StaticInstance.KillMessage == null) return;
+        if(!TargetCheck(source, __instance)) return;
 
 
         if (IsAlive(__instance.Owner)) return;
-        PlayKillAudio(__instance, source.sourceWeapon, collisionPoint);
-        ShowKillMessage(__instance.Owner, source.sourceWeapon);
-    }
-
-    private static void PlayKillAudio(Hitbox hitbox, Weapon weapon, Vector3 collisionPoint) {
+        
         var distance = Vector3.Distance(StaticInstance<GameManager>.Instance.GetPlayerUnit().EyesPosition,
             collisionPoint);
-        var isFarRangeWeapon = weapon.holdableWeightClass is HoldableWeightClass.Rifle or HoldableWeightClass.Sniper;
+        var isFarRangeWeapon = source.sourceWeapon.holdableWeightClass is HoldableWeightClass.Rifle or HoldableWeightClass.Sniper;
+        
+        var enemyName = __instance.Owner.SourceName;
+        var weaponName = source.sourceWeapon.weaponDefinition.displayName;
+        var exp = Convert.ToString(__instance.Owner.ExperienceOnKill);
         
         if (distance > 20 && isFarRangeWeapon)
-            StaticInstance.KillMessage.OnEnemyKill(hitbox.bodyPart.label == "Head");
+            StaticInstance.KillMessage.OnEnemyKill(enemyName, weaponName, exp, true);
         else
-            StaticInstance.KillMessage.OnEnemyKill(false);
-    }
-
-    private static void ShowKillMessage(Unit enemy, Weapon weapon) {
-        var enemyName = enemy.SourceName;
-        var weaponName = weapon.weaponDefinition.displayName;
-        var exp = Convert.ToString(enemy.ExperienceOnKill);
-
-        StaticInstance.KillMessage.AddKillMessage(enemyName, weaponName, exp);
+            StaticInstance.KillMessage.OnEnemyKill(enemyName, weaponName, exp, false);
     }
 
     private static bool IsAlive(Unit unit) {

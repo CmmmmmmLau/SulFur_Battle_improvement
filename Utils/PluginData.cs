@@ -13,6 +13,10 @@ namespace BattleImprove;
 public class PluginData {
     [NonSerialized]
     internal static Dictionary<string, PluginData> DataDict;
+    [NonSerialized]
+    public static Dictionary<int, string> KillMessageStyle = new() {
+        {0, "Battlefield 1"}
+    };
     
     public static bool SetupData() {
         try {

@@ -31,6 +31,12 @@ public class Prefab {
             yield return request;
             Prefabs.Add("AttackFeedback", request.asset as GameObject);
 
+            foreach (var style in PluginData.KillMessageStyle.Values) {
+                request = AssetBundle.LoadAssetAsync<GameObject>(style);
+                yield return request;
+                Prefabs.Add(style, request.asset as GameObject);
+            }
+
             for (var i = 1; i <= 5; i++) {
                 request = AssetBundle.LoadAssetAsync<GameObject>("LoopDropTier" + i);
                 yield return request;

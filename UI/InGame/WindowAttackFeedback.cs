@@ -38,9 +38,7 @@ public class WindowAttackFeedback : WindowBase{
         window.Space();
         
         window.Label(i18n.GetText("AttackFeedback.message"));
-        window.DropDown(i18n.GetText("AttackFeedback.style"), (SetKillMessageStyle), data.messageStyle, new Dictionary<int, string>() {
-            {0, "Battlefield 1"}
-        });
+        window.DropDown(i18n.GetText("AttackFeedback.style"), (SetKillMessageStyle), data.messageStyle, PluginData.KillMessageStyle);
         window.Slider(i18n.GetText("AttackFeedback.volume"), (SetKillMessageVolume), data.messageVolume, 0, 1, true);
         window.Button(i18n.GetText("AttackFeedback.test"), (TestKillMessage));
         window.Space();
@@ -92,7 +90,10 @@ public class WindowAttackFeedback : WindowBase{
     }
 
     private void TestKillMessage() {
-        StaticInstance.KillMessage.OnEnemyKill(false);
-        StaticInstance.KillMessage.AddKillMessage("Enemy Name", "Weapon Name", "0");
+        StaticInstance.KillMessage.OnEnemyKill("Enemy Name#" + Random.RandomRangeInt(0, 10)
+            , "Weapon Name#" + Random.RandomRangeInt(0, 10)
+            , Random.RandomRangeInt(0, 10).ToString()
+            , Random.RandomRangeInt(0, 10) < 5);
+        StaticInstance.KillMessage.OnEnemyHit("Bullet Damage Type#" + Random.RandomRangeInt(0, 10), Random.RandomRangeInt(0, 100));
     }
 }
