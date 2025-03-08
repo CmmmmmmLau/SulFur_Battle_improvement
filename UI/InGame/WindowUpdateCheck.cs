@@ -15,7 +15,7 @@ public class WindowUpdateCheck : WindowBase{
     
     protected override void Init() {
         window = UWindow.Begin("Update Check");
-        StartPosition(350, 350);
+        StartPosition(0, 0);
 
         window.Space();
         window.Label(Plugin.i18n.GetText("NeedUpdate"));

@@ -18,7 +18,7 @@ public class MenuController : MonoBehaviour{
     }
 
     private void Start() {
-        var window = this.gameObject.AddComponent<WindowUpdateCheck>();
+        var window = this.gameObject.AddComponent<WindowUpdateCheck>().SetController(this);
         InitWindow();
     }
     

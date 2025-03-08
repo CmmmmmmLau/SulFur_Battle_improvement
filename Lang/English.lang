@@ -33,6 +33,6 @@ Hotkey.title = Press a key
 Hotkey.current = Current Hotkey
 
 #Misc
-NeedUpdate = New version is available!
+NeedUpdate = Battle Improvement have new version!
 NeedUpdate.Current = Current Version:
 NeedUpdate.Text = Please update to the latest version!

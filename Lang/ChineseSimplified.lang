@@ -33,6 +33,6 @@ Hotkey.title = 请按下按键
 Hotkey.current = 当前快捷键
 
 #Misc
-NeedUpdate = 新版本已发布!
+NeedUpdate = Battle Improve 有新版本可用!
 NeedUpdate.Current = 当前版本:
 NeedUpdate.Text = 请更新版本.
