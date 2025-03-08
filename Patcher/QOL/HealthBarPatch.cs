@@ -1,4 +1,5 @@
 ﻿using BattleImprove.Components;
+using BattleImprove.Components.QOL;
 using HarmonyLib;
 using PerfectRandom.Sulfur.Core;
 using PerfectRandom.Sulfur.Core.DevTools;

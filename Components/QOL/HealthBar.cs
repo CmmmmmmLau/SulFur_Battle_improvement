@@ -4,7 +4,7 @@ using PerfectRandom.Sulfur.Core.DevTools;
 using PerfectRandom.Sulfur.Core.Units;
 using UnityEngine;
 
-namespace BattleImprove.Components;
+namespace BattleImprove.Components.QOL;
 
 public class HealthBar : MonoBehaviour {
     private Camera camera;
