@@ -28,5 +28,8 @@ public class BF5MessageController : MessageController {
         } else {
             killStreak.AddKillStreak();
         }
+        
+        headshotStreak.ResetTimer();
+        killStreak.ResetTimer();
     }
 }

@@ -2,7 +2,6 @@
 
 using System.Collections;
 using BattleImprove.Patcher;
-using BattleImprove.Patcher.BattleFeedback;
 using BattleImprove.Patcher.QOL;
 using BattleImprove.Patcher.TakeHitPatcher;
 using BattleImprove.Transpiler;

@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using BattleImprove.Patcher.BattleFeedback;
 using BattleImprove.Utils;
 using HarmonyLib;
 using PerfectRandom.Sulfur.Core;
-using PerfectRandom.Sulfur.Core.Input;
 using PerfectRandom.Sulfur.Core.Stats;
 using PerfectRandom.Sulfur.Core.Units;
 using PerfectRandom.Sulfur.Core.Weapons;
@@ -14,8 +11,6 @@ namespace BattleImprove.Patcher.TakeHitPatcher;
 
 [HarmonyPatch(typeof(Hitbox), "TakeHit", new Type[] {typeof(float), typeof(DamageType), typeof(DamageSourceData), typeof(Vector3)})]
 public class KillMessagePatch : AttackFeedbackPatch{
-    private static List<Unit> KilledEnemies;
-    
     private static void Prefix(Hitbox __instance, out float __state) {
         __state = __instance.Owner.GetCurrentHealth();
     }
@@ -45,13 +40,8 @@ public class KillMessagePatch : AttackFeedbackPatch{
         }
         
         // If the unit is already killed, return true. used to make sure the kill feedback is only shown once
-        if (KilledEnemies.Contains(unit) || !unit.LastDamagedBy.sourceUnit.isPlayer) return true;
-        KilledEnemies.Add(unit);
+        if (StaticInstance.KilledEnemies.Contains(unit) || !unit.LastDamagedBy.sourceUnit.isPlayer) return true;
+        StaticInstance.KilledEnemies.Add(unit);
         return false;
-    }
-    
-    [HarmonyPrefix, HarmonyPatch(typeof(InputReader), "LoadingContinue")]
-    private static void InitList() {
-        KilledEnemies = new List<Unit>();
     }
 }

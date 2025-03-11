@@ -24,7 +24,7 @@ public class KillStreakController : MonoBehaviour {
         if (FirstStreak) {
             timer += Time.deltaTime;
 
-            if (timer > 10f) {
+            if (timer > 6f) {
                 foreach (var icon in this.container.GetComponentsInChildren<StreakIcon>()) {
                     icon.Fade();
                 }
@@ -42,6 +42,10 @@ public class KillStreakController : MonoBehaviour {
             Enumerable.Range(0,10).ToList().ForEach(x => this.AddKillStreak());
         }
 #endif
+    }
+
+    public void ResetTimer() {
+        this.timer = 0;
     }
 
     public void AddKillStreak() {
