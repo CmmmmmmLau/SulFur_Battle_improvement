@@ -50,10 +50,4 @@ public class LocalizationManager {
     public string GetText(string key) {
         return localizationText.ContainsKey(key) ? localizationText[key] : key;
     }
-    
-    public interface II18N {
-        protected string GetText(string key) {
-            return Plugin.i18n.GetText(key);
-        }
-    }
 }
