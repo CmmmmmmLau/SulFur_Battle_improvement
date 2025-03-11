@@ -25,7 +25,6 @@ public class Prefab {
 #endif
         if (AssetBundle == null) {
             Plugin.instance.LoggingInfo("Failed to load custom assets.");
-            
         } else {
             var request = AssetBundle.LoadAssetAsync<GameObject>("AttackFeedback");
             yield return request;

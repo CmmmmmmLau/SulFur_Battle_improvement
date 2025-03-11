@@ -3,16 +3,23 @@ using System.Linq;
 using BattleImprove.Utils;
 using HarmonyLib;
 using PerfectRandom.Sulfur.Core;
+using PerfectRandom.Sulfur.Core.Input;
 using PerfectRandom.Sulfur.Core.Stats;
 using PerfectRandom.Sulfur.Core.Units;
 using UnityEngine;
 
 namespace BattleImprove.Patcher.BattleFeedback;
 
-[HarmonyPatch(typeof(Hitbox), "TakeHit", new Type[] {typeof(float), typeof(DamageType), typeof(DamageSourceData), typeof(Vector3)})]
 public class SoundPatch {
     private static PluginData.AttackFeedback data;
+    private static Npc[] Enemies;
     
+    [HarmonyPrefix, HarmonyPatch(typeof(InputReader), "LoadingContinue")]
+    private static void InitList() {
+        Enemies = StaticInstance<UnitManager>.Instance.GetAllEnemies();
+    }
+    
+    [HarmonyPatch(typeof(Hitbox), "TakeHit", new Type[] {typeof(float), typeof(DamageType), typeof(DamageSourceData), typeof(Vector3)})]
     private static void Postfix(Hitbox __instance, DamageType damageType, Vector3 collisionPoint) {
         if (StaticInstance.HitSoundClips == null) return;
         data ??= PluginData.DataDict["AttackFeedback"] as PluginData.AttackFeedback;
@@ -22,7 +29,7 @@ public class SoundPatch {
         var target = __instance.GetOwner().gameObject.GetComponent<Npc>();
 
         if (target.UnitState == UnitState.Dead) return;
-        if (!StaticInstance.Enemies.Contains(target)) return;
+        if (!Enemies.Contains(target)) return;
 
         
         var distance = Vector3.Distance(StaticInstance<GameManager>.Instance.GetPlayerUnit().EyesPosition

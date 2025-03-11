@@ -39,14 +39,10 @@ public class Plugin : BaseUnityPlugin {
 #endif
         
         // Config
-        LoggingInfo("Loading config...", true);
         BattleImprove.Config.InitConifg(Config);
-        LoggingInfo("Config is loaded!", true);
 
         // Harmony patching
-        LoggingInfo("Start patching...", true);
         Patching();
-        LoggingInfo("Patching is done!", true);
         
         // AssetBundle
         StartCoroutine(Prefab.LoadAssetBundle());
