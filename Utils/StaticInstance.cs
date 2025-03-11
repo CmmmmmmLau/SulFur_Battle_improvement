@@ -30,8 +30,10 @@ public class StaticInstance {
 
         Plugin.i18n = new LocalizationManager();
         Plugin.i18n.LoadLocalization(Application.systemLanguage);
-        LoadPrefab();
+        
         Plugin.firstLaunch = PluginData.SetupData();
+        
+        LoadPrefab();
 
         LootSpawnHelper = PluginGameObject.AddComponent<LootSpawnHelper>();
             
@@ -45,15 +47,16 @@ public class StaticInstance {
         HitSoundClips = PluginGameObject.GetComponentInChildren<HitSoundEffect>();
         CrossHair = PluginGameObject.GetComponentInChildren<xCrossHair>();
         
-        LoadKillMessageStyle();
+        var temp = PluginData.DataDict["AttackFeedback"] as PluginData.AttackFeedback;
+        LoadKillMessageStyle(PluginData.KillMessageStyle[temp.messageStyle]);
     }
     
     internal static void LoadKillMessageStyle(string style = "Battlefield 1") {
         if (KillMessage != null) {
             Object.Destroy(KillMessage.gameObject);
         }
-        Prefab.LoadPrefab(style, IndicatorGameObject);
-        KillMessage = IndicatorGameObject.GetComponentInChildren<MessageController>();
+        var gameObject = Prefab.LoadPrefab(style, IndicatorGameObject);
+        KillMessage = gameObject.GetComponentInChildren<MessageController>();
     }
 
     [HarmonyPrefix]

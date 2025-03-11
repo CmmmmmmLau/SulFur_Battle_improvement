@@ -83,6 +83,7 @@ public class WindowAttackFeedback : WindowBase{
     
     private void SetKillMessageStyle(int value) {
         data.messageStyle = value;
+        StaticInstance.LoadKillMessageStyle(PluginData.KillMessageStyle[value]);
     }
     
     private void SetKillMessageVolume(float value) {
@@ -93,6 +94,7 @@ public class WindowAttackFeedback : WindowBase{
         StaticInstance.KillMessage.OnEnemyKill("Enemy Name#" + Random.RandomRangeInt(0, 10)
             , "Weapon Name#" + Random.RandomRangeInt(0, 10)
             , Random.RandomRangeInt(0, 10).ToString()
+            , Random.RandomRangeInt(0, 10) < 5
             , Random.RandomRangeInt(0, 10) < 5);
         StaticInstance.KillMessage.OnEnemyHit("Bullet Damage Type#" + Random.RandomRangeInt(0, 10), Random.RandomRangeInt(0, 100));
     }

@@ -31,10 +31,7 @@ public class KillMessagePatch : AttackFeedbackPatch{
         var weaponName = source.sourceWeapon.weaponDefinition.displayName;
         var exp = Convert.ToString(__instance.Owner.ExperienceOnKill);
         
-        if (distance > 20 && isFarRangeWeapon)
-            StaticInstance.KillMessage.OnEnemyKill(enemyName, weaponName, exp, true);
-        else
-            StaticInstance.KillMessage.OnEnemyKill(enemyName, weaponName, exp, false);
+        StaticInstance.KillMessage.OnEnemyKill(enemyName, weaponName, exp, __instance.bodyPart.label == "Head", distance > 20 && isFarRangeWeapon);
     }
 
     private static bool IsAlive(Unit unit) {

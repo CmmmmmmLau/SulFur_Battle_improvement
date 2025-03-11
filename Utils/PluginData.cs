@@ -15,7 +15,8 @@ public class PluginData {
     internal static Dictionary<string, PluginData> DataDict;
     [NonSerialized]
     public static Dictionary<int, string> KillMessageStyle = new() {
-        {0, "Battlefield 1"}
+        {0, "Battlefield 1"},
+        {1, "Battlefield 5"}
     };
     
     public static bool SetupData() {
