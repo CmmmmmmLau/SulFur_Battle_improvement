@@ -15,6 +15,7 @@ public class Config {
     internal static ConfigEntry<bool> EnableXCrossHair;
     internal static ConfigEntry<bool> EnableDamageMessage;
     internal static ConfigEntry<bool> EnableLoopDropVFX;
+    internal static ConfigEntry<bool> EnableDeadProtection;
     
     
     internal static ConfigEntry<float> Proportion;
@@ -30,8 +31,9 @@ public class Config {
         EnableXCrossHair = cfg.Bind("Toggle/开关", "EnableHitFeedback", true, "Enable xCrossHair feedback/是否开启击中准心反馈");
         EnableSoundFeedback = cfg.Bind("Toggle/开关", "EnableSoundFeedback", true, "Enable hit sound feedback on enemies/是否开启敌人受击声音反馈");
         EnableDamageMessage = cfg.Bind("Toggle/开关", "EnableDamageMessage", true, "Enable damage and kill message/是否开启伤害与击杀信息");
-        EnableDeadUnitCollision = cfg.Bind("Toggle/开关", "EnableDeadUnitCollision", true, "Enable bullet will bounce on deadbody/是否开启子弹会在尸体上反弹");
+        EnableDeadUnitCollision = cfg.Bind("Toggle/开关", "EnableDeadUnitCollision", true, "Allowing bullets to pass through deadbody/是否使子弹能穿过尸体");
         EnableLoopDropVFX = cfg.Bind("Toggle/开关", "EnableLoopDropVFX", true, "Enable loot drop VFX/是否开启掉落特效");
+        EnableDeadProtection = cfg.Bind("Toggle/开关", "EnableDeadProtection", true, "Enable dead protection/是否开启死亡保护");
     }
 
     private static void ExpShareConfigInit(ConfigFile cfg) {
