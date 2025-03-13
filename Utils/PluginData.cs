@@ -71,7 +71,7 @@ public class PluginData {
     }
     
     public static void SaveData() {
-        SulfurSave.Save("CmPlugin", DataDict);
+        SulfurSave.SaveToDisk("CmPlugin", DataDict);
     }
     
     public class Version : PluginData{
