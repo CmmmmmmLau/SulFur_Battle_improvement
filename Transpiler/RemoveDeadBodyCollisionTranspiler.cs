@@ -56,7 +56,7 @@ public class RemoveDeadBodyCollisionTranspiler {
         // !!! This variable must be checked in every game broken update !!!
         var hitboxVariable = Convert.ToByte(11);
         
-        codeMatcher = new CodeMatcher(instructions).End();
+        var codeMatcher = new CodeMatcher(instructions).End();
     
         // Match the target code in Line: 192 → ptr.displacement = 0f;
         // And add a jump label to this code
