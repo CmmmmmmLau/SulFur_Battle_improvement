@@ -14,7 +14,7 @@ using Random = UnityEngine.Random;
 namespace BattleImprove.Patcher.QOL;
 
 public class DeadProtection {
-    
+    [HarmonyWrapSafe]
     [HarmonyPrefix, HarmonyPatch(typeof(LootManager), "AddToChurchCollection")]
     private static void SavePlayerEquipment() {
         Plugin.instance.LoggingInfo("Player died, saving weapon! Quick!!!");
@@ -46,6 +46,7 @@ public class DeadProtection {
         PluginData.SaveData();
     }
     
+    [HarmonyWrapSafe]
     [HarmonyPostfix, HarmonyPatch(typeof(ChurchCollectionLootable), "Loot")]
     private static void ReturnPlayerEquipment(ChurchCollectionLootable __instance) {
         Plugin.instance.LoggingInfo("Donation box opened, popping equipment back!");

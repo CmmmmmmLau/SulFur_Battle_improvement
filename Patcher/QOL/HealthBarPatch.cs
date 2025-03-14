@@ -8,6 +8,7 @@ using PerfectRandom.Sulfur.Core.Units;
 namespace BattleImprove.Patcher.QOL;
 
 public class HealthBarPatch {
+    [HarmonyWrapSafe]
     [HarmonyPrefix, HarmonyPatch(typeof(UnitDebugFrame), "Update")]
     private static bool UpdateHPBar(UnitDebugFrame __instance) {
         if (StaticInstance<DevToolsManager>.Instance.shouldShow) return true;

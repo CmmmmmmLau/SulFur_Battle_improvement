@@ -6,7 +6,7 @@ using PerfectRandom.Sulfur.Core.Units;
 using UnityEngine;
 
 namespace BattleImprove.Patcher.TakeHitPatcher;
-
+[HarmonyWrapSafe]
 [HarmonyPatch(typeof(Hitbox), "TakeHit", new Type[] {typeof(float), typeof(DamageType), typeof(DamageSourceData), typeof(Vector3)})]
 public class CrossHairPatch : AttackFeedbackPatch{
     private static void Prefix(Hitbox __instance, out bool __state) {

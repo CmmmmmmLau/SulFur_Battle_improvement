@@ -9,6 +9,7 @@ using UnityEngine;
 
 namespace BattleImprove.Patcher.TakeHitPatcher;
 
+[HarmonyWrapSafe]
 [HarmonyPatch(typeof(Hitbox), "TakeHit", new Type[] {typeof(float), typeof(DamageType), typeof(DamageSourceData), typeof(Vector3)})]
 public class KillMessagePatch : AttackFeedbackPatch{
     private static void Prefix(Hitbox __instance, out float __state) {

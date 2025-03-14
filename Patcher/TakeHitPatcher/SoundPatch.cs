@@ -9,6 +9,7 @@ using UnityEngine;
 
 namespace BattleImprove.Patcher.TakeHitPatcher;
 
+[HarmonyWrapSafe]
 [HarmonyPatch(typeof(Hitbox), "TakeHit", new Type[] {typeof(float), typeof(DamageType), typeof(DamageSourceData), typeof(Vector3)})]
 public class SoundPatch {
     private static PluginData.AttackFeedback data;

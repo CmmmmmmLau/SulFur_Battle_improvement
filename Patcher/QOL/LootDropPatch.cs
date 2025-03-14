@@ -8,6 +8,7 @@ using UnityEngine.Rendering.Universal;
 
 namespace BattleImprove.Patcher.QOL;
 public class LootDropPatch {
+    [HarmonyWrapSafe]
     [HarmonyPostfix, HarmonyPatch(typeof(Pickup), "Spawn")]
     private static void Postfix(Pickup __instance) {
         Plugin.instance.LoggingInfo("LootParticle Postfix", true);

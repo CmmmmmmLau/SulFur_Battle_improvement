@@ -6,6 +6,7 @@ using PerfectRandom.Sulfur.Core.Units;
 namespace BattleImprove.Patcher.QOL;
 
 public class ExpSharePatch {
+    [HarmonyWrapSafe]
     [HarmonyPostfix, HarmonyPatch(typeof(Npc), "GiveExperience")]
     private static void GiveExperiencePrePatch(Npc __instance) {
         var lastUsedWeapon = StaticInstance<GameManager>.Instance.GetPlayerUnit().lastUsedWeapon;
