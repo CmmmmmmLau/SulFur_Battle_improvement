@@ -1,27 +1,27 @@
 # Battle Improvements
 Add some feature to improve the sulfur's battle experience
 
-![demo](https://raw.githubusercontent.com/CmmmmmmLau/SulFur_Battle_improvement/refs/heads/master/doc/preview.png)
+![demo](https://raw.githubusercontent.com/CmmmmmmLau/SulFur_Battle_improvement/refs/heads/master/docs/preview.png)
 ## Features
 All features can be turned off by cfg in BepInEx/Config folder
 
 Battlefield 1 hitmarker, impact sound and kill message
 
-![hit](https://github.com/CmmmmmmLau/SulFur_Battle_improvement/blob/master/doc/killmessage.gif?raw=true)
+![hit](https://github.com/CmmmmmmLau/SulFur_Battle_improvement/blob/master/docs/killmessage.gif?raw=true)
 
 Loot drop effect, never miss your loot again.
 
-![lootvfx](https://github.com/CmmmmmmLau/SulFur_Battle_improvement/blob/master/doc/lootdrop_vfx.gif?raw=true)
+![lootvfx](https://github.com/CmmmmmmLau/SulFur_Battle_improvement/blob/master/docs/lootdrop_vfx.gif?raw=true)
 
 You can get your weapons back from the donation box.
 
 Of course... you have to lose something...
 
-![deadprotection](https://raw.githubusercontent.com/CmmmmmmLau/SulFur_Battle_improvement/refs/heads/master/doc/deadprotection.gif)
+![deadprotection](https://raw.githubusercontent.com/CmmmmmmLau/SulFur_Battle_improvement/refs/heads/master/docs/deadprotection.gif)
 
 Bullet behavior reworked. Now your bullets won't be blocked by dead body, and neither will theirs.
 
-![deadbody](https://github.com/CmmmmmmLau/SulFur_Battle_improvement/blob/master/doc/deadbodycollision.gif?raw=true)
+![deadbody](https://github.com/CmmmmmmLau/SulFur_Battle_improvement/blob/master/docs/deadbodycollision.gif?raw=true)
 
 Enables the health bar in the dev tools.
 
