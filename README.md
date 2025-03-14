@@ -5,7 +5,7 @@ Add some feature to improve the sulfur's battle experience
 ## Features
 All features can be turned off by cfg in BepInEx/Config folder
 
-Battlefield 1 hitmarker, impact sound and kill message
+Battlefield 1/5 style kill message
 
 ![hit](https://github.com/CmmmmmmLau/SulFur_Battle_improvement/blob/master/docs/killmessage.gif?raw=true)
 
