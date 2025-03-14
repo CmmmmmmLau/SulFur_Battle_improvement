@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using BattleImprove.Utils;
 using PerfectRandom.Sulfur.Core;
 using PerfectRandom.Sulfur.Core.Items;
 using UnityEngine;
-using Application = UnityEngine.Device.Application;
 
-namespace BattleImprove;
+namespace BattleImprove.Utils;
 
 [Serializable]
 public class PluginData {
