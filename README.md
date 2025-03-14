@@ -48,7 +48,7 @@ For older version, please try the older released mod.
 
 ## What's Next?
 - ~~Death Protection~~ Done
-- battlefield 5 style
+- ~~battlefield 5 style~~ Done
 - ~~Loot light beam~~ Done
 - Remove Friendly Fire
 
