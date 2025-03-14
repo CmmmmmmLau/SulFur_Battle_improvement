@@ -24,6 +24,9 @@ public class DeadProtection {
         
         var equipment = StaticInstance<GameManager>.Instance.GetPlayerUnit().GetComponent<EquipmentManager>().EquippedHoldables;
         foreach (var inventoryItem in equipment.Select(item => item.Value)) {
+            if (inventoryItem.SlotType != SlotType.Weapon) {
+                continue;
+            }
             var itemdef = inventoryItem.itemDefinition as WeaponSO;
             Plugin.instance.LoggingInfo("Saved item: " + itemdef.LocalizedDisplayName);
             
@@ -31,11 +34,13 @@ public class DeadProtection {
             inventoryItem.ModifyDurability(-inventoryItem.DurabilityCurrent * (1 - itemData.weaponDurability));
             Plugin.instance.LoggingInfo("Durability Modified: " + inventoryItem.DurabilityCurrent);
             
+            Plugin.instance.LoggingInfo("Grabbing item data...");
             var InventoryData = new InventoryData(itemdef.identifier, inventoryItem.gridPosition.x, inventoryItem.gridPosition.y, inventoryItem.quantity, 
-                inventoryItem.currentAmmo, itemdef.caliber.identifier, inventoryItem.stats.SerializedAttributeData(), 
+                inventoryItem.currentAmmo, itemdef.caliber.identifier, inventoryItem.stats.SerializedAttributeData(),   
                 inventoryItem.GetSerializedAttachments(), inventoryItem.GetSerializedEnchantments(), 
                 inventoryItem.InventorySize.x, inventoryItem.InventorySize.y, false, false);
             
+            Plugin.instance.LoggingInfo("Saving item data...");
             weapons.Add(InventoryData);
         }
         PluginData.SaveData();
