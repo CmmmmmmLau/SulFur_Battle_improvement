@@ -45,7 +45,7 @@ public class LootSpawnHelper : MonoBehaviour {
         foreach (var element in list.ToList()) {
             var num = Random.Range(0f, 1f);
             Plugin.instance.LoggingInfo("Rolling for " + element + " with chance " + chance + " got " + num);
-            if (chance < num) {
+            if (num < chance) {
                 list.Remove(element);
             }
         }
