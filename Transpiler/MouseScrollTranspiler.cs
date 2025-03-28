@@ -16,7 +16,7 @@ public class MouseScrollTranspiler {
     [HarmonyTranspiler, HarmonyPatch(typeof(InputReader), "SelectByScroll")]
     private static IEnumerable<CodeInstruction> ProjectileTranspiler(IEnumerable<CodeInstruction> instructions,
         ILGenerator generator, MethodBase original) {
-        codeMatcher = new CodeMatcher(instructions).Start();
+        var codeMatcher = new CodeMatcher(instructions).Start();
 
         var instruction = codeMatcher.Instructions()[4];
         if (instruction.opcode == OpCodes.Ble_Un_S || instruction.opcode == OpCodes.Ble_Un) {

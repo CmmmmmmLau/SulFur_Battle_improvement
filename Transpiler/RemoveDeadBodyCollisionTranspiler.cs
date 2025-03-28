@@ -17,7 +17,7 @@ public class RemoveDeadBodyCollisionTranspiler {
     
     [HarmonyTranspiler,HarmonyPatch(typeof(Projectile), "HandleHit")]
     private static IEnumerable<CodeInstruction> ProjectileTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original) {
-        codeMatcher = new CodeMatcher(instructions).End();
+        var codeMatcher = new CodeMatcher(instructions).End();
         
         // Make a label that just jump to the end of the code
         var endLabel = generator.DefineLabel();

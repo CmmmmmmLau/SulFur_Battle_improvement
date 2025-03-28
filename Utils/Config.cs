@@ -25,6 +25,7 @@ public class Config {
     public static void InitConifg(ConfigFile cfg) {
         ToggleConfigInit(cfg);
         ExpShareConfigInit(cfg);
+        OtherConfigInit(cfg);
     }
 
     private static void ToggleConfigInit(ConfigFile cfg) {
@@ -43,6 +44,6 @@ public class Config {
     }
     
     private static void OtherConfigInit(ConfigFile cfg) {
-        ReverseMouseScroll = cfg.Bind("Other/其他", "ReverseMouseScroll", false, "Reverse mouse scroll direction/反转鼠标滚轮方向");
+        ReverseMouseScroll = cfg.Bind("Other/其他", "ReverseMouseScroll", true, "Reverse mouse scroll direction/反转鼠标滚轮方向");
     }
 }
