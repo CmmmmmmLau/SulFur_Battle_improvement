@@ -30,7 +30,7 @@ public class Plugin : BaseUnityPlugin {
         instance = this;
         gameObject.hideFlags = HideFlags.HideAndDontSave;
         Logger = base.Logger;
-        Logger.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} is loading!");
+        Logger.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} {MyPluginInfo.PLUGIN_VERSION} is loading!");
         
 #if DEBUG
         debugMode = true;
@@ -75,7 +75,8 @@ public class Plugin : BaseUnityPlugin {
         if (BattleImprove.Config.EnableDeadUnitCollision.Value) harmony.PatchAll(typeof(RemoveDeadBodyCollisionTranspiler));
         if (BattleImprove.Config.EnableDeadProtection.Value) harmony.PatchAll(typeof(DeadProtection));
 
-       
+        // Other
+        if (BattleImprove.Config.ReverseMouseScroll.Value) harmony.PatchAll(typeof(MouseScrollTranspiler));
         
         // BF
         if (BattleImprove.Config.EnableSoundFeedback.Value) harmony.PatchAll(typeof(SoundPatch));

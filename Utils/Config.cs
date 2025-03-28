@@ -17,6 +17,8 @@ public class Config {
     internal static ConfigEntry<bool> EnableLoopDropVFX;
     internal static ConfigEntry<bool> EnableDeadProtection;
     
+    internal static ConfigEntry<bool> ReverseMouseScroll;
+    
     
     internal static ConfigEntry<float> Proportion;
         
@@ -38,5 +40,9 @@ public class Config {
 
     private static void ExpShareConfigInit(ConfigFile cfg) {
         Proportion = cfg.Bind("ExpShare/经验共享", "Proportion", 0.5f, "The proportion of experience shared to second weapon/共享给第二把武器的经验比例");
+    }
+    
+    private static void OtherConfigInit(ConfigFile cfg) {
+        ReverseMouseScroll = cfg.Bind("Other/其他", "ReverseMouseScroll", false, "Reverse mouse scroll direction/反转鼠标滚轮方向");
     }
 }
