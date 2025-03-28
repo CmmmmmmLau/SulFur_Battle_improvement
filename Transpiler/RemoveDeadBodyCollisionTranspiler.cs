@@ -17,11 +17,11 @@ public class RemoveDeadBodyCollisionTranspiler {
     
     [HarmonyTranspiler,HarmonyPatch(typeof(Projectile), "HandleHit")]
     private static IEnumerable<CodeInstruction> ProjectileTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original) {
-        var codeMatcher = new CodeMatcher(instructions).End();
+        codeMatcher = new CodeMatcher(instructions).End();
         
         // Make a label that just jump to the end of the code
         var endLabel = generator.DefineLabel();
-        codeMatcher.Instructions()[199].labels.Add(endLabel);
+        codeMatcher.Instructions()[codeMatcher.Instructions().Count - 2].labels.Add(endLabel);
         
         // Match the target code in Line:201 → if (this.fHitsLeft <= 0)
         codeMatcher.MatchBack(true, new CodeMatch(OpCodes.Ldfld, AccessTools.Field(typeof(PerfectRandom.Sulfur.Core.Weapons.Projectile), "remainingBounceHits")))
