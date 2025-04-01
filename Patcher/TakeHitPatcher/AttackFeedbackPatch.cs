@@ -1,8 +1,23 @@
-﻿using PerfectRandom.Sulfur.Core.Units;
+﻿using System.Collections.Generic;
+using HarmonyLib;
+using PerfectRandom.Sulfur.Core;
+using PerfectRandom.Sulfur.Core.Input;
+using PerfectRandom.Sulfur.Core.Units;
 
 namespace BattleImprove.Patcher.TakeHitPatcher;
 
+[HarmonyWrapSafe]
+[HarmonyPatch(typeof(InputReader), "LoadingContinue")]
 public class AttackFeedbackPatch {
+    internal static Npc[] Enemies;
+    internal static List<Unit> KilledEnemies;
+    
+    private static void Postfix() {
+        Enemies = StaticInstance<UnitManager>.Instance.GetAllEnemies();
+        KilledEnemies = new List<Unit>();
+    }
+    
+    
     protected static bool TargetCheck(DamageSourceData source, Hitbox instance) {
         // Ignore if the damage source is not the player
         if (!source.sourceUnit.isPlayer) return false;

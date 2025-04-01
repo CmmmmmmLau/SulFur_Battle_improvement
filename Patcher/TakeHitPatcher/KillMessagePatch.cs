@@ -41,8 +41,8 @@ public class KillMessagePatch : AttackFeedbackPatch{
         }
         
         // If the unit is already killed, return true. used to make sure the kill feedback is only shown once
-        if (StaticInstance.KilledEnemies.Contains(unit) || !unit.LastDamagedBy.sourceUnit.isPlayer) return true;
-        StaticInstance.KilledEnemies.Add(unit);
+        if (AttackFeedbackPatch.KilledEnemies.Contains(unit) || !unit.LastDamagedBy.sourceUnit.isPlayer) return true;
+        AttackFeedbackPatch.KilledEnemies.Add(unit);
         return false;
     }
 }

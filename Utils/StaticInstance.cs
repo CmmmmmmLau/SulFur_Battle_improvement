@@ -12,8 +12,6 @@ namespace BattleImprove.Utils;
 public class StaticInstance {
     internal static GameObject PluginGameObject;
     internal static GameObject IndicatorGameObject;
-    internal static Npc[] Enemies;
-    internal static List<Unit> KilledEnemies;
     internal static HitSoundEffect HitSoundClips;
     internal static xCrossHair CrossHair;
     internal static MessageController KillMessage;
@@ -57,13 +55,5 @@ public class StaticInstance {
         }
         var gameObject = Prefab.LoadPrefab(style, IndicatorGameObject);
         KillMessage = gameObject.GetComponentInChildren<MessageController>();
-    }
-
-    [HarmonyPrefix]
-    [HarmonyPriority(Priority.First)]
-    [HarmonyPatch(typeof(InputReader), "LoadingContinue")]
-    private static void AddFrame() {
-        Enemies = StaticInstance<UnitManager>.Instance.GetAllEnemies();
-        KilledEnemies = new List<Unit>();
     }
 }

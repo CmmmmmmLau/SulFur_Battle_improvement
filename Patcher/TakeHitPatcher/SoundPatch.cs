@@ -23,7 +23,7 @@ public class SoundPatch {
         var target = __instance.GetOwner().gameObject.GetComponent<Npc>();
 
         if (target.UnitState == UnitState.Dead) return;
-        if (!StaticInstance.Enemies.Contains(target)) return;
+        if (!AttackFeedbackPatch.Enemies.Contains(target)) return;
 
         
         var distance = Vector3.Distance(StaticInstance<GameManager>.Instance.GetPlayerUnit().EyesPosition
