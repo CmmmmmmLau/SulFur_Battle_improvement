@@ -19,8 +19,7 @@ public class KillMessagePatch : AttackFeedbackPatch{
     private static void Postfix(Hitbox __instance, ref DamageSourceData source, Vector3 collisionPoint) {
         if (StaticInstance.KillMessage == null) return;
         if(!TargetCheck(source, __instance)) return;
-
-
+        
         if (IsAlive(__instance.Owner)) return;
         
         var distance = Vector3.Distance(StaticInstance<GameManager>.Instance.GetPlayerUnit().EyesPosition,
@@ -31,6 +30,8 @@ public class KillMessagePatch : AttackFeedbackPatch{
         var weaponName = source.sourceWeapon.weaponDefinition.displayName;
         var exp = Convert.ToString(__instance.Owner.ExperienceOnKill);
         
+        Plugin.instance.LoggingInfo("KillMessage: " + enemyName + " " + weaponName + " " + exp);
+        
         StaticInstance.KillMessage.OnEnemyKill(enemyName, weaponName, exp, __instance.bodyPart.label == "Head", distance > 20 && isFarRangeWeapon);
     }
 
@@ -39,9 +40,11 @@ public class KillMessagePatch : AttackFeedbackPatch{
         if (isAliveOrIncapacitated) {
             return true;
         }
+
+        if (unit.LastDamagedBy.sourceUnit == null) return true;
         
         // If the unit is already killed, return true. used to make sure the kill feedback is only shown once
-        if (AttackFeedbackPatch.KilledEnemies.Contains(unit) || !unit.LastDamagedBy.sourceUnit.isPlayer) return true;
+        if (AttackFeedbackPatch.KilledEnemies.Contains(unit) || !unit.LastDamagedBy.sourceUnit) return true;
         AttackFeedbackPatch.KilledEnemies.Add(unit);
         return false;
     }

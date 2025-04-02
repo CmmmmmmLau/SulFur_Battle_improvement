@@ -6,13 +6,14 @@ using PerfectRandom.Sulfur.Core.Units;
 
 namespace BattleImprove.Patcher.TakeHitPatcher;
 
-[HarmonyWrapSafe]
-[HarmonyPatch(typeof(InputReader), "LoadingContinue")]
+
 public class AttackFeedbackPatch {
     internal static Npc[] Enemies;
     internal static List<Unit> KilledEnemies;
     
-    private static void Postfix() {
+    [HarmonyWrapSafe]
+    [HarmonyPostfix, HarmonyPatch(typeof(InputReader), "LoadingContinue")]
+    private static void ResetList() {
         Enemies = StaticInstance<UnitManager>.Instance.GetAllEnemies();
         KilledEnemies = new List<Unit>();
     }

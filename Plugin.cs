@@ -66,7 +66,7 @@ public class Plugin : BaseUnityPlugin {
     }
 
     private void Patching() {
-        harmony = Harmony.CreateAndPatchAll(typeof(StaticInstance));
+        harmony = Harmony.CreateAndPatchAll(typeof(AttackFeedbackPatch));
         
         // QOL
         if (BattleImprove.Config.EnableExpShare.Value) harmony.PatchAll(typeof(ExpSharePatch));
