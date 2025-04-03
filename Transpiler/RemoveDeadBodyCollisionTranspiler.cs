@@ -43,11 +43,11 @@ public class RemoveDeadBodyCollisionTranspiler {
             //  }
             // }
         } else {
-            Plugin.instance.LoggingInfo("Failed to find the target code in Projectile.HandleHit");
+            Plugin.LoggingInfo("Failed to find the target code in Projectile.HandleHit");
         }
 
         
-        Plugin.instance.LoggingInfo("ProjectileTranspiler Transpiler is working", true);
+        Plugin.LoggingInfo("ProjectileTranspiler Transpiler is working", true);
         return codeMatcher.InstructionEnumeration();
     }
     
@@ -121,7 +121,7 @@ public class RemoveDeadBodyCollisionTranspiler {
         
         codeMatcher.Insert(instructionsList);
         
-        Plugin.instance.LoggingInfo("ProjectileSystemTranspiler Transpiler is working", true);
+        Plugin.LoggingInfo("ProjectileSystemTranspiler Transpiler is working", true);
         return codeMatcher.InstructionEnumeration();
     }
 
@@ -130,7 +130,7 @@ public class RemoveDeadBodyCollisionTranspiler {
             return true;
         }
         var shouldPass = !hitbox.GetOwner().isNpc || hitbox.GetOwner().IsAlive;
-        Plugin.instance.LoggingInfo($"Checks whether to take over the bullet behavior: {shouldPass}", true);
+        Plugin.LoggingInfo($"Checks whether to take over the bullet behavior: {shouldPass}", true);
         
         return shouldPass;
     }

@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using BattleImprove.Utils;
 using UnityEngine;
 using UrGUI.UWindow;
 
@@ -6,7 +7,7 @@ namespace BattleImprove.UI.InGame;
 
 public class WindowUpdateCheck : WindowBase{
     protected override void Start() {
-        if (Plugin.needUpdate) {
+        if (Plugin.NeedUpdate) {
             this.Init();
         } else {
             Destroy(this);

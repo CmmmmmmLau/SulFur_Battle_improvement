@@ -17,7 +17,7 @@ public class KillMessagePatch : AttackFeedbackPatch{
     }
     
     private static void Postfix(Hitbox __instance, ref DamageSourceData source, Vector3 collisionPoint) {
-        if (StaticInstance.KillMessage == null) return;
+        if (PluginInstance<MessageController>.Instance == null) return;
         if(!TargetCheck(source, __instance)) return;
         
         if (IsAlive(__instance.Owner)) return;
@@ -30,9 +30,9 @@ public class KillMessagePatch : AttackFeedbackPatch{
         var weaponName = source.sourceWeapon.weaponDefinition.displayName;
         var exp = Convert.ToString(__instance.Owner.ExperienceOnKill);
         
-        Plugin.instance.LoggingInfo("KillMessage: " + enemyName + " " + weaponName + " " + exp);
+        Plugin.LoggingInfo("KillMessage: " + enemyName + " " + weaponName + " " + exp);
         
-        StaticInstance.KillMessage.OnEnemyKill(enemyName, weaponName, exp, __instance.bodyPart.label == "Head", distance > 20 && isFarRangeWeapon);
+        PluginInstance<MessageController>.Instance.OnEnemyKill(enemyName, weaponName, exp, __instance.bodyPart.label == "Head", distance > 20 && isFarRangeWeapon);
     }
 
     private static bool IsAlive(Unit unit) {

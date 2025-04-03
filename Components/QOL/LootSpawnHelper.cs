@@ -12,15 +12,16 @@ using Random = UnityEngine.Random;
 
 namespace BattleImprove.Components.QOL;
 
-public class LootSpawnHelper : MonoBehaviour {
+public class LootSpawnHelper : PluginInstance<LootSpawnHelper> {
     private PluginData.DeadProtection data;
 
     private void Start() {
-        data = PluginData.DataDict["DeadProtection"] as PluginData.DeadProtection;
+        data = DataManager.DeadProtectionData;
     }
 
     public void SpawnItems(PluginData.DeadProtection keptItems, Transform transform) {
         this.StartCoroutine(SpawnWeapon(keptItems.weapons, transform));
+        keptItems.opened = true;
     }
 
     private IEnumerator SpawnWeapon(List<InventoryData> weapons, Transform transform) {
@@ -35,8 +36,6 @@ public class LootSpawnHelper : MonoBehaviour {
             pickUp.SetAliveTimerMinBeforePickups(0.75f);
             yield return new WaitForSeconds(1f);
         }
-        weapons.Clear();
-        PluginData.SaveData();
     }
     
     private string[] RandomDeleteElement(string[] array, float chance) {
@@ -44,7 +43,7 @@ public class LootSpawnHelper : MonoBehaviour {
 
         foreach (var element in list.ToList()) {
             var num = Random.Range(0f, 1f);
-            Plugin.instance.LoggingInfo("Rolling for " + element + " with chance " + chance + " got " + num);
+            Plugin.LoggingInfo("Rolling for " + element + " with chance " + chance + " got " + num);
             if (num < chance) {
                 list.Remove(element);
             }

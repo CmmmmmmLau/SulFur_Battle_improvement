@@ -8,12 +8,14 @@ using UnityEngine.UI;
 
 namespace BattleImprove.Utils;
 
-public class Prefab {
+public static class PrefabManager {
     internal static AssetBundle AssetBundle;
     public static Dictionary<string, GameObject> Prefabs = new Dictionary<string, GameObject>();
+    public static bool IsLoaded;
 
     public static IEnumerator LoadAssetBundle() {
-        Plugin.instance.LoggingInfo("Loading Asset Bundle...", true);
+        IsLoaded = false;
+        Plugin.LoggingInfo("Loading Asset Bundle...", true);
         // Load asset bundle
 
 #if DEBUG
@@ -24,13 +26,13 @@ public class Prefab {
             .GetManifestResourceStream("BattleImprove.Assets.battle_improve"));
 #endif
         if (AssetBundle == null) {
-            Plugin.instance.LoggingInfo("Failed to load custom assets.");
+            Plugin.LoggingInfo("Failed to load custom assets.");
         } else {
             var request = AssetBundle.LoadAssetAsync<GameObject>("AttackFeedback");
             yield return request;
             Prefabs.Add("AttackFeedback", request.asset as GameObject);
 
-            foreach (var style in PluginData.KillMessageStyle.Values) {
+            foreach (var style in DataManager.KillMessageStyle.Values) {
                 request = AssetBundle.LoadAssetAsync<GameObject>(style);
                 yield return request;
                 Prefabs.Add(style, request.asset as GameObject);
@@ -42,20 +44,25 @@ public class Prefab {
                 Prefabs.Add("LoopDropTier" + i, request.asset as GameObject);
             }
         }
+        
+        Plugin.LoggingInfo("Asset Bundle loaded!", true);
+        IsLoaded = true;
     }
     
     public static GameObject LoadPrefab(string name, GameObject parent) {
-        Plugin.instance.LoggingInfo($"Loading {name} Prefab...", true);
+        Plugin.LoggingInfo($"Loading {name} Prefab...", true);
         return Object.Instantiate(Prefabs[name], parent.transform, true);
     }
     
-    // public static async Task<GameObject> LoadAttackFeedbackPrefab(GameObject parent) {
-    //     Plugin.instance.LoggingInfo("Loading Attack Feedback Prefab...", true);
-    //     return Object.Instantiate(AssetBundle.LoadAsset<GameObject>("AttackFeedback"), parent.transform, true);
-    // }
-    //
-    // public static GameObject LoadLootParticlePrefab(GameObject parent, string tier) {
-    //     Plugin.instance.LoggingInfo("Loading Loot Particle Prefab...", true);
-    //     return Object.Instantiate(AssetBundle.LoadAsset<GameObject>("LoopDrop" + tier), parent.transform, true);
-    // }
+    internal static void LoadAttackFeedbackPrefab() {
+        Plugin.IndicatorGameObject = LoadPrefab("AttackFeedback", Plugin.PluginGameObject);
+        LoadKillMessageStyle(DataManager.KillMessageStyle[DataManager.AttackFeedbackData.messageStyle]);
+    }
+    
+    internal static void LoadKillMessageStyle(string style = "Battlefield 1") {
+        if (PluginInstance<MessageController>.Instance != null) {
+            Object.Destroy(PluginInstance<MessageController>.Instance.gameObject);
+        }
+        LoadPrefab(style, Plugin.IndicatorGameObject);
+    }
 }

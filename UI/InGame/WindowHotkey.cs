@@ -14,7 +14,7 @@ public class WindowHotkey : WindowBase {
     
     protected override void Init() {
         window = UWindow.Begin(i18n.GetText("Hotkey.title"));
-        var data = PluginData.DataDict["BattleImprove"] as PluginData.Version;
+        var data = DataManager.VersionData;
         label = window.Label(i18n.GetText("Hotkey.current") + " " + data.menuKey.ToString());
         StartPosition(350, 350);
         
@@ -40,9 +40,9 @@ public class WindowHotkey : WindowBase {
     }
 
     protected override void Close() {
-        var data = PluginData.DataDict["BattleImprove"] as PluginData.Version;
+        var data = DataManager.VersionData;
         data.menuKey = key == KeyCode.None ? KeyCode.F1 : key;
-        PluginData.SaveData();
+        DataManager.SaveAllData();
         base.Close();
     }
 }

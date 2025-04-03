@@ -11,11 +11,11 @@ public class WindowAttackFeedback : WindowBase{
     private UWindowControls.WLabel label;
     
     private string resourcePack =>
-        StaticInstance.IndicatorGameObject == null 
+        Plugin.IndicatorGameObject == null 
             ? i18n.GetText("AttackFeedback.resource.missed") : i18n.GetText("AttackFeedback.resource.loaded");
 
     protected override void Init() {
-        data = PluginData.DataDict["AttackFeedback"] as PluginData.AttackFeedback;
+        data = DataManager.AttackFeedbackData;
         
         window = UWindow.Begin("Attack Feedback");
         window.Width += 50;
@@ -38,7 +38,7 @@ public class WindowAttackFeedback : WindowBase{
         window.Space();
         
         window.Label(i18n.GetText("AttackFeedback.message"));
-        window.DropDown(i18n.GetText("AttackFeedback.style"), (SetKillMessageStyle), data.messageStyle, PluginData.KillMessageStyle);
+        window.DropDown(i18n.GetText("AttackFeedback.style"), (SetKillMessageStyle), data.messageStyle, DataManager.KillMessageStyle);
         window.Slider(i18n.GetText("AttackFeedback.volume"), (SetKillMessageVolume), data.messageVolume, 0, 1, true);
         window.Button(i18n.GetText("AttackFeedback.test"), (TestKillMessage));
         window.Space();
@@ -47,8 +47,8 @@ public class WindowAttackFeedback : WindowBase{
     }
     
     private void ReloadPrefab() {
-        if (StaticInstance.IndicatorGameObject == null) {
-            StaticInstance.LoadPrefab();
+        if (Plugin.IndicatorGameObject == null) {
+            PrefabManager.LoadAttackFeedbackPrefab();
         }
         
         var info = typeof(UWindowControls.WLabel).GetField("DisplayedString", BindingFlags.NonPublic | BindingFlags.Instance);
@@ -83,7 +83,7 @@ public class WindowAttackFeedback : WindowBase{
     
     private void SetKillMessageStyle(int value) {
         data.messageStyle = value;
-        StaticInstance.LoadKillMessageStyle(PluginData.KillMessageStyle[value]);
+        PrefabManager.LoadKillMessageStyle(DataManager.KillMessageStyle[value]);
     }
     
     private void SetKillMessageVolume(float value) {
@@ -91,11 +91,11 @@ public class WindowAttackFeedback : WindowBase{
     }
 
     private void TestKillMessage() {
-        StaticInstance.KillMessage.OnEnemyKill("Enemy Name#" + Random.RandomRangeInt(0, 10)
+        PluginInstance<MessageController>.Instance.OnEnemyKill("Enemy Name#" + Random.RandomRangeInt(0, 10)
             , "Weapon Name#" + Random.RandomRangeInt(0, 10)
             , Random.RandomRangeInt(0, 10).ToString()
             , Random.RandomRangeInt(0, 10) < 5
             , Random.RandomRangeInt(0, 10) < 5);
-        StaticInstance.KillMessage.OnEnemyHit("Bullet Damage Type#" + Random.RandomRangeInt(0, 10), Random.RandomRangeInt(0, 100));
+        PluginInstance<MessageController>.Instance.OnEnemyHit("Bullet Damage Type#" + Random.RandomRangeInt(0, 10), Random.RandomRangeInt(0, 100));
     }
 }

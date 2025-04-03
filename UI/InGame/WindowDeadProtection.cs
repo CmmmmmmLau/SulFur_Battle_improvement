@@ -11,7 +11,7 @@ public class WindowDeadProtection : WindowBase{
     
 
     protected override void Init() {
-        data = PluginData.DataDict["DeadProtection"] as PluginData.DeadProtection;
+        data = DataManager.DeadProtectionData;
         
         window = UWindow.Begin("Dead Protection");
         window.Width += 50;

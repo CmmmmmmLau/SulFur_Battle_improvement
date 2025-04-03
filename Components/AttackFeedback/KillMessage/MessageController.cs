@@ -6,7 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MessageController : MonoBehaviour{
+public class MessageController : PluginInstance<MessageController> {
     // Banner 
     private GameObject banner;
     private TMP_Text tmpEnemyName;
@@ -43,14 +43,15 @@ public class MessageController : MonoBehaviour{
     public GameObject damageSourcePrefab;
     
     internal PluginData.AttackFeedback data;
-    
-    private void Awake() {
+
+    protected override void Awake() {
         isShowing = false;
         
         this.InitBanner();
         this.InitDamageInfo();
 
         this.ResetDamageCounter();
+        base.Awake();
     }
 
     protected virtual GameObject InitDamageInfo() {
@@ -76,7 +77,7 @@ public class MessageController : MonoBehaviour{
     }
 
     protected virtual void Start() {
-        data = PluginData.DataDict["AttackFeedback"] as PluginData.AttackFeedback;
+        data = DataManager.AttackFeedbackData;
     }
 
     protected void Update() {

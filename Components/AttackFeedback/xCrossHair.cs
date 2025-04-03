@@ -3,16 +3,14 @@ using BattleImprove.Utils;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class xCrossHair : MonoBehaviour {
+public class xCrossHair : PluginInstance<xCrossHair> {
     public Animator crossHairAnim;
 
     private PluginData.AttackFeedback data;
     private Image[] images;
 
     private void Start() {
-        if (data == null) {
-            data = PluginData.DataDict["AttackFeedback"] as PluginData.AttackFeedback;
-        }
+        data = DataManager.AttackFeedbackData;
         
         images = GetComponentsInChildren<Image>();
     }

@@ -22,10 +22,12 @@ public class Config {
     
     internal static ConfigEntry<float> Proportion;
         
-    public static void InitConifg(ConfigFile cfg) {
+    public static void InitConfig(ConfigFile cfg) {
+        Plugin.LoggingInfo("Loading Config...");
         ToggleConfigInit(cfg);
         ExpShareConfigInit(cfg);
         OtherConfigInit(cfg);
+        Plugin.LoggingInfo("Config Loaded.");
     }
 
     private static void ToggleConfigInit(ConfigFile cfg) {

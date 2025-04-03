@@ -7,13 +7,13 @@ using UrGUI.UWindow;
 
 namespace BattleImprove.Components;
 
-public class MenuController : MonoBehaviour{
+public class MenuController : PluginInstance<MenuController> {
     protected Dictionary<string, WindowBase> windos = new Dictionary<string, WindowBase>();
     protected WindowBase currentWindow;
     protected WindowBase menu;
     protected KeyCode menuKey {
         get {
-            var data = PluginData.DataDict["BattleImprove"] as PluginData.Version;
+            var data = DataManager.VersionData;
             return data.menuKey;
         }
     }
@@ -74,7 +74,7 @@ public class MenuController : MonoBehaviour{
     }
     
     public void SaveData() {
-        PluginData.SaveData();
+        DataManager.SaveAllData();
     }
 
     public void Pause(bool state) {

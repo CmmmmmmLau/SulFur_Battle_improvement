@@ -1,6 +1,7 @@
+using BattleImprove.Utils;
 using UnityEngine;
 
-public class HitSoundEffect : MonoBehaviour {
+public class HitSoundEffect : PluginInstance<HitSoundEffect> {
     public AudioClip[] hitClose;
     public AudioClip[] hitFar;
     public AudioClip[] hitCrit;
