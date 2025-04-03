@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 using BattleImprove.Utils;
 using UnityEngine;
 using UrGUI.UWindow;
+using Random = UnityEngine.Random;
 
 namespace BattleImprove.UI.InGame;
 
@@ -58,19 +60,19 @@ public class WindowAttackFeedback : WindowBase{
     }
 
     private void SetIndicatorVolume(float value) {
-        data.indicatorVolume = value;
+        data.indicatorVolume = MathF.Round(value, 2);
     }
     
     private void SetIndicatorDistance(float value) {
-        data.indicatorDistance = value;
+        data.indicatorDistance = MathF.Round(value, 2);
     }
     
     private void SetIndicatorDistanceFar(float value) {
-        data.indicatorDistanceFar = value;
+        data.indicatorDistanceFar = MathF.Round(value, 2);
     }
     
     private void SetIndicatorDistanceHeadshoot(float value) {
-        data.indicatorDistanceHeadShoot = value;
+        data.indicatorDistanceHeadShoot = MathF.Round(value, 2);
     }
     
     private void SetHitColor(Color color) {
@@ -87,7 +89,7 @@ public class WindowAttackFeedback : WindowBase{
     }
     
     private void SetKillMessageVolume(float value) {
-        data.messageVolume = value;
+        data.messageVolume = MathF.Round(value, 2);
     }
 
     private void TestKillMessage() {

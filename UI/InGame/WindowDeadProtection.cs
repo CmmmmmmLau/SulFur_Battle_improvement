@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 using BattleImprove.Utils;
 using UnityEngine;
@@ -27,14 +28,14 @@ public class WindowDeadProtection : WindowBase{
     }
     
     private void OnDurabilityChange(float value) {
-        data.weaponDurability = value;
+        data.weaponDurability = MathF.Round(value, 2);
     }
     
     private void OnAttachmentChange(float value) {
-        data.attachmentChance = value;
+        data.attachmentChance = MathF.Round(value, 2);
     }
     
     private void OnEnchantmentChange(float value) {
-        data.enchantmentChance = value;
+        data.enchantmentChance = MathF.Round(value, 2);
     }
 }

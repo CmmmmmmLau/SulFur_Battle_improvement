@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using HarmonyLib;
 using PerfectRandom.Sulfur.Core;
 
 namespace BattleImprove.Utils;
@@ -74,13 +75,22 @@ public static class SaveManager {
         ES3.DeleteKey("CmPlugin", SulfurSave.saveSettings);
 
         var data1 = dataDict["BattleImprove"] as PluginData.Version;
+        Traverse.IterateFields(data1, RoundUp);
         ES3.Save("BattleImprove", data1, SaveManager.SaveFileName);
         
         var data2 = dataDict["AttackFeedback"] as PluginData.AttackFeedback;
+        Traverse.IterateFields(data2, RoundUp);
         ES3.Save("AttackFeedback", data2, SaveManager.SaveFileName);
         
         var data3 = dataDict["DeadProtection"] as PluginData.DeadProtection;
+        Traverse.IterateFields(data3, RoundUp);
         ES3.Save("DeadProtection", data3, SaveManager.SaveFileName);
+    }
+
+    private static void RoundUp(Traverse traverse) {
+        if (traverse.GetValue() is float value) {
+            traverse.SetValue(MathF.Round(value, 2));
+        }
     }
     
     private static void LoadDefaults() {
