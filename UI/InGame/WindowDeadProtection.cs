@@ -19,6 +19,8 @@ public class WindowDeadProtection : WindowBase{
         StartPosition(310, 100);
         window.Label(i18n.GetText("DeadProtection.durability"));
         window.Slider("", OnDurabilityChange, data.weaponDurability, 0, 1, true);
+        window.Label(i18n.GetText("DeadProtection.barrel"));
+        window.Slider("", OnBarrelChange, data.barrelChance, 0, 1, true);
         window.Label(i18n.GetText("DeadProtection.attachment"));
         window.Slider("", OnAttachmentChange, data.attachmentChance, 0, 1, true);
         window.Label(i18n.GetText("DeadProtection.enchantment"));
@@ -37,5 +39,9 @@ public class WindowDeadProtection : WindowBase{
     
     private void OnEnchantmentChange(float value) {
         data.enchantmentChance = MathF.Round(value, 2);
+    }
+    
+    private void OnBarrelChange(float value) {
+        data.barrelChance = MathF.Round(value, 2);
     }
 }

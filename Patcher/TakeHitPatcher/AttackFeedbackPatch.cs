@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using HarmonyLib;
 using PerfectRandom.Sulfur.Core;
 using PerfectRandom.Sulfur.Core.Input;
@@ -14,7 +15,7 @@ public class AttackFeedbackPatch {
     [HarmonyWrapSafe]
     [HarmonyPostfix, HarmonyPatch(typeof(InputReader), "LoadingContinue")]
     private static void ResetList() {
-        Enemies = StaticInstance<UnitManager>.Instance.GetAllEnemies();
+        Enemies = StaticInstance<UnitManager>.Instance.GetAllNpcs().Where(npc => npc.IsHostileTo(StaticInstance<GameManager>.Instance.PlayerUnit)).ToArray();
         KilledEnemies = new List<Unit>();
     }
     

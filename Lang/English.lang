@@ -23,6 +23,7 @@ DeadProtection = Death Protection
 DeadProtection.durability = Weapon Durability Loss (%)
 DeadProtection.attachment = Attachment Loss Probability (%)
 DeadProtection.enchantment = Enchantment Loss Probability (%)
+DeadProtection.barrel = Barrel Loss Probability (%)
 
 #Settings
 Settings = Settings

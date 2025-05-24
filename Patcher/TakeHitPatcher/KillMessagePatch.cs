@@ -22,7 +22,7 @@ public class KillMessagePatch : AttackFeedbackPatch{
         
         if (IsAlive(__instance.Owner)) return;
         
-        var distance = Vector3.Distance(StaticInstance<GameManager>.Instance.GetPlayerUnit().EyesPosition,
+        var distance = Vector3.Distance(StaticInstance<GameManager>.Instance.PlayerUnit.EyesPosition,
             collisionPoint);
         var isFarRangeWeapon = source.sourceWeapon.holdableWeightClass is HoldableWeightClass.Rifle or HoldableWeightClass.Sniper;
         

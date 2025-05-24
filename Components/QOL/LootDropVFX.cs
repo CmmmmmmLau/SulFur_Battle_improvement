@@ -11,6 +11,13 @@ public class LootDropVFX : MonoBehaviour{
     private bool isScaling;
     private void Start() {
         this.transform.localPosition = new Vector3(0, 0.1f, 0);
+        this.transform.localScale = new Vector3(1f, 1f, 1f);
+        
+        foreach (var system in systems) {
+            var parentScale = parentObject.transform.localScale;
+            system.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
+        }
+        
         this.isScaling = true;
         StartCoroutine(StopScale());
     }
@@ -22,11 +29,6 @@ public class LootDropVFX : MonoBehaviour{
         }
         
         if (!isScaling) return;
-        this.gameObject.transform.localScale = parentObject.transform.localScale;
-        foreach (var system in systems) {
-            var parentScale = parentObject.transform.localScale;
-            system.transform.localScale = new Vector3(1 / parentScale.x, 1 / parentScale.y, 1 / parentScale.z);
-        }
     }
 
     private IEnumerator StopScale() {

@@ -25,10 +25,10 @@ public class SoundPatch {
         if (target.UnitState == UnitState.Dead) return;
         if (!AttackFeedbackPatch.Enemies.Contains(target)) return;
 
-        
-        var distance = Vector3.Distance(StaticInstance<GameManager>.Instance.GetPlayerUnit().EyesPosition
+        var player = StaticInstance<GameManager>.Instance.PlayerUnit;
+        var distance = Vector3.Distance(player.EyesPosition
             , target.transform.position);
-        var player = StaticInstance<GameManager>.Instance.GetPlayer();
+
         
         if (damageType.id == DamageTypes.Critical || __instance.bodyPart.label == "Head") {
             var soundPosition = Vector3.LerpUnclamped(player.transform.position, collisionPoint, data.indicatorDistanceHeadShoot);

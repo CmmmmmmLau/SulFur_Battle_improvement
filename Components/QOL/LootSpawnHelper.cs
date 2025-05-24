@@ -25,15 +25,24 @@ public class LootSpawnHelper : PluginInstance<LootSpawnHelper> {
     }
 
     private IEnumerator SpawnWeapon(List<InventoryData> weapons, Transform transform) {
+        
         foreach (var item in weapons) {
             var itemDef = StaticInstance<LootManager>.Instance.GetItem(item.identifier);
-            
             item.attachments = RandomDeleteElement(item.attachments, data.attachmentChance);
             item.enchantments = RandomDeleteElement(item.enchantments, data.enchantmentChance);
+            item.caliber = RandomDeleteElement(new []{item.caliber}, data.barrelChance)[0];
+
+            var room = StaticInstance<GameManager>.Instance.PlayerUnit.currentRoom;
             
-            var pickUp = StaticInstance<LootManager>.Instance.SpawnItem(itemDef, new Vector3(transform.position.x, transform.position.y, transform.position.z + 0.08f), LootSpawnBehaviour.None, false);
-            Traverse.Create(pickUp).Field("inventoryData").SetValue(item);
-            pickUp.SetAliveTimerMinBeforePickups(0.75f);
+            // var pickUp = StaticInstance<LootManager>.Instance.SpawnItem(itemDef, new Vector3(transform.position.x, transform.position.y, transform.position.z + 0.08f), LootSpawnBehaviour.None, false);
+            var pickUp = StaticInstance<InteractionManager>.Instance.SpawnPickup(
+                new Vector3(transform.position.x, transform.position.y, transform.position.z + 0.08f),
+                false,
+                itemDef,
+                room,
+                item,
+                null,
+                0.75f);
             yield return new WaitForSeconds(1f);
         }
     }

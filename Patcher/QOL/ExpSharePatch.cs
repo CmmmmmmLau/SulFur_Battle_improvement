@@ -9,11 +9,11 @@ public class ExpSharePatch {
     [HarmonyWrapSafe]
     [HarmonyPostfix, HarmonyPatch(typeof(Npc), "GiveExperience")]
     private static void GiveExperiencePrePatch(Npc __instance) {
-        var lastUsedWeapon = StaticInstance<GameManager>.Instance.GetPlayerUnit().lastUsedWeapon;
+        var lastUsedWeapon = StaticInstance<GameManager>.Instance.PlayerUnit.lastUsedWeapon;
         var secondWeapon = lastUsedWeapon.inventorySlot == InventorySlot.Weapon0
             ? InventorySlot.Weapon1
             : InventorySlot.Weapon0;
-        var equippedWeapon = StaticInstance<GameManager>.Instance.GetPlayerUnit().GetComponent<EquipmentManager>()
+        var equippedWeapon = StaticInstance<GameManager>.Instance.PlayerUnit.GetComponent<EquipmentManager>()
             .EquippedHoldables;
 
         float exp = __instance.ExperienceOnKill;

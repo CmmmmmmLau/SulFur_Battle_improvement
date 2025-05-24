@@ -10,7 +10,8 @@ public static class SaveManager {
 
     public static void LoadSaveFile() {
         try {
-            if (ES3.KeyExists("CmPlugin", SulfurSave.saveSettings)) {
+            
+            if (ES3.KeyExists("CmPlugin", SulfurSave.Imp.saveSettings)) {
                 TransferSaveData();
             } 
             
@@ -71,8 +72,8 @@ public static class SaveManager {
 
     private static void TransferSaveData() {
         Plugin.LoggingInfo("Save data found in the vanilla save file, transfers it to the new file...");
-        var dataDict = SulfurSave.Load("CmPlugin", new Dictionary<string, PluginData>());
-        ES3.DeleteKey("CmPlugin", SulfurSave.saveSettings);
+        var dataDict = SulfurSave.Imp.Load("CmPlugin", new Dictionary<string, PluginData>());
+        ES3.DeleteKey("CmPlugin", SulfurSave.Imp.saveSettings);
 
         var data1 = dataDict["BattleImprove"] as PluginData.Version;
         Traverse.IterateFields(data1, RoundUp);

@@ -30,5 +30,6 @@ public class PluginData {
         public float weaponDurability = 0.3f;
         public float attachmentChance = 0.3f;
         public float enchantmentChance = 0.3f;
+        public float barrelChance = 0.3f;
     }
 }

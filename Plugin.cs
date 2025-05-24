@@ -52,7 +52,8 @@ public class Plugin : BaseUnityPlugin {
     }
 
     private IEnumerator InitPluginGameobject() {
-        while (SulfurSave.saveSettings == null && !PrefabManager.IsLoaded) {
+        while (!SulfurSave.Imp.initialized || !PrefabManager.IsLoaded) {
+            LoggingInfo("Waiting for game to load...");
             yield return new WaitForSeconds(1f);
         }
         LoggingInfo("Starting plugin initialization...");

@@ -9,13 +9,23 @@ using UnityEngine.Rendering.Universal;
 namespace BattleImprove.Patcher.QOL;
 public class LootDropPatch {
     [HarmonyWrapSafe]
-    [HarmonyPostfix, HarmonyPatch(typeof(Pickup), "Spawn")]
-    private static void Postfix(Pickup __instance) {
+    [HarmonyPostfix, HarmonyPatch(typeof(Pickup), "SetupAndSpawn")]
+    private static void SetupAndSpawnPostfix(Pickup __instance) {
         Plugin.LoggingInfo("LootParticle Postfix", true);
+        Plugin.LoggingInfo("LootParticle Hide Postfix", true);
+        var preVFX = __instance.GetComponentInChildren<LootDropVFX>();
+        if (preVFX != null) {
+            Object.Destroy(preVFX.gameObject);
+            Plugin.LoggingInfo("LootParticle Destroyed", true);
+        } else {
+            Plugin.LoggingInfo("LootParticle not found", true);
+        }
+        
+        
         var shadow = __instance.transform.Find("Shadow").gameObject;
-        Object.Destroy(shadow.GetComponent<DecalProjector>());
-        var item = Traverse.Create(__instance).Field("item").GetValue<ItemDefinition>();
-        var quality = item.itemQuality;
+        // Object.Destroy(shadow.GetComponent<DecalProjector>());
+        
+        var quality = __instance.ItemSO.itemQuality;
         var lootDropVFX = quality switch {
             ItemQuality.Common => PrefabManager.LoadPrefab("LoopDropTier1", __instance.gameObject),
             ItemQuality.Uncommon => PrefabManager.LoadPrefab("LoopDropTier2", __instance.gameObject),

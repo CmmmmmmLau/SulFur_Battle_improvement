@@ -23,7 +23,7 @@ public class DeadProtection {
         var weapons = itemData.weapons;
         weapons.Clear();
         
-        var equipment = StaticInstance<GameManager>.Instance.GetPlayerUnit().GetComponent<EquipmentManager>().EquippedHoldables;
+        var equipment = StaticInstance<GameManager>.Instance.PlayerUnit.GetComponent<EquipmentManager>().EquippedHoldables;
         foreach (var inventoryItem in equipment.Select(item => item.Value)) {
             if (inventoryItem.SlotType != SlotType.Weapon) {
                 continue;
@@ -37,7 +37,7 @@ public class DeadProtection {
             
             Plugin.LoggingInfo("Grabbing item data...");
             var InventoryData = new InventoryData(itemdef.identifier, inventoryItem.gridPosition.x, inventoryItem.gridPosition.y, inventoryItem.quantity, 
-                inventoryItem.currentAmmo, itemdef.caliber.identifier, inventoryItem.stats.SerializedAttributeData(),   
+                inventoryItem.currentAmmo, inventoryItem.CurrentCaliber.identifier, inventoryItem.stats.SerializedAttributeData(),   
                 inventoryItem.GetSerializedAttachments(), inventoryItem.GetSerializedEnchantments(), 
                 inventoryItem.InventorySize.x, inventoryItem.InventorySize.y, false, false);
             
