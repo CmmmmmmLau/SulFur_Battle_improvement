@@ -17,6 +17,7 @@ public class RemoveDeadBodyCollisionTranspiler {
     
     [HarmonyTranspiler,HarmonyPatch(typeof(Projectile), "HandleHit")]
     private static IEnumerable<CodeInstruction> ProjectileTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original) {
+        
         var codeMatcher = new CodeMatcher(instructions).End();
         
         // Make a label that just jump to the end of the code
@@ -57,9 +58,13 @@ public class RemoveDeadBodyCollisionTranspiler {
         // !!! This variable must be checked in every game broken update !!!
         var hitboxVariable = Convert.ToByte(2);
         
+#if DEBUG
+        codeMatcher = new CodeMatcher(instructions).End();
+#else
         var codeMatcher = new CodeMatcher(instructions).End();
+#endif
     
-        // Match the target code in Line: 226 → ptr.displacement = 0f;
+        // Match the target code in Line: 301 → ptr.displacement = 0f;
         // And add a jump label to this code
         var label1 = generator.DefineLabel();
         var match = new[] {
@@ -67,12 +72,13 @@ public class RemoveDeadBodyCollisionTranspiler {
             new CodeMatch(i => i.opcode == OpCodes.Ldc_R4 && i.operand.Equals(0f))
         };
         codeMatcher.MatchBack(false,match)
-            .ThrowIfInvalid("Failed to find the target code in in Line: 226 -> ptr.displacement = 0f;")
+            .ThrowIfInvalid("Failed to find the target code in in Line: 301 -> ptr.displacement = 0f;")
             .Instruction.WithLabels(label1);
         
-        // Match the target code in Line: 225  → ptr.velocity = Vector3.Reflect(ptr.velocity, raycastHit.normal) * num4;
+        // Match the target code in Line: 300  → data.velocity = num2 * math.length(data.velocity) * normalized2;
         match = new[] {
             new CodeMatch(OpCodes.Ldarg_1),
+            new CodeMatch(i => i.opcode == OpCodes.Ldloc_S),
             new CodeMatch(OpCodes.Ldarg_1)
         };
         
@@ -89,10 +95,10 @@ public class RemoveDeadBodyCollisionTranspiler {
         //  ptr.velocity = Vector3.Reflect(ptr.velocity, raycastHit.normal) * num4;
         // }
         codeMatcher.MatchBack(false,match)
-            .ThrowIfInvalid("Failed to find the target code in Line: 225 -> ptr.velocity = Vector3.Reflect(ptr.velocity, raycastHit.normal) * num4;")
+            .ThrowIfInvalid("Failed to find the target code in Line: 300  -> data.velocity = num2 * math.length(data.velocity) * normalized2;")
             .Insert(instructionsList);
         
-        // Match the target code  in Line: 182 → ptr.position = raycastHit.point;
+        // Match the target code  in Line: 281 → ptr.position = raycastHit.point;
         // And do the same thing as above
         // The code now should be like this:
         // if (BulletDirection(hitbox)) {
@@ -110,7 +116,7 @@ public class RemoveDeadBodyCollisionTranspiler {
             new CodeMatch(OpCodes.Ldarg_2)
         };
         codeMatcher.MatchBack(true, match)
-            .ThrowIfInvalid("Failed to find the target code in Line: 182 -> ptr.position = raycastHit.point;")
+            .ThrowIfInvalid("Failed to find the target code in Line: 281 -> ptr.position = raycastHit.point")
             .Instruction.WithLabels(label2);
         
         instructionsList = new[] {
