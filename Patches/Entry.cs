@@ -6,5 +6,6 @@ public class Entry {
     public static void Load() {
         ExpShare.Load();
         DeadProtection.Load();
+        HealthBar.Load();
     }
 }

@@ -12,7 +12,7 @@ public static class ExpShare {
     private static Hook hook; 
     
     public static void Load() {
-        if (MiscData.Instance.enable) {
+        if (MiscData.Instance.expShareEnable) {
             if (ExpShare.hook == null) {
                 hook = new Hook(AccessTools.Method(typeof(Npc), "GiveExperience"), ShareExperience);
             } else {

@@ -38,9 +38,20 @@ public class Plugin : BaseUnityPlugin {
 
     private static void RegisterMenu() {
         MenuAPI.AddNewCategory("BattleImprove", parent => {
+            MenuAPI.CreateBar("Health Bar", parent);
+            MenuAPI.CreateCheckBox("Enable", MiscData.Instance.healthBarEnable, true, parent, value => {
+                MiscData.Instance.healthBarEnable = value;
+                if (value) {
+                    Patches.QOL.HealthBar.Load();
+                } else {
+                    Patches.QOL.HealthBar.Unload();
+                }
+                MiscData.Save();
+            });
+            
             MenuAPI.CreateBar("Experience Share", parent);
-            MenuAPI.CreateCheckBox("Enable", MiscData.Instance.enable, true, parent, value => {
-                MiscData.Instance.enable = value;
+            MenuAPI.CreateCheckBox("Enable", MiscData.Instance.expShareEnable, true, parent, value => {
+                MiscData.Instance.expShareEnable = value;
                 if (value) {
                     Patches.QOL.ExpShare.Load();
                 } else {
