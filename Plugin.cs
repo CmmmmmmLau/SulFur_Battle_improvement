@@ -52,6 +52,33 @@ public class Plugin : BaseUnityPlugin {
                 MiscData.Instance.expShareProportion = value;
                 MiscData.Save();
             });
+            
+            MenuAPI.CreateBar("Dead Protection", parent);
+            MenuAPI.CreateCheckBox("Enable", DeadProtectionData.Instance.enable, true, parent, value => {
+                DeadProtectionData.Instance.enable = value;
+                if (value) {
+                    Patches.QOL.DeadProtection.Load();
+                } else {
+                    Patches.QOL.DeadProtection.Unload();
+                }
+                DeadProtectionData.Save();
+            });
+            MenuAPI.CreateFloatSliderField("Weapon Durability", DeadProtectionData.Instance.weaponDurability, 0.3f, 0f, 1f, parent, value => {
+                DeadProtectionData.Instance.weaponDurability = value;
+                DeadProtectionData.Save();
+            });
+            MenuAPI.CreateFloatSliderField("Attachment Chance", DeadProtectionData.Instance.attachmentChance, 0.3f, 0f, 1f, parent, value => {
+                DeadProtectionData.Instance.attachmentChance = value;
+                DeadProtectionData.Save();
+            });
+            MenuAPI.CreateFloatSliderField("Enchantment Chance", DeadProtectionData.Instance.enchantmentChance, 0.3f, 0f, 1f, parent, value => {
+                DeadProtectionData.Instance.enchantmentChance = value;
+                DeadProtectionData.Save();
+            });
+            MenuAPI.CreateFloatSliderField("Barrel Chance", DeadProtectionData.Instance.barrelChance, 0.3f, 0f, 1f, parent, value => {
+                DeadProtectionData.Instance.barrelChance = value;
+                DeadProtectionData.Save();
+            });
         });
     }
 }
