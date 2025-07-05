@@ -8,4 +8,6 @@ public class MiscData: ES3Data<MiscData> {
     public float expShareProportion = 0.5f;
     
     public bool healthBarEnable = true;
+    
+    public bool loopDropEnable = true;
 }

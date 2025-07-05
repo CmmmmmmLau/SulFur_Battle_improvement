@@ -30,14 +30,22 @@ public class Plugin : BaseUnityPlugin {
         } else {
             Logger.LogWarning("MenuLib is not found, configuration features features will not be available.");
         }
+        
 
         this.gameObject.AddComponent<LootSpawnHelper>();
         
         Patches.Entry.Load();
+        PrefabReference.Load();
     }
 
     private static void RegisterMenu() {
         MenuAPI.AddNewCategory("BattleImprove", parent => {
+            MenuAPI.CreateBar("Loop Drop Effect", parent);
+            MenuAPI.CreateCheckBox("Enable", MiscData.Instance.loopDropEnable, true, parent, value => {
+                MiscData.Instance.loopDropEnable = value;
+                MiscData.Save();
+            });
+            
             MenuAPI.CreateBar("Health Bar", parent);
             MenuAPI.CreateCheckBox("Enable", MiscData.Instance.healthBarEnable, true, parent, value => {
                 MiscData.Instance.healthBarEnable = value;
