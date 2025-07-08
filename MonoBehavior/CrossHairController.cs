@@ -1,5 +1,6 @@
 ﻿using System;
 using BattleImprove.MonoBehavior.Component;
+using BattleImprove.PluginData;
 using UnityEngine;
 
 namespace BattleImprove.MonoBehavior;
@@ -9,11 +10,20 @@ public class CrossHairController: PluginInstance<CrossHairController> {
     private ICrossHair crossHair;
 
     private void Start() {
-        var crossHairPrefab = PrefabReference.crossHair["BF1"];
-        if (crossHairPrefab != null) {
-            var crossHairObject = Instantiate(crossHairPrefab, canvas.transform);
-            this.crossHair = crossHairObject.GetComponent<ICrossHair>();
+        if (PrefabReference.crossHair.TryGetValue(CrossHairData.Instance.style, out var crossHairPrefab)) {
+            if (crossHairPrefab != null) {
+                var crossHairObject = Instantiate(crossHairPrefab, canvas.transform);
+                this.crossHair = crossHairObject.GetComponent<ICrossHair>();
+            }
+        } else {
+            Debug.LogWarning($"Crosshair style '{CrossHairData.Instance.style}' not found.");
+            var defaultPrefab = PrefabReference.crossHair["BF1"];
+            if (defaultPrefab != null) {
+                var crossHairObject = Instantiate(defaultPrefab, canvas.transform);
+                this.crossHair = crossHairObject.GetComponent<ICrossHair>();
+            }
         }
+
     }
 
     public void OnHit() {
