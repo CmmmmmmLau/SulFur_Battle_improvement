@@ -7,7 +7,6 @@ namespace BattleImprove.MonoBehavior.Component;
 public class LootDropVFX: MonoBehaviour {
     public ParticleSystem[] systems;
     private GameObject parentObject;
-    private bool isScaling;
 
     private void Awake() {
         this.transform.localPosition = new Vector3(0, 0.1f, 0);

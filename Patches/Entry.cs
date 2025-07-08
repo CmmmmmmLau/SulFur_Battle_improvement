@@ -8,6 +8,7 @@ public class Entry {
         ExpShare.Load();
         DeadProtection.Load();
         HealthBar.Load();
+        CrossHair.Load();
 
         var harmony = Harmony.CreateAndPatchAll(typeof(LoopDrop));
     }
