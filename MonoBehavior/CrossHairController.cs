@@ -1,5 +1,4 @@
-﻿using System;
-using BattleImprove.MonoBehavior.Component;
+﻿using BattleImprove.MonoBehavior.Component;
 using BattleImprove.PluginData;
 using UnityEngine;
 
@@ -7,23 +6,23 @@ namespace BattleImprove.MonoBehavior;
 
 public class CrossHairController: PluginInstance<CrossHairController> {
     internal static GameObject canvas;
+    private GameObject crossHairObject;
     private ICrossHair crossHair;
 
     private void Start() {
         if (PrefabReference.crossHair.TryGetValue(CrossHairData.Instance.style, out var crossHairPrefab)) {
             if (crossHairPrefab != null) {
-                var crossHairObject = Instantiate(crossHairPrefab, canvas.transform);
-                this.crossHair = crossHairObject.GetComponent<ICrossHair>();
+                crossHairObject = Instantiate(crossHairPrefab, canvas.transform);
             }
         } else {
             Debug.LogWarning($"Crosshair style '{CrossHairData.Instance.style}' not found.");
             var defaultPrefab = PrefabReference.crossHair["BF1"];
             if (defaultPrefab != null) {
-                var crossHairObject = Instantiate(defaultPrefab, canvas.transform);
-                this.crossHair = crossHairObject.GetComponent<ICrossHair>();
+                crossHairObject = Instantiate(defaultPrefab, canvas.transform);
             }
         }
-
+        
+        this.crossHair = crossHairObject.GetComponent<ICrossHair>();
     }
 
     public void OnHit() {
@@ -35,16 +34,14 @@ public class CrossHairController: PluginInstance<CrossHairController> {
     }
 
     public void ChangeStyle(string style) {
-        if (crossHair != null) {
-            Destroy(crossHair as MonoBehaviour);
-        }
-
-        var crossHairPrefab = PrefabReference.crossHair[style];
-        if (crossHairPrefab != null) {
-            var crossHairObject = Instantiate(crossHairPrefab, canvas.transform);
+        if (PrefabReference.crossHair.TryGetValue(style, out var value)) {
+            if (crossHair != null) {
+                Destroy(crossHairObject);
+            }
+            crossHairObject = Instantiate(value, canvas.transform);
             this.crossHair = crossHairObject.GetComponent<ICrossHair>();
         } else {
-            Debug.LogWarning($"Crosshair style '{style}' not found.");
+            Plugin.Logger.LogWarning($"Crosshair style '{style}' not found.");
         }
     }
 }

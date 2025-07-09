@@ -18,6 +18,8 @@ public class CrossHair {
                     nameof(Hitbox.TakeHit), 
                     new []{typeof(float), typeof(DamageType), typeof(DamageSourceData), typeof(Vector3)})
                 , CrossHairTrigger);
+        } else {
+            hook.Apply();
         }
     }
     
