@@ -10,6 +10,7 @@ public class PrefabReference {
     
     internal static Dictionary<string, GameObject> loopDrops = new Dictionary<string, GameObject>();
     internal static Dictionary<string, GameObject> crossHair = new Dictionary<string, GameObject>();
+    internal static Dictionary<string, GameObject> impactSound = new Dictionary<string, GameObject>();
 
     public static void Load() {
         ab = AssetBundle.LoadFromStream(Assembly.GetExecutingAssembly()
@@ -31,6 +32,13 @@ public class PrefabReference {
             crossHair["BF1"] = prefab2;
         } else {
             Debug.LogWarning("Prefab BF1CrossHair not found in asset bundle.");
+        }
+        
+        var prefab3 = ab.LoadAsset<GameObject>("BF1Sound");
+        if (prefab3 != null) {
+            impactSound["BF1"] = prefab3;
+        } else {
+            Debug.LogWarning("Prefab BF1Sound not found in asset bundle.");
         }
     }
 

@@ -33,6 +33,7 @@ public class Plugin : BaseUnityPlugin {
         PluginObject.hideFlags = HideFlags.HideAndDontSave;
         PluginObject.AddComponent<LootSpawnHelper>();
         PluginObject.AddComponent<CrossHairController>();
+        PluginObject.AddComponent<ImpactSoundController>();
         
         InitCanvas();
         
@@ -79,8 +80,6 @@ public class Plugin : BaseUnityPlugin {
                 CrossHairData.Save();
                 CrossHairController.Instance.ChangeStyle(value);
             });
-            
-            
             MenuAPI.CreateColorPicker("CrossHair color on hit", CrossHairData.Instance.hitColor, Color.white, parent, value => {
                 CrossHairData.Instance.hitColor = value;
                 CrossHairData.Save();
@@ -90,7 +89,39 @@ public class Plugin : BaseUnityPlugin {
                 CrossHairData.Instance.killColor = value;
                 CrossHairData.Save();
             });
+            
+            
+            
+            MenuAPI.CreateBar("Impact Sound", parent);
+            MenuAPI.CreateCheckBox("Enable", ImpactSoundData.Instance.enable, true, parent, value => {
+                ImpactSoundData.Instance.enable = value;
+                if (value) {
+                    Patches.ImpactSound.Load();
+                } else {
+                    Patches.ImpactSound.Unload();
+                }
+                ImpactSoundData.Save();
+            });
+            MenuAPI.CreateDropDown("Style", PrefabReference.impactSound.Keys.ToList(), ImpactSoundData.Instance.style, "BF1", parent, value => {
+                ImpactSoundData.Instance.style = value;
+                ImpactSoundData.Save();
+                ImpactSoundController.Instance.ChangeStyle(value);
+            });
+            MenuAPI.CreateFloatSliderField("Distance", ImpactSoundData.Instance.volume, 1f, 0f, 1f, parent, value => {
+                ImpactSoundData.Instance.volume = value;
+                ImpactSoundData.Save();
+            });
+            MenuAPI.CreateFloatSliderField("Distance - Far", ImpactSoundData.Instance.volumeFar, 1f, 0f, 1f, parent, value => {
+                ImpactSoundData.Instance.volumeFar = value;
+                ImpactSoundData.Save();
+            });
+            MenuAPI.CreateFloatSliderField("Distance - Critical", ImpactSoundData.Instance.volumeCrit, 1f, 0f, 1f, parent, value => {
+                ImpactSoundData.Instance.volumeCrit = value;
+                ImpactSoundData.Save();
+            });
                         
+            
+            
             MenuAPI.CreateBar("Dead Protection", parent);
             MenuAPI.CreateCheckBox("Enable", DeadProtectionData.Instance.enable, true, parent, value => {
                 DeadProtectionData.Instance.enable = value;
@@ -117,12 +148,13 @@ public class Plugin : BaseUnityPlugin {
                 DeadProtectionData.Instance.barrelChance = value;
                 DeadProtectionData.Save();
             });
-            
             MenuAPI.CreateBar("Loop Drop Effect", parent);
             MenuAPI.CreateCheckBox("Enable", MiscData.Instance.loopDropEnable, true, parent, value => {
                 MiscData.Instance.loopDropEnable = value;
                 MiscData.Save();
             });
+            
+            
             
             MenuAPI.CreateBar("Health Bar", parent);
             MenuAPI.CreateCheckBox("Enable", MiscData.Instance.healthBarEnable, true, parent, value => {
@@ -134,6 +166,8 @@ public class Plugin : BaseUnityPlugin {
                 }
                 MiscData.Save();
             });
+            
+            
             
             MenuAPI.CreateBar("Experience Share", parent);
             MenuAPI.CreateCheckBox("Enable", MiscData.Instance.expShareEnable, true, parent, value => {

@@ -9,6 +9,7 @@ public class Entry {
         DeadProtection.Load();
         HealthBar.Load();
         CrossHair.Load();
+        ImpactSound.Load();
 
         var harmony = Harmony.CreateAndPatchAll(typeof(LoopDrop));
     }
