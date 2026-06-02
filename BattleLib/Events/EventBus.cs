@@ -1,13 +1,9 @@
-﻿using BattleLib.Events;
+﻿using BattleLib.Context;
 
-namespace BattleLib.Contexts;
+namespace BattleLib.Events;
 
 public static class EventBus {
-    public static class Enemy {
-        public static BattleEvent<DamageContext> OnDamage = new BattleEvent<DamageContext>();
-    }
-    
-    public static class Player {
-        public static BattleEvent<DamageContext> OnDamage = new BattleEvent<DamageContext>();
+    public static class Enemy  {
+        public static HarmonyEvent<DamagedContext> OnDamaged { get; } = new HarmonyEvent<DamagedContext>();
     }
 }
